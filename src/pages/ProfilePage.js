@@ -7,7 +7,11 @@ import AddressModal from "../components/AddressModal";
 export default class ProfilePage extends React.Component {
     constructor(props) {
         super(props);
-        this.user = props.location.state.user;
+        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
+            this.props.history.push('');
+        } else {
+            this.user = this.props.location.state.user;
+        }
         this.state = {
             firstName: this.user.first_name,
             lastName: this.user.last_name,
@@ -19,8 +23,6 @@ export default class ProfilePage extends React.Component {
             status: this.user.status === 'ma' ? 'Master' : 'Admin',
             photo: '',
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.pk = props.match.params.pk;
     }
 
@@ -35,27 +37,23 @@ export default class ProfilePage extends React.Component {
         this.setState({photo: URL.createObjectURL(event.target.files[0])});
     };
 
-    handleChange(e) {
-        let target = e.target;
-        let value = target.value;
-        let name = target.name;
+    handleChange = (e) => {
         this.setState({
-            [name]: value
+            [e.target.name]: e.target.value
         });
-    }
+    };
 
     uploadImage = () => {
         const fd = new FormData();
         console.log(this.state.photo);
         fd.append('photo', this.state.photo);
-        axios.post('', fd)
-            .then(res => {
-                console.log(res);
-            })
+        axios.post('', fd).then(res => {
+            console.log(res);
+        });
     };
 
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         const {firstName: first_name, lastName: last_name, username, email, phone, personnelCode: personnel_code, inPlace: in_place, address} = this.state;
         const url = `http://127.0.0.1:8000/user/${this.user.id}/`;
@@ -78,29 +76,15 @@ export default class ProfilePage extends React.Component {
             this.user.in_place = in_place;
             this.user.address = address;
         }).catch(error => {
-            console.error(error);
-            //TODO("Errors are welcomed!")
+            this.props.history.push('/503');
         });
     };
 
 
     componentDidMount() {
-        // const url = '127.0.0.1:8000/user/' + this.pk + '/';
-        // axios.get(url).then(response => {
-        //     this.setState({
-        //         firstName: response.data['first_name'],
-        //         lastName: response.data['last_name'],
-        //         phone: response.data['phone'],
-        //         email: response.data['email'],
-        //         personnelCode: response.data['personnel_code'],
-        //         inPlace: response.data['in_place'],
-        //         address: response.data['address'],
-        //         photo: '', //TODO("Not in database yet")
-        //         isMaster: response.data['status'] === 'ma'
-        //     })
-        // }).catch(error => {
-        //     //TODO("Show error pages!")
-        // })
+        if (!this.user) {
+            this.props.history.push('');
+        }
     }
 
     render() {
@@ -108,7 +92,8 @@ export default class ProfilePage extends React.Component {
             <div>
                 <Profile
                     myHistory={this.props.history}
-                    user={this.user}/>
+                    user={this.user}
+                    inProfile={true}/>
                 {this.user.status === 'ma' ? (
                     <form className='FormCenterProfile' onSubmit={this.handleSubmit}>
                         <div className='accent'/>

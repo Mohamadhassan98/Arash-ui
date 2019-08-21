@@ -1,6 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,6 +8,7 @@ import PropTypes from 'prop-types';
 import {containsDigitOnly} from "../Globals";
 import Grid from "@material-ui/core/Grid";
 import '../styles/AddressModal.css';
+import {ModalButton, ModalTextField, MyTextField} from "../Styles";
 
 export default class AddressModal extends React.Component {
     frontErrors = {
@@ -28,7 +27,6 @@ export default class AddressModal extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props.address);
         this.state = {
             open: false,
             address: props.address,
@@ -46,7 +44,21 @@ export default class AddressModal extends React.Component {
             plaqueHelper: ' ',
             telephoneHelper: ' ',
             faxHelper: ' ',
+            addressHelper: props.addressHelper
         };
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.address.city !== '') {
+            console.log(nextProps.address);
+            this.setState({
+                address: {
+                    ...nextProps.address,
+                    postalCode: nextProps.address.postal_code,
+                    telephone: nextProps.address.tel_phone
+                }
+            });
+        }
     }
 
     handleClickOpen = () => {
@@ -54,7 +66,9 @@ export default class AddressModal extends React.Component {
     };
 
     handleClose = () => {
-        this.setState({open: false});
+        this.setState({
+            open: false
+        });
     };
 
     validateData = () => {
@@ -161,9 +175,20 @@ export default class AddressModal extends React.Component {
     render() {
         return (
             <div>
-                <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-                    Open form dialog
-                </Button>
+                <MyTextField
+                    variant="outlined"
+                    required
+                    autoComplete='off'
+                    fullWidth
+                    id="address"
+                    label="Address"
+                    name="address"
+                    InputProps={{readOnly: true}}
+                    onClick={this.handleClickOpen}
+                    value={this.state.address.city ? (`${this.state.address.city} ${this.state.address.street} ${this.state.address.alley.length === 0 ? '' : `${this.state.address.alley}`} ${this.state.address.plaque}`) : ''}
+                    error={this.state.addressHelper !== ' '}
+                    helperText={this.state.addressHelper}
+                />
                 <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Address</DialogTitle>
                     <DialogContent>
@@ -173,11 +198,11 @@ export default class AddressModal extends React.Component {
                         <form className='form' noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
                                         name="city"
                                         className='placeHolder'
-                                        inputProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -191,9 +216,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
-                                        inputProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -207,9 +232,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
-                                        inputProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         fullWidth
                                         id="alley"
@@ -222,9 +247,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
-                                        inputProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -238,9 +263,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
-                                        inputProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -254,9 +279,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
-                                        inputProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -270,9 +295,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        inputProps={this.inputColor}
-                                        InputLabelProps={this.inputColor}
+                                    <ModalTextField
+                                        // inputProps={this.inputColor}
+                                        // InputLabelProps={this.inputColor}
                                         variant="outlined"
                                         fullWidth
                                         id="fax"
@@ -285,9 +310,9 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        InputLabelProps={this.inputColor}
-                                        inputProps={this.inputColor}
+                                    <ModalTextField
+                                        // InputLabelProps={this.inputColor}
+                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         fullWidth
                                         id="details"
@@ -301,12 +326,12 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <ModalButton onClick={this.handleClose} color="primary">
                             Cancel
-                        </Button>
-                        <Button onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
+                        </ModalButton>
+                        <ModalButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
                             Save
-                        </Button>
+                        </ModalButton>
                     </DialogActions>
                 </Dialog>
             </div>
@@ -316,7 +341,8 @@ export default class AddressModal extends React.Component {
 
 AddressModal.propTypes = {
     submitAddress: PropTypes.func.isRequired,
-    address: PropTypes.object
+    address: PropTypes.object,
+    addressHelper: PropTypes.string,
 };
 
 AddressModal.defaultProps = {
@@ -329,5 +355,6 @@ AddressModal.defaultProps = {
         telephone: '',
         fax: '',
         details: ''
-    }
+    },
+    addressHelper: ' '
 };

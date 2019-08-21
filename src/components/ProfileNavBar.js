@@ -6,21 +6,31 @@ import Popup from "reactjs-popup";
 import {AppBar} from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import PropTypes from 'prop-types';
-import Button from "@material-ui/core/Button";
+import {LogOutIcon, ModalButton} from "../Styles";
+import HelpIcon from '@material-ui/icons/Help';
 
 
 function ProfileNavBar(props) {
     const user = props.user;
     const goToProfile = () => {
-        props.myHistory.push('/profile', {
-            user: user
-        });
+        if (props.inProfile) {
+            window.location.reload();
+        } else {
+            props.myHistory.push('/profile', {
+                user: user
+            });
+        }
     };
 
     const goToHistory = () => {
-        props.history.push('/history', {
-            user: user
-        });
+        const url = `/history`;
+        if (props.inHistory) {
+            window.location.reload();
+        } else {
+            props.myHistory.push(url, {
+                user: user
+            });
+        }
     };
 
     return (
@@ -32,19 +42,24 @@ function ProfileNavBar(props) {
                 user.status === 'ma' &&
                 <img src={crown} className='masterCrown' alt='MasterCrown'/>
             }
-            <Button className='button profileButton' onClick={goToProfile}>
+            <ModalButton className='button profileButton' onClick={goToProfile}>
                 Profile
-            </Button>
-            <Button className='button historyButton' onClick={goToHistory}>
+            </ModalButton>
+            <ModalButton className='button historyButton' onClick={goToHistory}>
                 History
-            </Button>
+            </ModalButton>
         </div>
     );
 }
 
 function Profile(props) {
+
+    const downloadHelp = () => {
+        window.open('http://engold.ui.ac.ir/~zamani/internship/files/introduce.pdf');
+    };
+
     return (
-        <AppBar className='AppBar' position="sticky">
+        <AppBar color={'white'} className='AppBar' position="sticky">
             <Toolbar>
                 <Popup
                     trigger={<img className='profilePictureTrigger' src={profile} alt='ProfilePictureTrigger'/>}
@@ -63,8 +78,12 @@ function Profile(props) {
                 >
                     <ProfileNavBar
                         user={props.user}
-                        myHistory={props.myHistory}/>
+                        myHistory={props.myHistory}
+                        inProfile={props.inProfile}
+                        inHistory={props.inHistory}/>
                 </Popup>
+                <HelpIcon onClick={downloadHelp}/>
+                <LogOutIcon/>
             </Toolbar>
         </AppBar>
     )
@@ -72,7 +91,14 @@ function Profile(props) {
 
 Profile.propTypes = {
     myHistory: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    inProfile: PropTypes.bool,
+    inHistory: PropTypes.bool
+};
+
+Profile.defaultProps = {
+    inProfile: false,
+    inHistory: false
 };
 
 export default Profile;

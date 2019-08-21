@@ -1,6 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
@@ -8,41 +6,69 @@ import '../App.css';
 import CompanyCardView from "../components/CompanyCardView";
 import axios from 'axios';
 import Typography from "@material-ui/core/Typography";
+import {MyButton} from "../Styles";
 
 export default class HomePage extends React.Component {
-    user = this.props.location.state.user;
 
     constructor(props) {
         super(props);
-        this.csrftoken = this.props.location.state.csrftoken;
-        this.sessionId = this.props.location.state.sessionId;
+        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
+            this.props.history.push('');
+        } else {
+            this.user = this.props.location.state.user;
+            this.csrftoken = this.props.location.state.csrftoken;
+            this.sessionId = this.props.location.state.sessionId;
+        }
         this.state = {
             companies: []
         };
     }
 
     componentDidMount() {
-        // axios.defaults.withCredentials = true;
-        const url = 'http://127.0.0.1:8000/companies';
-        const config = {
-            headers: {
-                'X-CSRFToken': this.csrftoken,
-                // Authorization: `Bearer ${this.sessionId}`,
-                // 'Cookie': 'sessionid=' + this.sessionId
-            }
-        };
-        axios.get(url, config).then(response => {
-            this.setState({
-                companies: response.data
-            })
-        }).catch(error => console.error(error)); //TODO("Errors are welcomed")
+        if (!this.user) {
+            this.props.history.push('');
+        } else {
+            const url = 'http://127.0.0.1:8000/companies';
+            const config = {
+                headers: {
+                    'X-CSRFToken': this.csrftoken,
+                    // Authorization: `Bearer ${this.sessionId}`,
+                    // 'Cookie': 'sessionid=' + this.sessionId
+                }
+            };
+            axios.get(url, config).then(response => {
+                this.setState({
+                    companies: response.data
+                })
+            }).catch(error => {
+                this.props.history.push('/503');
+            });
+        }
     }
 
+    addNewCompanyButton = (e) => {
+        this.props.history.push({
+            pathname: '/company/add',
+            state: {
+                user: this.user
+            }
+        })
+    };
+
     render() {
-        console.log(this.state.companies);
+        // const MyButton = withStyles(theme => ({
+        //     root: {
+        //         color: theme.palette.getContrastText(purple[500]),
+        //         backgroundColor: '#52C4B9',
+        //         borderRadius:'25px',
+        //         '&:hover': {
+        //             backgroundColor: '#31a897',
+        //         },
+        //     },
+        // }))(Button);
         return (
             <React.Fragment>
-                <CssBaseline/>
+                {/*<CssBaseline/>*/}
                 <Profile
                     user={this.user}
                     myHistory={this.props.history}/>
@@ -51,9 +77,9 @@ export default class HomePage extends React.Component {
                         <div className='heroButtons'>
                             <Grid container spacing={1}>
                                 <Grid item>
-                                    <Button variant="contained" color="primary" href='/company/add'>
+                                    <MyButton variant="contained" color="primary" onClick={this.addNewCompanyButton}>
                                         Add new Company
-                                    </Button>
+                                    </MyButton>
                                 </Grid>
                             </Grid>
                         </div>
@@ -66,12 +92,15 @@ export default class HomePage extends React.Component {
                                         <CompanyCardView companyName={company.name}
                                                          imageSource={'http://shainaco.com/wp-content/uploads/2016/12/Banner_Shaina_LogoNew.png'}
                                                          pk={company.id}
-                                                         email={company.email}/>
+                                                         email={company.email}
+                                                         myHistory={this.props.history}
+                                                         user={this.user}
+                                        />
                                     </Grid>
                                 ))}
                             </Grid>
                         ) : (
-                            <Typography variant="h5" align="center" color="black" paragraph>
+                            <Typography variant="h5" align="center" color="white" paragraph>
                                 No company to show!
                             </Typography>
                         )}

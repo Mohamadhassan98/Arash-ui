@@ -13,11 +13,22 @@ import axios from "axios";
 function ArashCardView(props) {
     const handleDelete = () => {
         const url = `http://127.0.0.1:8000/arash/${props.apk}`;
-        const redirect = `/company/${props.pk}`;
         axios.delete(url).then(response => {
-            props.history.push(redirect);
-        }).catch(error => console.error(error));
+            window.location.reload();
+        }).catch(error => {
+            props.myHistory.push('/503');
+        });
     };
+
+    const onEditClick = () => {
+        props.myHistory.push({
+            pathname: `/company/${props.pk}/edit-arash/${props.apk}`,
+            state: {
+                user: props.user
+            }
+        });
+    };
+
     return (
         <Card className='ArashCard'>
             <CardMedia
@@ -33,7 +44,7 @@ function ArashCardView(props) {
             </CardContent>
             <CardActions className={props.disabled ? 'disabled' : ''}>
                 <DeleteConfirmAlert model='Arash' confirmHandle={handleDelete}/>
-                <Button href={'/company/' + props.pk + '/edit-arash/' + props.apk}>
+                <Button onClick={onEditClick}>
                     Edit
                 </Button>
             </CardActions>
@@ -46,7 +57,9 @@ ArashCardView.propTypes = {
     imageTitle: PropTypes.string,
     pk: PropTypes.number.isRequired,
     apk: PropTypes.number.isRequired,
-    disabled: PropTypes.bool
+    myHistory: PropTypes.object.isRequired,
+    disabled: PropTypes.bool,
+    user: PropTypes.object.isRequired
 };
 
 ArashCardView.defaultProps = {

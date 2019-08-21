@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import Page404 from "./pages/404NotFound";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import HomePage from "./pages/HomePage";
-import ArashPage from "./pages/ArashPage";
+import CompanyPage from "./pages/CompanyPage";
 import MaterialSignUp from "./pages/MaterialSignUp";
 import AddCompany from "./pages/AddCompany";
 import EditCompany from "./pages/EditCompany";
@@ -14,6 +14,7 @@ import AddArash from "./pages/AddArash";
 import EditArash from "./pages/EditArash";
 import ProfilePage from "./pages/ProfilePage";
 import History from "./pages/History";
+import Page503 from "./pages/503NotAvailable";
 
 const route = (
     <Router>
@@ -25,10 +26,11 @@ const route = (
             <Route path="/history" component={History}/>
             <Route path='/home' component={HomePage}/>
             <Route path='/company/add' component={AddCompany}/>
-            <Route exact path='/company/:pk' component={ArashPage}/>
+            <Route exact path='/company/:pk' component={CompanyPage}/>
             <Route path='/company/:pk/edit' component={EditCompany}/>
             <Route path='/company/:pk/add-arash' component={AddArash}/>
             <Route path='/company/:pk/edit-arash/:apk' component={EditArash}/>
+            <Route path='/503' component={Page503}/>
             <Route component={Page404}/>
         </Switch>
     </Router>

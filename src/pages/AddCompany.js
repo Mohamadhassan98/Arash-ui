@@ -1,42 +1,48 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
+// import Button from '@material-ui/core/Button';
+// import CssBaseline from '@material-ui/core/CssBaseline';
+// import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
 import '../styles/AddCompany.css';
-import {StylesProvider} from '@material-ui/styles';
-import {containsDigitOnly, isEmpty} from "../Globals";
+import {isEmpty} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import axios from 'axios';
+import {MyButton, MyTextField} from "../Styles";
 
 export default class AddCompany extends React.Component {
 
     frontErrors = {
         companyName: 'Company name cannot be empty',
         email: 'Email cannot be empty',
-        address: 'Fill the address'
     };
 
     constructor(props) {
         super(props);
+        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
+            this.props.history.push('');
+        } else {
+            this.user = this.props.location.state.user;
+        }
         this.state = {
             address: {},
             companyName: '',
             email: '',
-            companyNameError: false,
-            emailError: false,
             companyNameHelper: ' ',
             emailHelper: ' '
         };
     }
 
+    componentDidMount() {
+        if (!this.user) {
+            this.props.history.push('');
+        }
+    }
+
     errorOff = () => {
         this.setState({
-            companyNameError: false,
-            emailError: false,
             companyNameHelper: ' ',
             emailHelper: ' '
         });
@@ -46,14 +52,12 @@ export default class AddCompany extends React.Component {
         let invalidData = false;
         if (this.state.companyName.trim() === '') {
             this.setState({
-                companyNameError: true,
                 companyNameHelper: this.frontErrors.companyName
             });
             invalidData = true;
         }
         if (this.state.email.trim() === '') {
             this.setState({
-                emailError: true,
                 emailHelper: this.frontErrors.email
             });
             invalidData = true;
@@ -68,12 +72,6 @@ export default class AddCompany extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-    };
-
-    numericFieldChange = (e) => {
-        if (containsDigitOnly(e.target.value)) {
-            this.fieldChange(e);
-        }
     };
 
     maxFieldChange = (e, max) => {
@@ -102,23 +100,24 @@ export default class AddCompany extends React.Component {
                     postal_code: this.state.address.postalCode
                 }
             }).then(response => {
-                console.log(response.data);
-                this.props.history.push(redirect);
+                this.props.history.push({
+                    pathname: redirect,
+                    state: {
+                        user: this.user
+                    }
+                });
             }).catch(error => {
-                console.error(error.data);
+                this.props.history.push('/503');
             });
         }
     };
 
     render() {
         return (
-            <StylesProvider injectFirst>
                 <React.Fragment>
-                    <CssBaseline/>
-                    <Profile emailAddress='emohamadhassan@gmail.com' lastName='Ebrahimi' firstName='Mohamad'/>
+                    <Profile user={this.user} myHistory={this.props.history}/>
                     <main className='HomePageMain'>
                         <Container component="main" maxWidth="xs">
-                            <CssBaseline/>
                             <div className='paper'>
                                 <Typography component="h1" variant="h5">
                                     Add Company
@@ -126,7 +125,7 @@ export default class AddCompany extends React.Component {
                                 <form className='form' noValidate>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
-                                            <TextField
+                                            <MyTextField
                                                 name="companyName"
                                                 variant="outlined"
                                                 required
@@ -135,13 +134,13 @@ export default class AddCompany extends React.Component {
                                                 label="Company Name"
                                                 onChange={(e) => this.maxFieldChange(e, 10)}
                                                 value={this.state.companyName}
-                                                error={this.state.companyNameError}
+                                                error={this.state.companyNameHelper !== ' '}
                                                 helperText={this.state.companyNameHelper}
                                                 autoFocus
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <TextField
+                                            <MyTextField
                                                 variant="outlined"
                                                 required
                                                 fullWidth
@@ -150,7 +149,7 @@ export default class AddCompany extends React.Component {
                                                 name="email"
                                                 onChange={(e) => this.maxFieldChange(e, 25)}
                                                 value={this.state.email}
-                                                error={this.state.emailError}
+                                                error={this.state.emailHelper !== ' '}
                                                 helperText={this.state.emailHelper}
                                             />
                                         </Grid>
@@ -158,7 +157,7 @@ export default class AddCompany extends React.Component {
                                             <AddressModal submitAddress={this.submitAddress}/>
                                         </Grid>
                                     </Grid>
-                                    <Button
+                                    <MyButton
                                         type="submit"
                                         fullWidth
                                         variant="contained"
@@ -168,13 +167,12 @@ export default class AddCompany extends React.Component {
                                         onBlur={this.errorOff}
                                     >
                                         Save
-                                    </Button>
+                                    </MyButton>
                                 </form>
                             </div>
                         </Container>
                     </main>
                 </React.Fragment>
-            </StylesProvider>
         )
     }
 }

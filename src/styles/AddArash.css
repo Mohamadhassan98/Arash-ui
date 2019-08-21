@@ -3,10 +3,6 @@
     height: 100%;
 }
 
-body {
-    color: white;
-}
-
 .paper {
     height: 100%;
     padding-top: 10%;
@@ -89,6 +85,10 @@ body {
 .MuiIconButton-root {
     color: black;
 }
+
+/*.MuiCssBaseline{*/
+/*    background-color: #2E4158;*/
+/*}*/
 
 .MuiInputBase-root {
     color: white;

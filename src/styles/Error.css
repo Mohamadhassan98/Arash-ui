@@ -1,0 +1,14 @@
+.button {
+    /*height: 40px;*/
+    /*width: 80px;*/
+    background: #5ED0C0;
+    color: white;
+    /*border-radius: 25px;*/
+    /*position: absolute;*/
+    /*top: 110px;*/
+    text-align: center;
+}
+
+.button:hover {
+    background: #31a897;
+}

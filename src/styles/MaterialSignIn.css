@@ -3,65 +3,67 @@
     height: 100%;
 }
 
-body {
-    color: white;
+.arashLogo {
+    width: 240px;
+    height: 240px;
 }
 
-.paper {
-    height: 100%;
-    padding-top: 10%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.pepper {
+    margin: 0 0 0 15%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
-.form {
-    width: 100%;
+.form2 {
+    width: 70%;
     padding-top: 4%;
 }
 
-.submit {
-    margin-bottom: 10%;
-    margin-top: 5%;
-    background-color: #52C4B9;
-    color: white;
-    border: none;
-    outline: none;
-    border-radius: 25px;
-    padding: 15px 70px;
-    /*font-size: .8em;*/
-    /*font-weight: 500;*/
-}
+/*.submit, .MuiButton-containedPrimary {*/
+/*    margin-bottom: 10%;*/
+/*    margin-top: 5%;*/
+/*    background-color: #52C4B9;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    outline: none;*/
+/*    border-radius: 25px;*/
+/*    padding: 15px 70px;*/
+/*    !*font-size: .8em;*!*/
+/*    !*font-weight: 500;*!*/
+/*}*/
 
-.submit:hover {
-    background: #31a897;
-}
+/*.submit:hover, .MuiButton-containedPrimary:hover {*/
+/*    background: #31a897;*/
+/*}*/
 
-.TextField {
-    outline-color: #5ED0C0;
-    color: white;
-}
+/*.TextField {*/
+/*    outline-color: #5ED0C0;*/
+/*    color: white;*/
+/*}*/
 
-.MuiOutlinedInput-input {
-    color: white;
-}
+/*.MuiOutlinedInput-input {*/
+/*    color: white;*/
+/*}*/
 
-.MuiFormLabel-root {
-    color: white;
-}
+/*.MuiFormLabel-root {*/
+/*    color: white;*/
+/*}*/
 
-.MuiFormLabel-root.Mui-focused {
-    color: #5ED0C0;
-}
+/*.MuiFormLabel-root.Mui-focused {*/
+/*    color: #5ED0C0;*/
+/*}*/
 
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: #5ED0C0;
-}
+/*.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {*/
+/*    border-color: #5ED0C0;*/
+/*}*/
 
-.MuiIconButton-root {
-    color: white;
-}
+/*.MuiIconButton-root {*/
+/*    color: white;*/
+/*}*/
 
-.MuiCheckbox-colorPrimary.Mui-checked {
-    color: #5ED0C0;
-}
+/*.MuiCheckbox-colorPrimary.Mui-checked {*/
+/*    color: #5ED0C0;*/
+/*}*/

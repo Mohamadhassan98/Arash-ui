@@ -12,16 +12,44 @@ import axios from 'axios';
 
 function CompanyCardView(props) {
     const handleDelete = () => {
-        const url = `http://127.0.0.1:8000/company/${props.pk}`;
-        const redirect = '/home';
+        const url = `http://127.0.0.1:8000/company/${props.pk}/`;
+        // const redirect = '/home';
         axios.delete(url).then(response => {
-            props.history.push(redirect);
-        }).catch(error => console.error(error));
+            // props.myHistory.push({
+            //     pathname:redirect,
+            //     state:{
+            //         user: props.user
+            //     }
+            // });
+            window.location.reload();
+        }).catch(error => {
+            props.myHistory.push('/503');
+        });
     };
+
+    const onCardClick = () => {
+        props.myHistory.push({
+            pathname: `company/${props.pk}`,
+            state: {
+                user: props.user
+            }
+        });
+    };
+
+    const onEditClick = () => {
+        props.myHistory.push({
+            pathname: `company/${props.pk}/edit`,
+            state: {
+                user: props.user
+            }
+        });
+    };
+
     return (
         <Card className='CompanyCard'>
             <CardActionArea
-                href={'company/' + props.pk}>
+                onClick={onCardClick}
+            >
                 <CardMedia
                     component="img"
                     alt="Contemplative Reptile"
@@ -41,7 +69,7 @@ function CompanyCardView(props) {
             </CardActionArea>
             <CardActions>
                 <DeleteConfirmAlert model='Company' confirmHandle={handleDelete}/>
-                <Button href={'/company/' + props.pk + '/edit'}>
+                <Button onClick={onEditClick}>
                     Edit
                 </Button>
             </CardActions>
@@ -54,7 +82,9 @@ CompanyCardView.propTypes = {
     imageTitle: PropTypes.string,
     companyName: PropTypes.string.isRequired,
     pk: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired
+    email: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
+    myHistory: PropTypes.object.isRequired
 };
 
 CompanyCardView.defaultProps = {

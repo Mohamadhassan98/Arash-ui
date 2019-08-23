@@ -72,7 +72,7 @@ export default class HomePage extends React.Component {
                 <Profile
                     user={this.user}
                     myHistory={this.props.history}/>
-                <main className='HomePageMain'>
+                <main className='HomePageMain2'>
                     <Container maxWidth='md'>
                         <div className='heroButtons'>
                             <Grid container spacing={1}>

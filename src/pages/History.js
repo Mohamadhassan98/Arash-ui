@@ -44,8 +44,8 @@ class History extends Component {
         return (
             <React.Fragment>
                 <Profile user={this.user} myHistory={this.props.history} inHistory={true}/>
-                <main>
-                    <Container component="main" maxWidth="md">
+                <main className='HomePageMain2'>
+                    <Container component="main" maxWidth="md" className="mycontainer">
                         <Title>Logs</Title>
                         <Table size="small">
                             <TableHead>

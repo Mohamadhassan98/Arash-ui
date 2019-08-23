@@ -406,7 +406,6 @@ export default class SignUp extends React.Component {
                                 </Grid>
                                 <MyButton
                                     type="submit"
-                                    fullWidth
                                     variant="contained"
                                     color="primary"
                                     className='submit'

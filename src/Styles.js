@@ -1,13 +1,15 @@
 import {withStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import CheckBox from "@material-ui/core/Checkbox"
 import React from "react";
+import {green} from '@material-ui/core/colors'
 
 export const MyButton = withStyles(theme => ({
     root: {
         color: 'white',
         marginBottom: '10%',
-        marginTop: '5%',
+        marginTop: '20%',
         backgroundColor: '#8847dc',
         borderRadius: '25px',
         paddingTop: '15px',
@@ -23,10 +25,12 @@ export const MyButton = withStyles(theme => ({
 export const ModalButton = withStyles(theme => ({
     root: {
         color: 'white',
-        backgroundColor: '#52C4B9',
+        backgroundColor: '#8847dc',
         borderRadius: '25px',
+        left: '25px',
+
         '&:hover': {
-            backgroundColor: '#31a897',
+            backgroundColor: '#7847dc',
         }
     }
 }))(Button);
@@ -34,24 +38,24 @@ export const ModalButton = withStyles(theme => ({
 export const MyTextField = withStyles({
     root: {
         '& .MuiFormLabel-root': {
-            color: 'black'
+            color: '#7847dc'
         },
         '& label.Mui-focused': {
-            color: '#31a897',
+            color: '#7847dc',
         },
         '& .MuiInput-underline:after': {
-            borderColor: '#5ED0C0',
+            borderColor: '#8847dc',
         },
         '& .MuiOutlinedInput-root': {
             color: 'black',
             '& fieldset': {
-                borderColor: '#5ED0C0',
+                borderColor: '#8847dc',
             },
             '&:hover fieldset': {
-                borderColor: 'white',
+                borderColor: '#7847dc',
             },
             '&.Mui-focused fieldset': {
-                borderColor: '#31a897',
+                borderColor: '#7847dc',
             }
         }
     }
@@ -60,24 +64,24 @@ export const MyTextField = withStyles({
 export const ModalTextField = withStyles({
     root: {
         '& .MuiFormLabel-root': {
-            color: 'black'
+            color: '#7847dc'
         },
         '& label.Mui-focused': {
-            color: '#31a897',
+            color: '#7847dc',
         },
         '& .MuiInput-underline:after': {
-            borderColor: '#5ED0C0',
+            borderColor: '#8847dc',
         },
         '& .MuiOutlinedInput-root': {
             color: 'black',
             '& fieldset': {
-                borderColor: '#5ED0C0',
+                borderColor: '#8847dc',
             },
             '&:hover fieldset': {
                 borderColor: 'black',
             },
             '&.Mui-focused fieldset': {
-                borderColor: '#31a897',
+                borderColor: '#7847dc',
             }
         }
     }
@@ -88,3 +92,13 @@ export function LogOutIcon(props) {
         <p>Log-out icon: <span className="glyphicon glyphicon-log-out"></span></p>
     );
 }
+
+//DOES NOT WORK
+export const MyCheckbox = withStyles({
+    root: {
+        color: green[400],
+        '&$checked': {
+            color: green[600],
+        },
+    },
+})(CheckBox);

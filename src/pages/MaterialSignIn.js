@@ -167,7 +167,6 @@ export default class MaterialSignIn extends React.Component {
                                     type="submit"
                                     variant="contained"
                                     color="primary"
-
                                     onClick={this.submitHandle}
                                     onBlur={this.errorOff}
                                 >

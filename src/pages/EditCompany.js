@@ -122,7 +122,7 @@ export default class EditCompany extends React.Component {
         return (
             <React.Fragment>
                 <Profile user={this.user} myHistory={this.props.history}/>
-                <main className='HomePageMain'>
+                <main className='HomePageMain2'>
                     <Container component="main" maxWidth="xs">
                         <div className='paper'>
                             <Typography component="h1" variant="h5">

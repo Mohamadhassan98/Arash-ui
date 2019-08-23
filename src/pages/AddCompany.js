@@ -1,7 +1,7 @@
 import React from 'react';
 // import Button from '@material-ui/core/Button';
 // import CssBaseline from '@material-ui/core/CssBaseline';
-// import TextField from '@material-ui/core/TextField';
+// import MyTextField from '@material-ui/core/MyTextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -116,7 +116,7 @@ export default class AddCompany extends React.Component {
         return (
                 <React.Fragment>
                     <Profile user={this.user} myHistory={this.props.history}/>
-                    <main className='HomePageMain'>
+                    <main className='HomePageMain2'>
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
                                 <Typography component="h1" variant="h5">

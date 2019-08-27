@@ -1,13 +1,11 @@
 import React from 'react';
 import '../unnamed.jpg';
-import profile from '../unnamed.jpg';
+import profile from '../Author__Placeholder.png';
 import crown from '../crowns.png';
 import Popup from "reactjs-popup";
 import {AppBar} from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
 import PropTypes from 'prop-types';
-import {LogOutIcon, ModalButton} from "../Styles";
-import HelpIcon from '@material-ui/icons/Help';
+import {ModalButton} from "../Styles";
 
 
 function ProfileNavBar(props) {
@@ -60,7 +58,7 @@ function Profile(props) {
 
     return (
         <AppBar color={'white'} className='AppBar' position="sticky">
-            <Toolbar>
+            {/*<Toolbar>*/}
                 <Popup
                     trigger={<img className='profilePictureTrigger' src={profile} alt='ProfilePictureTrigger'/>}
                     position='bottom right'
@@ -82,9 +80,9 @@ function Profile(props) {
                         inProfile={props.inProfile}
                         inHistory={props.inHistory}/>
                 </Popup>
-                <HelpIcon onClick={downloadHelp}/>
-                <LogOutIcon/>
-            </Toolbar>
+            {/*<HelpIcon onClick={downloadHelp}/>*/}
+            {/*<LogOutIcon/>*/}
+            {/*</Toolbar>*/}
         </AppBar>
     )
 }

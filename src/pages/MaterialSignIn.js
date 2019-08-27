@@ -112,6 +112,7 @@ export default class MaterialSignIn extends React.Component {
             <React.Fragment>
                 <main className='HomePageMain'>
                     <Container component="main" maxWidth='xs'>
+                        <div className='triangle'></div>
                         <div className='pepper'>
                             <img className='arashLogo' src={ArashLogo} alt='arashLogo'/>
                             <Typography component="h1" variant="h5" color={'black'}>

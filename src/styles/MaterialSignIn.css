@@ -22,6 +22,22 @@
     padding-top: 4%;
 }
 
+.triangle {
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    shape-outside: polygon(0 0, 0 1000px, 1000px 1000px);
+    clip-path: polygon(0 0, 0 1000px, 785px 785px);
+    height: 100%;
+    width: 785px;
+    background: url("../10.jpg");
+    /*linear-gradient(to top right,  #232526,#414345);*/
+    transform: rotate(-180deg);
+
+}
+
+
 /*.submit, .MuiButton-containedPrimary {*/
 /*    margin-bottom: 10%;*/
 /*    margin-top: 5%;*/
@@ -57,13 +73,6 @@
 /*}*/
 
 /*.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {*/
-/*    border-color: #5ED0C0;*/
-/*}*/
+/*    border-color: #5ED0C;
+}*/
 
-/*.MuiIconButton-root {*/
-/*    color: white;*/
-/*}*/
-
-/*.MuiCheckbox-colorPrimary.Mui-checked {*/
-/*    color: #5ED0C0;*/
-/*}*/

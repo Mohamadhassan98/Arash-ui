@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
 import '../styles/EditCompany.css';
@@ -125,10 +124,10 @@ export default class EditCompany extends React.Component {
                 <main className='HomePageMain2'>
                     <Container component="main" maxWidth="xs">
                         <div className='paper'>
-                            <Typography component="h1" variant="h5">
-                                Edit Company
-                            </Typography>
                             <form className='form' noValidate>
+                                <p className='title'>
+                                    Edit Company
+                                </p>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <MyTextField

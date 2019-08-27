@@ -1,23 +1,23 @@
 import {withStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import CheckBox from "@material-ui/core/Checkbox"
+import CheckBox from "@material-ui/core/Checkbox";
 import React from "react";
-import {green} from '@material-ui/core/colors'
+import {green} from '@material-ui/core/colors';
+
 
 export const MyButton = withStyles(theme => ({
     root: {
         color: 'white',
-        marginBottom: '10%',
-        marginTop: '20%',
-        backgroundColor: '#8847dc',
+        // position:'absolute',
+        backgroundColor: 'red',
         borderRadius: '25px',
         paddingTop: '15px',
         paddingBottom: '15px',
-        paddingLeft: '70px',
-        paddingRight: '70px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
         '&:hover': {
-            backgroundColor: '#7847dc',
+            backgroundColor: 'red',
         }
     }
 }))(Button);
@@ -28,6 +28,7 @@ export const ModalButton = withStyles(theme => ({
         backgroundColor: '#8847dc',
         borderRadius: '25px',
         left: '25px',
+        right: '10px',
 
         '&:hover': {
             backgroundColor: '#7847dc',
@@ -38,24 +39,24 @@ export const ModalButton = withStyles(theme => ({
 export const MyTextField = withStyles({
     root: {
         '& .MuiFormLabel-root': {
-            color: '#7847dc'
+            color: '#ff9933'
         },
         '& label.Mui-focused': {
-            color: '#7847dc',
+            color: '#ff9933',
         },
         '& .MuiInput-underline:after': {
-            borderColor: '#8847dc',
+            borderColor: '#ff9933',
         },
         '& .MuiOutlinedInput-root': {
             color: 'black',
             '& fieldset': {
-                borderColor: '#8847dc',
+                borderColor: '#ff9933',
             },
             '&:hover fieldset': {
-                borderColor: '#7847dc',
+                borderColor: '#ff9933',
             },
             '&.Mui-focused fieldset': {
-                borderColor: '#7847dc',
+                borderColor: '#ff9933',
             }
         }
     }
@@ -102,3 +103,5 @@ export const MyCheckbox = withStyles({
         },
     },
 })(CheckBox);
+
+

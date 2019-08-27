@@ -7,9 +7,9 @@ import CompanyCardView from "../components/CompanyCardView";
 import axios from 'axios';
 import Typography from "@material-ui/core/Typography";
 import {MyButton} from "../Styles";
+import NestedList from "../components/test"
 
 export default class HomePage extends React.Component {
-
     constructor(props) {
         super(props);
         if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
@@ -73,38 +73,40 @@ export default class HomePage extends React.Component {
                     user={this.user}
                     myHistory={this.props.history}/>
                 <main className='HomePageMain2'>
-                    <Container maxWidth='md'>
-                        <div className='heroButtons'>
-                            <Grid container spacing={1}>
-                                <Grid item>
-                                    <MyButton variant="contained" color="primary" onClick={this.addNewCompanyButton}>
-                                        Add new Company
-                                    </MyButton>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Container>
-                    <Container className='cardGrid' maxWidth="md">
-                        {this.state.companies && this.state.companies.length !== 0 ? (
-                            <Grid container spacing={4}>
-                                {this.state.companies.map(company => (
-                                    <Grid item key={company.id} xs={12} sm={6} md={4}>
-                                        <CompanyCardView companyName={company.name}
-                                                         imageSource={'http://shainaco.com/wp-content/uploads/2016/12/Banner_Shaina_LogoNew.png'}
-                                                         pk={company.id}
-                                                         email={company.email}
-                                                         myHistory={this.props.history}
-                                                         user={this.user}
-                                        />
+                    <NestedList/>
+                    <div className="rightme">
+                        <Container maxWidth='md'>
+                            <div className='heroButtons'>
+                                <Grid container spacing={1}>
+                                    <Grid item>
+                                        <MyButton variant="contained" color="primary" onClick={this.addNewCompanyButton}>
+                                            +Company
+                                        </MyButton>
                                     </Grid>
-                                ))}
-                            </Grid>
-                        ) : (
-                            <Typography variant="h5" align="center" color="white" paragraph>
-                                No company to show!
-                            </Typography>
-                        )}
-                    </Container>
+                                </Grid>
+                            </div>
+                        </Container>
+                        <Container className='cardGrid' maxWidth="md">
+                            {this.state.companies && this.state.companies.length !== 0 ? (
+                                <Grid container spacing={4}>
+                                    {this.state.companies.map(company => (
+                                        <Grid item key={company.id} xs={12} sm={6} md={4}>
+                                            <CompanyCardView companyName={company.name}
+                                                             pk={company.id}
+                                                             email={company.email}
+                                                             myHistory={this.props.history}
+                                                             user={this.user}
+                                            />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            ) : (
+                                <Typography variant="h5" align="center" color="white" paragraph>
+                                    No company to show!
+                                </Typography>
+                            )}
+                        </Container>
+                    </div>
                 </main>
             </React.Fragment>
         );

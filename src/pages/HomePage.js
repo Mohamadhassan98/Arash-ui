@@ -7,7 +7,7 @@ import CompanyCardView from "../components/CompanyCardView";
 import axios from 'axios';
 import Typography from "@material-ui/core/Typography";
 import {MyButton} from "../Styles";
-import NestedList from "../components/test"
+import NestedList from "../components/leftnavbar"
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -69,12 +69,13 @@ export default class HomePage extends React.Component {
         return (
             <React.Fragment>
                 {/*<CssBaseline/>*/}
-                <Profile
-                    user={this.user}
-                    myHistory={this.props.history}/>
                 <main className='HomePageMain2'>
-                    <NestedList/>
+                    <NestedList user={this.user}
+                                myHistory={this.props.history}/>
                     <div className="rightme">
+                        <Profile
+                            user={this.user}
+                            myHistory={this.props.history}/>
                         <Container maxWidth='md'>
                             <div className='heroButtons'>
                                 <Grid container spacing={1}>

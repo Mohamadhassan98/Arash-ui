@@ -105,4 +105,19 @@ export const MyCheckbox = withStyles({
     },
 })(CheckBox);
 
+export const MyListItem = withStyles(theme => ({
 
+    root: {
+        width: '20%',
+        height: '100%',
+        // maxWidth: 360,
+        position: 'fixed',
+        backgroundColor: '#424242',
+    },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
+    listItem: {
+        color: '#b71c1c',
+    }
+}));

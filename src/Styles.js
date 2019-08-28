@@ -10,14 +10,15 @@ export const MyButton = withStyles(theme => ({
     root: {
         color: 'white',
         // position:'absolute',
-        backgroundColor: 'red',
+        backgroundColor: '#b71c1c',
         borderRadius: '25px',
         paddingTop: '15px',
         paddingBottom: '15px',
         paddingLeft: '20px',
         paddingRight: '20px',
+        marginTop: '10px',
         '&:hover': {
-            backgroundColor: 'red',
+            backgroundColor: '#dc3b1a',
         }
     }
 }))(Button);
@@ -39,24 +40,24 @@ export const ModalButton = withStyles(theme => ({
 export const MyTextField = withStyles({
     root: {
         '& .MuiFormLabel-root': {
-            color: '#ff9933'
+            color: '#393939'
         },
         '& label.Mui-focused': {
-            color: '#ff9933',
+            color: '#393939',
         },
         '& .MuiInput-underline:after': {
-            borderColor: '#ff9933',
+            borderColor: '#393939',
         },
         '& .MuiOutlinedInput-root': {
             color: 'black',
             '& fieldset': {
-                borderColor: '#ff9933',
+                borderColor: '#393939',
             },
             '&:hover fieldset': {
-                borderColor: '#ff9933',
+                borderColor: '#686868',
             },
             '&.Mui-focused fieldset': {
-                borderColor: '#ff9933',
+                borderColor: '#686868',
             }
         }
     }

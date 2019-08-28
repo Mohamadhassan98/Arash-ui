@@ -13,17 +13,17 @@
     /*overflow: auto*/
 }
 
-.App__Aside {
-    width: 50%;
-    background-color: #66DAC7;
-}
+/*.App__Aside {*/
+/*    width: 50%;*/
+/*    background-color: #66DAC7;*/
+/*}*/
 
-.App__Form {
-    width: 50%;
-    background-color: #dddddd;
-    padding: 25px 40px;
-    overflow: auto;
-}
+/*.App__Form {*/
+/*    width: 50%;*/
+/*    background-color: #dddddd;*/
+/*    padding: 25px 40px;*/
+/*    overflow: auto;*/
+/*}*/
 
 .PageSwitcher {
     display: -ms-flexbox;
@@ -313,16 +313,20 @@
 }
 
 .HomePageMain {
-    position: absolute;
-    /*top: 50%;*/
-    /*-ms-transform: translateY(-50%);*/
-    /*transform: translateY(-50%);*/
-    margin: auto;
-    margin-right: 10px;
-    width: 100%;
-    height: 100%;
-    background-size: 50% 50%;
+    /*position: absolute;*/
+    /*!*top: 50%;*!*/
+    /*!*-ms-transform: translateY(-50%);*!*/
+    /*!*transform: translateY(-50%);*!*/
+    /*margin: auto;*/
+    /*margin-right: 10px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*background-size: 50% 50%;*/
     background: #fafafa;
+    height: 100vh;
+    display: -ms-flexbox;
+    display: flex;
+    color: #fff;
 }
 
 .HomePageMain > .cardGrid {

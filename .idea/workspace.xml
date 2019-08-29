@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/styles/HomePage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/LeftNavBar.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CompanyListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CompanyListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DeleteConfirmAlert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DeleteConfirmAlert.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProfileNavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileNavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/leftnavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftnavbar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/HomePage.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,12 +39,6 @@
         <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="63" />
-    <option name="y" value="27" />
-    <option name="width" value="929" />
-    <option name="height" value="1053" />
   </component>
   <component name="ProjectId" id="1P8IP1sWizfw4umgo6swM314OXx" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -134,6 +135,7 @@
       <workItem from="1566965501971" duration="15016000" />
       <workItem from="1567014437359" duration="5635000" />
       <workItem from="1567020999918" duration="3508000" />
+      <workItem from="1567059266114" duration="3225000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="First Commit">
       <created>1565502237719</created>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import {MyListSubheader} from '../Styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -11,6 +11,7 @@ import ContactsOutlinedIcon from '@material-ui/icons/ContactsOutlined';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import '../styles/LeftNavBar.css';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -78,9 +79,9 @@ function NestedList(props) {
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
-                    Nested List Items
-                </ListSubheader>
+                <MyListSubheader color='#b71c1c' component="div" id="nested-list-subheader" className='ListSubHeader'>
+                    {'Menu'}
+                </MyListSubheader>
             }
             className={classes.root}
         >

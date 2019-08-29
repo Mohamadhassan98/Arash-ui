@@ -10,5 +10,9 @@
 
 .List {
     background: #FBFCFC;
-    color: #B71C1C;
+    color: #424242;
+}
+
+.AddCompanyButton {
+    margin-bottom: 25px;
 }

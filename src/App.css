@@ -251,6 +251,24 @@
     border: 2px solid #b71c1c;
 }
 
+.ArashLogo {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    float: left;
+}
+
+.Arash {
+    position: absolute;
+    color: #424242;
+    font-size: medium;
+    font-weight: bold;
+    float: left;
+    margin-left: 54px;
+}
+
+
+
 .ProfileNB > .button {
     height: 40px;
     width: 80px;

@@ -8,53 +8,69 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from "prop-types";
 
 
-export default function DeleteConfirmAlert(props) {
-    const [open, setOpen] = React.useState(false);
+export default class DeleteConfirmAlert extends React.Component {
 
-    function handleClickOpen() {
-        setOpen(true);
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false
+        };
     }
 
-    function handleClose() {
-        setOpen(false);
-    }
-
-    const handleConfirm = () => {
-        handleClose();
-        props.confirmHandle();
+    handleClickOpen = () => {
+        this.setState({
+            open: true
+        });
     };
 
-    return (
-        <div>
-            <Button color="primary" onClick={handleClickOpen}>
-                Delete
-            </Button>
+    handleClose = () => {
+        this.setState({
+            open: false
+        });
+        this.props.cancelHandle();
+    };
+
+    handleConfirm = () => {
+        this.handleClose();
+        this.props.confirmHandle();
+    };
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            open: nextProps.open
+        });
+    }
+
+    render() {
+        return (
             <Dialog
-                open={open}
-                onClose={handleClose}
+                open={this.state.open}
+                onClose={this.handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">{"Delete Confirm"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure to delete this {props.model}?
+                        Are you sure to delete this {this.props.model}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleConfirm} color="primary">
+                    <Button onClick={this.handleConfirm} color="primary">
                         Yes
                     </Button>
-                    <Button onClick={handleClose} color="primary" autoFocus>
+                    <Button onClick={this.handleClose} color="primary" autoFocus>
                         No
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
-    );
+        );
+    }
 }
 
 DeleteConfirmAlert.propTypes = {
     model: PropTypes.string.isRequired,
-    confirmHandle: PropTypes.func.isRequired
+    confirmHandle: PropTypes.func.isRequired,
+    cancelHandle: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired
 };

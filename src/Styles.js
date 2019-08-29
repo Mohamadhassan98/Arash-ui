@@ -1,4 +1,4 @@
-import {withStyles} from "@material-ui/core";
+import {ListSubheader, withStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import CheckBox from "@material-ui/core/Checkbox";
@@ -89,12 +89,6 @@ export const ModalTextField = withStyles({
     }
 })(TextField);
 
-export function LogOutIcon(props) {
-    return (
-        <p>Log-out icon: <span className="glyphicon glyphicon-log-out"></span></p>
-    );
-}
-
 //DOES NOT WORK
 export const MyCheckbox = withStyles({
     root: {
@@ -105,19 +99,14 @@ export const MyCheckbox = withStyles({
     },
 })(CheckBox);
 
-export const MyListItem = withStyles(theme => ({
-
+export const CustomIcon = withStyles(theme => ({
     root: {
-        width: '20%',
-        height: '100%',
-        // maxWidth: 360,
-        position: 'fixed',
-        backgroundColor: '#424242',
-    },
-    nested: {
-        paddingLeft: theme.spacing(4),
-    },
-    listItem: {
-        color: '#b71c1c',
+        color: '#b71c1c'
     }
 }));
+
+export const MyListSubheader = withStyles(theme => ({
+    root: {
+        color: 'white'
+    }
+}))(ListSubheader);

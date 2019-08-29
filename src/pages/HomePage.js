@@ -69,7 +69,7 @@ export default class HomePage extends React.Component {
                             user={this.user}
                             myHistory={this.props.history}/>
                         <Container className='cardGrid' maxWidth="md">
-                            <div className='heroButtons'>
+                            <div className='AddCompanyButton'>
                                 <Grid container justify='flex-end'>
                                     <Grid item>
                                         <MyButton color="primary" onClick={this.addNewCompanyButton}>

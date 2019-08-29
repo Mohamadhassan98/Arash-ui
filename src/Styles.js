@@ -1,4 +1,4 @@
-import {withStyles} from "@material-ui/core";
+import {Icon, withStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import CheckBox from "@material-ui/core/Checkbox";
@@ -12,16 +12,24 @@ export const MyButton = withStyles(theme => ({
         // position:'absolute',
         backgroundColor: '#b71c1c',
         borderRadius: '25px',
-        paddingTop: '15px',
-        paddingBottom: '15px',
-        paddingLeft: '20px',
-        paddingRight: '20px',
+        // paddingTop: '15px',
+        // paddingBottom: '15px',
+        // paddingLeft: '20px',
+        // paddingRight: '20px',
         marginTop: '10px',
+        marginBottom: '20px',
         '&:hover': {
             backgroundColor: '#dc3b1a',
         }
     }
 }))(Button);
+
+export const CustomIcon = withStyles(theme => ({
+    colorError: {
+        color: '#B71C1C',
+        backgroundColor: '#B71C1C'
+    }
+}))(Icon);
 
 export const ModalButton = withStyles(theme => ({
     root: {

@@ -348,11 +348,11 @@
     padding-bottom: 8%;
 }
 
-.heroButtons {
-    position: absolute;
-    right: 25%;
-    top: 10%;
-}
+/*.heroButtons {*/
+/*    position: absolute;*/
+/*    right: 25%;*/
+/*    top: 10%;*/
+/*}*/
 
 .CompanyCard {
     height: 100%;
@@ -377,21 +377,20 @@
 /*}*/
 .MuiToolbar-regular {
     min-height: 64px;
-    background: #e4e5e6 url("test2.png") no-repeat center;
+    background: #e4e5e6 url("test.png") no-repeat center;
 }
 
 .cardGrid {
     position: absolute;
     left: 10%;
     top: 20%;
-
 }
 
-.rightme {
-    position: sticky;
-    height: 100%;
-    width: 80%;
-    float: right;
-    overflow-y: scroll;
+/*.rightme {*/
+/*    position: sticky;*/
+/*    height: 100%;*/
+/*    width: 80%;*/
+/*    float: right;*/
+/*    overflow-y: scroll;*/
 
-}
+/*}*/

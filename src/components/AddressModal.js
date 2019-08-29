@@ -62,12 +62,12 @@ export default class AddressModal extends React.Component {
     }
 
     handleClickOpen = () => {
-        this.setState({open: true});
+        this.setState({detailsOpen: true});
     };
 
     handleClose = () => {
         this.setState({
-            open: false
+            detailsOpen: false
         });
     };
 
@@ -142,7 +142,7 @@ export default class AddressModal extends React.Component {
         if (this.validateData()) {
             this.props.submitAddress(this.state.address);
             this.setState({
-                open: false
+                detailsOpen: false
             });
         }
     };

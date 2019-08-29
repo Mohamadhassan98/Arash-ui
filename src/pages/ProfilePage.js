@@ -52,8 +52,6 @@ export default class ProfilePage extends React.Component {
             isVisibleOldPassword: false,
             isVisibleNewPassword: false,
             isVisiblePasswordRepeat: false
-
-
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -173,7 +171,6 @@ export default class ProfilePage extends React.Component {
     render() {
         return (
             <React.Fragment>
-
                 <main className='HomePageMain2'>
                     <Profile
                         myHistory={this.props.history}
@@ -412,14 +409,11 @@ export default class ProfilePage extends React.Component {
                                     {this.state.status === 'ma' ? "Save" : "change password"}
                                 </MyButton>
                             </Grid>
-
                         </Container>
                     </form>
-
                     <footer/>
                 </main>
             </React.Fragment>
-
         )
     }
 }

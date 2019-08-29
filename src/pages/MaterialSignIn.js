@@ -75,7 +75,7 @@ export default class MaterialSignIn extends React.Component {
                     switch (error.response.status) {
                         case 401:
                             this.setState({
-                                open: true
+                                detailsOpen: true
                             });
                             break;
                         default:
@@ -103,7 +103,7 @@ export default class MaterialSignIn extends React.Component {
     };
 
     closeModal = () => {
-        this.setState({open: false});
+        this.setState({detailsOpen: false});
     };
 
     render() {

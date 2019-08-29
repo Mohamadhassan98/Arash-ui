@@ -1,6 +1,7 @@
 import React from 'react';
 import '../unnamed.jpg';
-import profile from '../Author__Placeholder.png';
+// import profile from '../Author__Placeholder.png';
+import profile from '../unnamed.jpg';
 import crown from '../crowns.png';
 import Popup from "reactjs-popup";
 import {AppBar} from "@material-ui/core";

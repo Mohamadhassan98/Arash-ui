@@ -10,6 +10,7 @@ import NestedList from "../components/leftnavbar";
 import {Add} from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import CompanyListItem from "../components/CompanyListItem";
+import '../styles/HomePage.css';
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -67,32 +68,30 @@ export default class HomePage extends React.Component {
                         <Profile
                             user={this.user}
                             myHistory={this.props.history}/>
-                        <main className='HomePageMain'>
-                            <Container className='cardGrid' maxWidth="lg">
-                                <div className='heroButtons'>
-                                    <Grid container justify='flex-end'>
-                                        <Grid item>
-                                            <MyButton color="primary" onClick={this.addNewCompanyButton}>
-                                                <Add/>
-                                                Add Company
-                                            </MyButton>
-                                        </Grid>
+                        <Container className='cardGrid' maxWidth="md">
+                            <div className='heroButtons'>
+                                <Grid container justify='flex-end'>
+                                    <Grid item>
+                                        <MyButton color="primary" onClick={this.addNewCompanyButton}>
+                                            <Add/>
+                                            Add Company
+                                        </MyButton>
                                     </Grid>
-                                </div>
-                                {this.state.companies && this.state.companies.length !== 0 ? (
-                                    <List className='List'>
-                                        {this.state.companies.map(company => (
-                                            <CompanyListItem company={company} myHistory={this.props.history}
-                                                             user={this.user}/>
-                                        ))}
-                                    </List>
-                                ) : (
-                                    <Typography variant="h5" align="center" color="white" paragraph>
-                                        No company to show!
-                                    </Typography>
-                                )}
-                            </Container>
-                        </main>
+                                </Grid>
+                            </div>
+                            {this.state.companies && this.state.companies.length !== 0 ? (
+                                <List className='List'>
+                                    {this.state.companies.map(company => (
+                                        <CompanyListItem company={company} myHistory={this.props.history}
+                                                         user={this.user}/>
+                                    ))}
+                                </List>
+                            ) : (
+                                <Typography variant="h5" align="center" color="white" paragraph>
+                                    No company to show!
+                                </Typography>
+                            )}
+                        </Container>
                     </div>
                 </main>
             </React.Fragment>

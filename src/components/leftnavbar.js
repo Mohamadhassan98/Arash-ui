@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {MyListSubheader} from '../Styles';
+import {CustomIcon, MyListSubheader} from '../Styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -12,6 +12,8 @@ import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import '../styles/LeftNavBar.css';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(4),
     },
     listItem: {
-        color: '#b71c1c',
+        color: '#f2f3f4',
     }
 }));
 
@@ -39,7 +41,7 @@ function NestedList(props) {
             window.location.reload();
         } else {
             props.myHistory.push('/profile', {
-                user: user
+                user: user,
             });
         }
     };
@@ -50,7 +52,7 @@ function NestedList(props) {
             window.location.reload();
         } else {
             props.myHistory.push(url, {
-                user: user
+                user: user,
             });
         }
     };
@@ -65,7 +67,16 @@ function NestedList(props) {
             });
         }
     };
-
+    const goToListProfile = () => {
+        const url = `/list/profile`;
+        if (props.inListProfil) {
+            window.location.reload();
+        } else {
+            props.myHistory.push(url, {
+                user: user,
+            });
+        }
+    };
     const goToHelp = () => {
         window.open('http://engold.ui.ac.ir/~zamani/internship/files/introduce.pdf');
     };
@@ -74,6 +85,14 @@ function NestedList(props) {
         const url = `/`;
         props.myHistory.push(url);
     };
+    const CustomListAltOutlinedIcon = CustomIcon(ListAltOutlinedIcon);
+    const CustomContactsOutlinedIcon = CustomIcon(ContactsOutlinedIcon);
+    const CustomHistoryOutlinedIcon = CustomIcon(HistoryOutlinedIcon);
+    const CustomHelpOutlineOutlinedIcon = CustomIcon(HelpOutlineOutlinedIcon);
+    const CustomExitToAppOutlinedIcon = CustomIcon(ExitToAppOutlinedIcon);
+    const CustomAccountCircleIcon = CustomIcon(AccountCircleIcon);
+    const CustomAssignmentIndIcon = CustomIcon(AssignmentIndIcon);
+
     return (
         <List
             component="nav"
@@ -87,31 +106,37 @@ function NestedList(props) {
         >
             <ListItem button onClick={goToCompanies}>
                 <ListItemIcon>
-                    <ListAltOutlinedIcon/>
+                    <CustomListAltOutlinedIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Companies"/>
             </ListItem>
             <ListItem button onClick={goToProfile}>
                 <ListItemIcon>
-                    <ContactsOutlinedIcon/>
+                    <CustomAccountCircleIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Profile"/>
             </ListItem>
             <ListItem button onClick={goToHistory}>
                 <ListItemIcon>
-                    <HistoryOutlinedIcon/>
+                    <CustomHistoryOutlinedIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="History"/>
             </ListItem>
             <ListItem button onClick={goToHelp}>
                 <ListItemIcon>
-                    <HelpOutlineOutlinedIcon/>
+                    <CustomHelpOutlineOutlinedIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Help"/>
             </ListItem>
+            <ListItem button onClick={goToListProfile}>
+                <ListItemIcon>
+                    <CustomAssignmentIndIcon/>
+                </ListItemIcon>
+                <ListItemText className={classes.listItem} primary="List Profile"/>
+            </ListItem>
             <ListItem button onClick={goToLogout}>
                 <ListItemIcon>
-                    <ExitToAppOutlinedIcon/>
+                    <CustomExitToAppOutlinedIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Logout"/>
             </ListItem>
@@ -125,6 +150,7 @@ NestedList.propTypes = {
     inProfile: PropTypes.bool,
     inHistory: PropTypes.bool,
     inCompanies: PropTypes.bool,
+    inListProfile: PropTypes.bool,
 
 };
 
@@ -132,6 +158,7 @@ NestedList.defaultProps = {
     inCompanies: false,
     inProfile: false,
     inHistory: false,
+    inListProfile: false,
 
 };
 

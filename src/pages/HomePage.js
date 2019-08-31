@@ -12,6 +12,7 @@ import List from "@material-ui/core/List";
 import CompanyListItem from "../components/CompanyListItem";
 import '../styles/HomePage.css';
 
+
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props);

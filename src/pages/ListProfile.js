@@ -4,20 +4,27 @@ import {MyButton, MyList} from '../Styles'
 import NestedList from "../components/leftnavbar";
 import Profile from "../components/ProfileNavBar";
 import Container from "@material-ui/core/Container";
-import ProfileListItem from "../pages/ProfileListItem"
+import ProfileListItem from "../components/ProfileListItem"
 import Grid from "@material-ui/core/Grid";
 import {Add} from "@material-ui/icons";
+import '../App.css'
 
 export default class ListProfile extends React.Component {
 
     constructor(props) {
         super(props);
-
+        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
+            this.props.history.push('');
+        } else {
+            this.user = this.props.location.state.user;
+            this.csrftoken = this.props.location.state.csrftoken;
+            this.sessionId = this.props.location.state.sessionId;
+        }
         this.state = {
             deleteModalOpen: false,
             profiles: []
         };
-    }
+    };
 
     componentDidMount() {
         const url = `http://127.0.0.1:8000/list/profile/`;
@@ -28,14 +35,20 @@ export default class ListProfile extends React.Component {
             });
             console.log()
         }).catch(error => {
-            // this.props.myHistory.push('/503');
+            this.props.history.push('/503');
         });
 
     }
 
     addNewUser = () => {
-        const url = `/sign-up`;
-        axios.get(url);
+        let path = `/sign-up`;
+        this.props.history.push({
+            pathname: path,
+            state: {
+                user: this.props.location.state.user
+            }
+        });
+
     };
 
     render() {
@@ -45,11 +58,9 @@ export default class ListProfile extends React.Component {
                     <NestedList user={this.user}
                                 myHistory={this.props.history}/>
                     <div className="rightme">
-                        <Profile
-                            user={this.user}
-                            myHistory={this.props.history}/>
+                        <Profile/>
                         <Container className='cardGrid' maxWidth="md">
-                            <div className='AddCompanyButton'>
+                            <div className='AddUserButton'>
                                 <Grid container justify='flex-end'>
                                     <Grid item>
                                         <MyButton color="primary" onClick={this.addNewUser}>

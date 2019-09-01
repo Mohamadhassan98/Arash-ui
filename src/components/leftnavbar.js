@@ -59,6 +59,7 @@ function NestedList(props) {
 
     const goToCompanies = () => {
         const url = `/home`;
+        console.log(user);
         if (props.inCompanies) {
             window.location.reload();
         } else {

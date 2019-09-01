@@ -7,7 +7,7 @@ import {CustomIcon, MyListItem} from '../Styles'
 import proimg from "../jane-doe.jpg"
 import IconButton from "@material-ui/core/IconButton";
 import {Delete, Edit} from "@material-ui/icons";
-import DeleteConfirmAlert from "../components/DeleteConfirmAlert";
+import DeleteConfirmAlert from "./DeleteConfirmAlert";
 import PropTypes from "prop-types";
 
 

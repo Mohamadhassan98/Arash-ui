@@ -4,6 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import CheckBox from "@material-ui/core/Checkbox";
 import React from "react";
 import {green} from '@material-ui/core/colors';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 
 export const MyButton = withStyles(theme => ({
@@ -113,3 +115,22 @@ export const MyListSubheader = withStyles(theme => ({
         color: 'white'
     }
 }))(ListSubheader);
+
+export const MyList = withStyles(theme => ({
+    root: {
+        width: '600px',
+        maxWidth: 650,
+        backgroundColor: '#f2f3f4',
+        marginLeft: '20%',
+        boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12)',
+
+    },
+}))(List);
+
+
+export const MyListItem = withStyles(theme => ({
+    root: {
+
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    },
+}))(ListItem);

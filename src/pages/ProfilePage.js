@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Container} from "@material-ui/core";
 import {MyButton, MyCheckbox, MyTextField} from '../Styles'
+import NestedList from "../components/leftnavbar";
 
 export default class ProfilePage extends React.Component {
     constructor(props) {
@@ -84,7 +85,6 @@ export default class ProfilePage extends React.Component {
         });
     };
 
-
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -93,6 +93,7 @@ export default class ProfilePage extends React.Component {
 
     uploadImage = () => {
         const fd = new FormData();
+        console.log(this.state.photo);
         fd.append('photo', this.state.photo);
         axios.post('', fd)
             .then(res => {
@@ -130,7 +131,6 @@ export default class ProfilePage extends React.Component {
         });
     };
 
-
     componentDidMount() {
         const url = '127.0.0.1:8000/user/' + this.pk + '/';
         axios.get(url).then(response => {
@@ -150,7 +150,6 @@ export default class ProfilePage extends React.Component {
             //TODO("Show error pages!")
         })
     }
-
 
     render() {
         return (

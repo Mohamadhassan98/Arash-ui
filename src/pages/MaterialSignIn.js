@@ -14,7 +14,6 @@ import {MyButton, MyTextField} from "../Styles";
 import ArashLogo from '../B71c1c.png';
 
 export default class MaterialSignIn extends React.Component {
-
     frontErrors = {
         username: 'Username cannot be empty',
         password: 'Password cannot be empty'
@@ -110,14 +109,9 @@ export default class MaterialSignIn extends React.Component {
         return (
             <React.Fragment>
                 <main className='HomePageMain'>
-
                     <div className="App__Form">
                         <Container component="main" maxWidth='xs'>
-                            {/*<div className='triangle'></div>*/}
                             <div className='pepper'>
-                                {/*<Typography component="h1" variant="h5" color={'black'}>*/}
-                                {/*    Sign in*/}
-                                {/*</Typography>*/}
                                 <p className="p">sign in</p>
                                 <form className='form2' noValidate>
                                     <Grid container spacing={2}>

@@ -30,6 +30,7 @@ export default class SignUp extends React.Component {
     constructor(props) {
         super(props);
         if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
+            console.log("###########");
             this.props.history.push('');
         } else {
             this.user = this.props.location.state.user;

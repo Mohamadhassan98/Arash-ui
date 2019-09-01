@@ -15,6 +15,7 @@ import EditArash from "./pages/EditArash";
 import ProfilePage from "./pages/ProfilePage";
 import History from "./pages/History";
 import Page503 from "./pages/503NotAvailable";
+import CheckboxListSecondary from "./pages/ListProfile"
 
 const route = (
     <Router>
@@ -30,6 +31,7 @@ const route = (
             <Route path='/company/:pk/edit' component={EditCompany}/>
             <Route path='/company/:pk/add-arash' component={AddArash}/>
             <Route path='/company/:pk/edit-arash/:apk' component={EditArash}/>
+            <Route path='/list/profile' component={CheckboxListSecondary}/>
             <Route path='/503' component={Page503}/>
             <Route component={Page404}/>
         </Switch>

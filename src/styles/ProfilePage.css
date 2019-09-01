@@ -1,5 +1,5 @@
 .FormCenterProfile {
-
+    margin-top: 10%;
     background-color: #e4e5e6;
 
 }
@@ -15,7 +15,7 @@
     animation-name: fadeIn;
     animation-duration: .9s;
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
-    background: #8847dc;
+    background: #B71C1C;
     position: relative;
     margin-top: 5%;
     margin-bottom: 10px;
@@ -50,7 +50,7 @@
     animation-name: fadeIn;
     animation-duration: .9s;
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
-    background: #8847dc;
+    background: #B71C1C;
     margin-top: 5%;
     margin-bottom: 10px;
 

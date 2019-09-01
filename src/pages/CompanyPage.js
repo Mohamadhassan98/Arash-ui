@@ -2,9 +2,13 @@ import React from "react";
 import Profile from "../components/ProfileNavBar";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import ArashCardView from "../components/ArashCardView";
 import axios from 'axios';
 import {MyButton} from "../Styles";
+import NestedList from "../components/leftnavbar";
+import {Add} from "@material-ui/icons";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import ArashListItem from "../components/ArashListItem";
 
 class CompanyPage extends React.Component {
     constructor(props) {
@@ -48,37 +52,39 @@ class CompanyPage extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/*<CssBaseline/>*/}
-                <Profile user={this.user} myHistory={this.props.history}/>
-                <main className='ArashPageMain'>
-                    <Container maxWidth='md'>
-                        <div className='heroButtons'>
-                            <Grid container spacing={1}>
-                                <Grid item>
-                                    <MyButton variant="contained" color="primary" onClick={this.addNewArash}>
-                                        Add new Arash
-                                    </MyButton>
+                <main className='HomePageMain2'>
+                    <NestedList user={this.user}
+                                myHistory={this.props.history}/>
+                    <div className="rightme">
+                        <Profile/>
+                        <Container className='cardGrid' maxWidth="md">
+                            <div className='AddCompanyButton'>
+                                <Grid container justify='flex-end'>
+                                    <Grid item>
+                                        <MyButton color="primary" onClick={this.addNewArash}>
+                                            <Add/>
+                                            Add Arash
+                                        </MyButton>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </div>
-                    </Container>
-                    <Container className='cardGrid' maxWidth="md">
-                        <Grid container spacing={4}>
-                            {this.state.arashes.map(arash => (
-                                <Grid item key={arash.id} xs={12} sm={6} md={4}>
-                                    <ArashCardView companyName={'Shaina'}
-                                                   imageSource={'http://shainaco.com/wp-content/uploads/2016/12/Banner_Shaina_LogoNew.png'}
-                                                   pk={this.pk}
-                                                   apk={arash.id}
-                                                   myHistory={this.props.history}
-                                                   user={this.user}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
+                            </div>
+                            {this.state.arashes && this.state.arashes.length !== 0 ? (
+                                <List className='List'>
+                                    {this.state.arashes.map(arash => (
+                                        <ArashListItem arash={arash} myHistory={this.props.history}
+                                                       user={this.user}/>
+                                    ))}
+                                </List>
+                            ) : (
+                                <Typography variant="h5" align="center" color="white" paragraph>
+                                    No arash to show!
+                                </Typography>
+                            )}
+                        </Container>
+                    </div>
                 </main>
             </React.Fragment>
+
         );
     }
 }

@@ -63,11 +63,9 @@ export default class HomePage extends React.Component {
             <React.Fragment>
                 <main className='HomePageMain2'>
                     <NestedList user={this.user}
-                                myHistory={this.props.history}/>
+                                myHistory={this.props.history} inCompanies/>
                     <div className="rightme">
-                        <Profile
-                            user={this.user}
-                            myHistory={this.props.history}/>
+                        <Profile/>
                         <Container className='cardGrid' maxWidth="md">
                             <div className='AddCompanyButton'>
                                 <Grid container justify='flex-end'>

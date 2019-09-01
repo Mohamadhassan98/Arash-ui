@@ -8,7 +8,9 @@ import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import axios from "axios";
 import {compareDates, getDateString} from '../Globals';
-import {MyButton, MyTextField} from "../Styles";
+import {CustomIcon, MyButton, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
+import {Event} from "@material-ui/icons";
 
 
 export default class AddArash extends React.Component {
@@ -197,64 +199,69 @@ export default class AddArash extends React.Component {
     }
 
     render() {
+        const DateIcon = CustomIcon('#000000')(Event);
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <React.Fragment>
-                    <Profile user={this.user} myHistory={this.props.history}/>
-                    <main className='HomePageMain'>
-                        <Container component="main" maxWidth="xs">
-                            <div className='paper'>
-                                <Typography component="h1" variant="h5">
-                                    Add Arash
-                                </Typography>
-                                <form className='form' noValidate>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                name="publicKey"
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="publicKey"
-                                                label="Public Key"
-                                                autoFocus
-                                                onChange={this.fieldChange}
-                                                value={this.state.publicKey}
-                                                error={this.state.publicKeyHelper !== ' '}
-                                                helperText={this.state.publicKeyHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="serialNumber"
-                                                label="Serial Number"
-                                                name="serialNumber"
-                                                value={this.state.serialNumber}
-                                                onChange={(e) => this.maxFieldChange(e, 16)}
-                                                error={this.state.serialNumberHelper !== ' '}
-                                                helperText={this.state.serialNumberHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="license"
-                                                label="License"
-                                                name="license"
-                                                value={this.state.license}
-                                                onChange={this.fieldChange}
-                                                error={this.state.licenseHelper !== ' '}
-                                                helperText={this.state.licenseHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <KeyboardDatePicker
-                                                disableToolbar
+                    <main className='HomePageMain2'>
+                        <NestedList user={this.user} myHistory={this.props.history}/>
+                        <div className='rightme'>
+                            <Profile/>
+                            <Container component="main" maxWidth="xs">
+                                <div className='paper'>
+                                    <Typography component="h1" variant="h5">
+                                        Add Arash
+                                    </Typography>
+                                    <form className='form' noValidate>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    name="publicKey"
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="publicKey"
+                                                    label="Public Key"
+                                                    autoFocus
+                                                    onChange={this.fieldChange}
+                                                    value={this.state.publicKey}
+                                                    error={this.state.publicKeyHelper !== ' '}
+                                                    helperText={this.state.publicKeyHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="serialNumber"
+                                                    label="Serial Number"
+                                                    name="serialNumber"
+                                                    value={this.state.serialNumber}
+                                                    onChange={(e) => this.maxFieldChange(e, 16)}
+                                                    error={this.state.serialNumberHelper !== ' '}
+                                                    helperText={this.state.serialNumberHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="license"
+                                                    label="License"
+                                                    name="license"
+                                                    value={this.state.license}
+                                                    onChange={this.fieldChange}
+                                                    error={this.state.licenseHelper !== ' '}
+                                                    helperText={this.state.licenseHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <KeyboardDatePicker
+                                                    disableToolbar
+                                                    showTodayButton
+                                                    keyboardIcon=<DateIcon/>
                                                 fullWidth
                                                 variant="outlined"
                                                 format="yyyy/MM/dd"
@@ -264,30 +271,32 @@ export default class AddArash extends React.Component {
                                                 defaultValue={getDateString('/')}
                                                 value={this.state.expireDate}
                                                 KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
+                                                'aria-label': 'change date',
+                                            }}
                                                 onChange={this.expireDateChange}
                                                 error={this.state.expireDateHelper !== ' '}
                                                 name='expireDate'
                                                 helperText={this.state.expireDateHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="version"
-                                                label="Version"
-                                                name="version"
-                                                value={this.state.version}
-                                                onChange={(e) => this.maxFieldChange(e, 10)}
-                                                error={this.state.versionHelper !== ' '}
-                                                helperText={this.state.versionHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <KeyboardDatePicker
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="version"
+                                                    label="Version"
+                                                    name="version"
+                                                    value={this.state.version}
+                                                    onChange={(e) => this.maxFieldChange(e, 10)}
+                                                    error={this.state.versionHelper !== ' '}
+                                                    helperText={this.state.versionHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <KeyboardDatePicker
+                                                    keyboardIcon=<DateIcon/>
+                                                showTodayButton
                                                 disableToolbar
                                                 fullWidth
                                                 variant="outlined"
@@ -298,32 +307,32 @@ export default class AddArash extends React.Component {
                                                 defaultValue={getDateString('/')}
                                                 value={this.state.purchaseDate}
                                                 KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
+                                                'aria-label': 'change date',
+                                            }}
                                                 onChange={this.purchaseDateChange}
                                                 name='purchaseDate'
                                                 error={this.state.purchaseDateHelper !== ' '}
                                                 helperText={this.state.purchaseDateHelper}
-                                            />
+                                                />
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <MyButton
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className='submit'
-                                        onClick={this.submitHandle}
-                                        onBlur={this.errorOff}
-                                    >
-                                        Save
-                                    </MyButton>
-                                </form>
-                            </div>
-                        </Container>
+                                        <MyButton
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            color="primary"
+                                            className='submit'
+                                            onClick={this.submitHandle}
+                                            onBlur={this.errorOff}
+                                        >
+                                            Save
+                                        </MyButton>
+                                    </form>
+                                </div>
+                            </Container>
+                        </div>
                     </main>
                 </React.Fragment>
-                {/*</StylesProvider>*/}
             </MuiPickersUtilsProvider>
         );
     }

@@ -85,19 +85,19 @@ function NestedList(props) {
             }
             className={classes.root}
         >
-            <ListItem button onClick={goToCompanies}>
+            <ListItem button onClick={goToCompanies} selected={props.inCompanies}>
                 <ListItemIcon>
                     <ListAltOutlinedIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Companies"/>
             </ListItem>
-            <ListItem button onClick={goToProfile}>
+            <ListItem button onClick={goToProfile} selected={props.inProfile}>
                 <ListItemIcon>
                     <ContactsOutlinedIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Profile"/>
             </ListItem>
-            <ListItem button onClick={goToHistory}>
+            <ListItem button onClick={goToHistory} selected={props.inHistory}>
                 <ListItemIcon>
                     <HistoryOutlinedIcon/>
                 </ListItemIcon>
@@ -131,8 +131,7 @@ NestedList.propTypes = {
 NestedList.defaultProps = {
     inCompanies: false,
     inProfile: false,
-    inHistory: false,
-
+    inHistory: false
 };
 
 export default NestedList;

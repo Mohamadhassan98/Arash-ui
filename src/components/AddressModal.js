@@ -55,7 +55,6 @@ export default class AddressModal extends React.Component {
                 address: {
                     ...nextProps.address,
                     postalCode: nextProps.address.postal_code,
-                    telephone: nextProps.address.tel_phone
                 }
             });
         }
@@ -199,12 +198,11 @@ export default class AddressModal extends React.Component {
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
                                         name="city"
                                         className='placeHolder'
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         required
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="city"
                                         label="City"
@@ -217,9 +215,8 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         required
                                         fullWidth
                                         id="street"
@@ -233,9 +230,8 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="alley"
                                         label="Alley"
@@ -248,9 +244,8 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         required
                                         id="postalCode"
@@ -264,8 +259,7 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                        InputProps={{readOnly: this.props.disabled}}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -280,9 +274,8 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         required
                                         id="telephone"
@@ -296,9 +289,8 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // inputProps={this.inputColor}
-                                        // InputLabelProps={this.inputColor}
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="fax"
                                         label="Fax"
@@ -311,9 +303,8 @@ export default class AddressModal extends React.Component {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="details"
                                         label="Details"
@@ -343,6 +334,7 @@ AddressModal.propTypes = {
     submitAddress: PropTypes.func.isRequired,
     address: PropTypes.object,
     addressHelper: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 AddressModal.defaultProps = {

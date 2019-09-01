@@ -8,12 +8,14 @@ import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import axios from "axios";
 import DeleteConfirmAlert from "./DeleteConfirmAlert";
-import arash from '../B71c1c.png';
-import '../styles/CompanyListItem.css';
+import '../styles/ArashListItem.css';
 import Grid from "@material-ui/core/Grid";
 import {CustomIcon, MyTextField} from "../Styles";
+import Icon from "@material-ui/core/Icon";
+import Dead from '../Dead.png';
+import Alive from '../Alive.png';
 
-export default class CompanyListItem extends React.Component {
+export default class ArashListItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -30,7 +32,7 @@ export default class CompanyListItem extends React.Component {
     };
 
     handleDelete = () => {
-        const url = `http://127.0.0.1:8000/company/${this.props.company.id}/`;
+        const url = `http://127.0.0.1:8000/arash/${this.props.arash.id}/`;
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
@@ -40,7 +42,7 @@ export default class CompanyListItem extends React.Component {
 
     onEditClick = () => {
         this.props.myHistory.push({
-            pathname: `company/${this.props.company.id}/edit`,
+            pathname: `${this.props.arash.company}/edit-arash/${this.props.arash.id}`,
             state: {
                 user: this.props.user
             }
@@ -59,18 +61,7 @@ export default class CompanyListItem extends React.Component {
         });
     };
 
-    goToArash = () => {
-        const url = `/company/${this.props.company.id}`;
-        this.props.myHistory.push({
-            pathname: url,
-            state: {
-                user: this.props.user
-            }
-        });
-    };
-
     render() {
-        const hasFax = this.props.company.address.fax && this.props.company.address.fax !== '';
         // noinspection JSCheckFunctionSignatures
         const CustomEditIcon = CustomIcon()(Edit);
         // noinspection JSCheckFunctionSignatures
@@ -80,30 +71,33 @@ export default class CompanyListItem extends React.Component {
         // noinspection JSCheckFunctionSignatures
         const CustomExpandMoreIcon = CustomIcon()(ExpandMore);
         return (
-            <div key={this.props.company.id}>
+            <div key={this.props.arash.id}>
                 <ListItem divider={!this.state.detailsOpen} button onClick={this.handleClick}>
                     <Grid container>
                         <Grid item sm>
                             <ListItemText
-                                primary={this.props.company.name}
-                                secondary={this.props.company.company_code}
+                                primary={this.props.arash.serial_number}
+                                secondary={this.props.arash.expire_date}
                             />
                         </Grid>
                         <Grid item sm>
-                            <ListItemText primary={this.props.company.email}/>
+                            <ListItemText primary={this.props.arash.version}/>
+                        </Grid>
+                        <Grid item md>
+                            <Icon>
+                                <img alt='KeepAlive' src={this.props.arash.is_alive ? Alive : Dead} width={32}
+                                     height={32} className='Icon'/>
+                            </Icon>
                         </Grid>
                     </Grid>
                     <ListItemSecondaryAction>
-                        <IconButton onClick={this.goToArash}>
-                            <img src={arash} alt='ArashLogo' width={32} height={32}/>
-                        </IconButton>
                         <IconButton onClick={this.onEditClick}>
                             <CustomEditIcon/>
                         </IconButton>
                         <IconButton onClick={this.onDeleteClick}>
                             <CustomDeleteIcon/>
                         </IconButton>
-                        <DeleteConfirmAlert model='Company' confirmHandle={this.handleDelete}
+                        <DeleteConfirmAlert model='Arash' confirmHandle={this.handleDelete}
                                             open={this.state.deleteModalOpen} cancelHandle={this.cancelDelete}/>
                         {this.state.detailsOpen ? <CustomExpandLessIcon onClick={this.handleClick}/> :
                             <CustomExpandMoreIcon onClick={this.handleClick}/>}
@@ -118,10 +112,10 @@ export default class CompanyListItem extends React.Component {
                                     readOnly: true
                                 }}
                                 fullWidth
-                                id="address"
-                                label="Address"
-                                name="address"
-                                value={`${this.props.company.address.city} ${this.props.company.address.street} ${this.props.company.address.alley.length === 0 ? '' : `${this.props.company.address.alley}`} ${this.props.company.address.plaque}`}
+                                id="publicKey"
+                                label="Public Key"
+                                name="publicKey"
+                                value={`${this.props.arash.public_key}`}
                             />
                         </ListItem>
                         <ListItem>
@@ -130,33 +124,24 @@ export default class CompanyListItem extends React.Component {
                                 InputProps={{
                                     readOnly: true
                                 }}
-                                id="postalCode"
-                                label="Postal Code"
-                                name="postalCode"
-                                value={`${this.props.company.address.postal_code}`}
-                            />
-                            <MyTextField
-                                variant='standard'
-                                InputProps={{
-                                    readOnly: true
-                                }}
-                                id="telephone"
-                                label="Telephone"
-                                name="telephone"
-                                value={`${this.props.company.address.telephone}`}
-                            />
-                            {hasFax &&
-                            <MyTextField
-                                variant='standard'
-                                InputProps={{
-                                    readOnly: true
-                                }}
                                 fullWidth
-                                id="fax"
-                                label="Fax"
-                                name="fax"
-                                value={`${this.props.company.address.fax}`}
-                            />}
+                                id="license"
+                                label="License"
+                                name="license"
+                                value={`${this.props.arash.license}`}
+                            />
+                        </ListItem>
+                        <ListItem>
+                            <MyTextField
+                                variant='standard'
+                                InputProps={{
+                                    readOnly: true
+                                }}
+                                id="purchaseDate"
+                                label="Purchase Date"
+                                name="purchaseDate"
+                                value={`${this.props.arash.purchase_date}`}
+                            />
                         </ListItem>
                     </List>
                 </Collapse>
@@ -165,8 +150,8 @@ export default class CompanyListItem extends React.Component {
     }
 }
 
-CompanyListItem.propTypes = {
-    company: PropTypes.object.isRequired,
+ArashListItem.propTypes = {
+    arash: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     myHistory: PropTypes.object.isRequired
 };

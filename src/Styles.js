@@ -39,8 +39,9 @@ export const ModalButton = withStyles(theme => ({
 
 export const MyTextField = withStyles({
     root: {
+        marginRight: '15px',
         '& .MuiFormLabel-root': {
-            color: '#393939'
+            color: '#393939',
         },
         '& label.Mui-focused': {
             color: '#393939',
@@ -99,11 +100,13 @@ export const MyCheckbox = withStyles({
     },
 })(CheckBox);
 
-export const CustomIcon = withStyles(theme => ({
-    root: {
-        color: '#b71c1c'
-    }
-}));
+export function CustomIcon(color = '#b71c1c') {
+    return withStyles(theme => ({
+        root: {
+            color: color
+        }
+    }));
+}
 
 export const MyListSubheader = withStyles(theme => ({
     root: {

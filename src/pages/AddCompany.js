@@ -1,7 +1,4 @@
 import React from 'react';
-// import Button from '@material-ui/core/Button';
-// import CssBaseline from '@material-ui/core/CssBaseline';
-// import MyTextField from '@material-ui/core/MyTextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -11,6 +8,7 @@ import {isEmpty} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import axios from 'axios';
 import {MyButton, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
 
 export default class AddCompany extends React.Component {
 
@@ -96,7 +94,6 @@ export default class AddCompany extends React.Component {
                 name: this.state.companyName,
                 address: {
                     ...this.state.address,
-                    tel_phone: this.state.address.telephone,
                     postal_code: this.state.address.postalCode
                 }
             }).then(response => {
@@ -114,9 +111,11 @@ export default class AddCompany extends React.Component {
 
     render() {
         return (
-                <React.Fragment>
-                    <Profile user={this.user} myHistory={this.props.history}/>
-                    <main className='HomePageMain2'>
+            <React.Fragment>
+                <main className='HomePageMain2'>
+                    <NestedList user={this.user} myHistory={this.props.history}/>
+                    <div className='rightme'>
+                        <Profile/>
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
                                 <Typography component="h1" variant="h5">
@@ -170,8 +169,9 @@ export default class AddCompany extends React.Component {
                                 </form>
                             </div>
                         </Container>
-                    </main>
-                </React.Fragment>
+                    </div>
+                </main>
+            </React.Fragment>
         )
     }
 }

@@ -16,7 +16,6 @@ import {MyButton, MyCheckbox, MyTextField} from '../Styles'
 export default class ProfilePage extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.user = props.location.state.user;
         this.state = {
             firstName: this.user.first_name,
@@ -26,37 +25,23 @@ export default class ProfilePage extends React.Component {
             personnelCode: this.user.personnel_code,
             inPlace: this.user.in_place,
             address: this.user.address,
-            status: this.user.status,
+            isSuperUser: this.user.is_superuser,
             photo: pic,
             oldPassword: '',
             newPassword: '',
             passwordRepeat: '',
-            firstNameError: '',
-            lastNameError: '',
-            emailError: '',
-            phoneError: '',
-            personnelCodeError: '',
-            inPlaceError: '',
-            statusError: '',
-            firstNameHelper: '',
-            lastNameHelper: '',
-            emailHelper: '',
-            phoneHelper: '',
-            personnelCodeHelper: '',
-            oldPasswordError: '',
-            oldPasswordHelper: '',
-            newPasswordError: '',
-            newPasswordHelper: '',
-            passwordRepeatError: '',
-            passwordRepeatHelper: '',
+            firstNameHelper: ' ',
+            lastNameHelper: ' ',
+            emailHelper: ' ',
+            phoneHelper: ' ',
+            personnelCodeHelper: ' ',
+            oldPasswordHelper: ' ',
+            newPasswordHelper: ' ',
+            passwordRepeatHelper: ' ',
             isVisibleOldPassword: false,
             isVisibleNewPassword: false,
             isVisiblePasswordRepeat: false
-
-
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.pk = props.match.params.pk;
     }
 
@@ -72,9 +57,9 @@ export default class ProfilePage extends React.Component {
         });
     };
 
-    statusChanged = (e, checked) => {
+    isSuperUserChanged = (e, checked) => {
         this.setState({
-            status: checked
+            isSuperUser: checked
         });
     };
 
@@ -83,33 +68,31 @@ export default class ProfilePage extends React.Component {
     };
 
     handleClickShowOldPassword = () => {
-        this.setState({isVisibleOldPassword: !this.state.isVisibleOldPassword});
+        this.setState({
+            isVisibleOldPassword: !this.state.isVisibleOldPassword
+        });
     };
     handleClickShowNewPassword = () => {
-        this.setState({isVisibleNewPassword: !this.state.isVisibleNewPassword});
+        this.setState({
+            isVisibleNewPassword: !this.state.isVisibleNewPassword
+        });
     };
 
     handleClickShowPasswordRepeat = () => {
-        this.setState({isVisiblePasswordRepeat: !this.state.isVisiblePasswordRepeat});
+        this.setState({
+            isVisiblePasswordRepeat: !this.state.isVisiblePasswordRepeat
+        });
     };
 
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
-    }
-
-    handleBoxChange(e) {
-        this.setState({
-            [e.target.name]: !this.state.inPlace
-
-        });
-    }
+    };
 
     uploadImage = () => {
         const fd = new FormData();
-        console.log(this.state.photo);
         fd.append('photo', this.state.photo);
         axios.post('', fd)
             .then(res => {
@@ -117,8 +100,7 @@ export default class ProfilePage extends React.Component {
             })
     };
 
-
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         const {firstName: first_name, lastName: last_name, username, email, phone, personnelCode: personnel_code, inPlace: in_place, address, newPassword} = this.state;
         const url = `http://127.0.0.1:8000/user/${this.user.id}/`;
@@ -132,7 +114,6 @@ export default class ProfilePage extends React.Component {
             in_place: in_place,
             address: address,
             password: newPassword
-
         }).then(response => {
             this.user.first_name = first_name;
             this.user.last_name = last_name;
@@ -163,23 +144,23 @@ export default class ProfilePage extends React.Component {
                 inPlace: response.data['in_place'],
                 address: response.data['address'],
                 photo: '', //TODO("Not in database yet")
-                status: response.data['status'] === 'ma',
+                isSuperUser: response.data['is_superuser']
             })
         }).catch(error => {
             //TODO("Show error pages!")
         })
     }
 
+
     render() {
         return (
             <React.Fragment>
-
                 <main className='HomePageMain2'>
                     <Profile
                         myHistory={this.props.history}
                         user={this.user}/>
                     <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
-                        {this.state.status === 'ma' ? (
+                        {this.state.isSuperUser ? (
                             <div className='profile-photo-master' onClick={() => this.fileInput.click()}>
                                 <img src={this.state.photo} className="image" alt={this.state.photo}/>
                                 <div className="middle">
@@ -204,9 +185,9 @@ export default class ProfilePage extends React.Component {
                                 <Grid item xs={12}>
                                     <MyTextField
                                         name="firstName"
-                                        variant={this.state.status === 'ma' ? "outlined" : "standard"}
+                                        variant={this.state.isSuperUser ? "outlined" : "standard"}
                                         InputProps={{
-                                            readOnly: this.state.status !== 'ma'
+                                            readOnly: !this.state.isSuperUser
                                         }}
                                         required
                                         fullWidth
@@ -214,16 +195,16 @@ export default class ProfilePage extends React.Component {
                                         label="First Name"
                                         onChange={this.handleChange}
                                         value={this.state.firstName}
-                                        error={this.state.firstNameError}
+                                        error={this.state.firstNameHelper !== ' '}
                                         helperText={this.state.firstNameHelper}
                                         autoFocus
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <MyTextField
-                                        variant={this.state.status === 'ma' ? "outlined" : "standard"}
+                                        variant={this.state.isSuperUser ? "outlined" : "standard"}
                                         InputProps={{
-                                            readOnly: this.state.status !== 'ma'
+                                            readOnly: !this.state.isSuperUser
                                         }}
                                         required
                                         fullWidth
@@ -232,15 +213,15 @@ export default class ProfilePage extends React.Component {
                                         name="lastName"
                                         onChange={this.handleChange}
                                         value={this.state.lastName}
-                                        error={this.state.lastNameError}
+                                        error={this.state.lastNameHelper !== ' '}
                                         helperText={this.state.lastNameHelper}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <MyTextField
-                                        variant={this.state.status === 'ma' ? "outlined" : "standard"}
+                                        variant={this.state.isSuperUser ? "outlined" : "standard"}
                                         InputProps={{
-                                            readOnly: this.state.status !== 'ma'
+                                            readOnly: !this.state.isSuperUser
                                         }}
                                         required
                                         fullWidth
@@ -249,15 +230,15 @@ export default class ProfilePage extends React.Component {
                                         name="email"
                                         onChange={this.handleChange}
                                         value={this.state.email}
-                                        error={this.state.emailError}
+                                        error={this.state.emailHelper !== ' '}
                                         helperText={this.state.emailHelper}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <MyTextField
-                                        variant={this.state.status === 'ma' ? "outlined" : "standard"}
+                                        variant={this.state.isSuperUser ? "outlined" : "standard"}
                                         InputProps={{
-                                            readOnly: this.state.status !== 'ma'
+                                            readOnly: !this.state.isSuperUser
                                         }}
                                         required
                                         fullWidth
@@ -266,15 +247,15 @@ export default class ProfilePage extends React.Component {
                                         name="phone"
                                         onChange={this.handleChange}
                                         value={this.state.phone}
-                                        error={this.state.phoneError}
+                                        error={this.state.phoneHelper !== ' '}
                                         helperText={this.state.phoneHelper}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <MyTextField
-                                        variant={this.state.status === 'ma' ? "outlined" : "standard"}
+                                        variant={this.state.isSuperUser ? "outlined" : "standard"}
                                         InputProps={{
-                                            readOnly: this.state.status !== 'ma'
+                                            readOnly: !this.state.isSuperUser
                                         }}
                                         required
                                         fullWidth
@@ -282,35 +263,30 @@ export default class ProfilePage extends React.Component {
                                         label="Personnel Code"
                                         name="personnelCode"
                                         onChange={this.handleChange}
-                                        value={this.state.personnel_code}
-                                        error={this.state.personnelCodeError}
+                                        value={this.state.personnelCode}
+                                        error={this.state.personnelCodeHelper !== ' '}
                                         helperText={this.state.personnelCodeHelper}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         control={<MyCheckbox value="inPlace"/>}
-                                        label="in place"
-                                        onChange={this.state.status === 'ma' ? this.inPlaceChanged : null}
+                                        label="In place"
+                                        onChange={this.state.isSuperUser ? this.inPlaceChanged : null}
                                         checked={this.state.inPlace}
-
                                     />
                                 </Grid>
-
                                 <Grid item xs={12}>
                                     <FormControlLabel
-                                        control={<Checkbox value="ma" color="primary"/>}
+                                        control={<Checkbox value="isSuperUser" color="primary"/>}
                                         label="Is Super User"
-                                        onChange={this.state.status === 'ma' ? this.statusChanged : null}
-                                        checked={this.state.status}
-
+                                        onChange={this.state.isSuperUser ? this.isSuperUserChanged : null}
+                                        checked={this.state.isSuperUser}
                                     />
                                 </Grid>
-
                                 <Grid item xs={12}>
                                     <AddressModal address={this.state.address}
                                                   submitAddress={this.submitAddress}/>
-
                                 </Grid>
                                 <Grid item xs={12}>
                                     <MyTextField
@@ -322,7 +298,7 @@ export default class ProfilePage extends React.Component {
                                         name="oldPassword"
                                         onChange={this.handleChange}
                                         value={this.state.oldPassword}
-                                        error={this.state.oldPasswordError}
+                                        error={this.state.oldPasswordHelper !== ' '}
                                         helperText={this.state.oldPasswordHelper}
                                         fullWidth
                                         required
@@ -352,7 +328,7 @@ export default class ProfilePage extends React.Component {
                                         name="newPassword"
                                         onChange={this.handleChange}
                                         value={this.state.newPassword}
-                                        error={this.state.newPasswordError}
+                                        error={this.state.newPasswordHelper !== ' '}
                                         helperText={this.state.newPasswordHelper}
                                         fullWidth
                                         required
@@ -382,7 +358,7 @@ export default class ProfilePage extends React.Component {
                                         name="passwordRepeat"
                                         onChange={this.handleChange}
                                         value={this.state.passwordRepeat}
-                                        error={this.state.passwordRepeatError}
+                                        error={this.state.passwordRepeatHelper !== ' '}
                                         helperText={this.state.passwordRepeatHelper}
                                         fullWidth
                                         required
@@ -409,17 +385,14 @@ export default class ProfilePage extends React.Component {
                                     onClick={this.handleSubmit}
                                     onBlur={this.errorOff}
                                 >
-                                    {this.state.status === 'ma' ? "Save" : "change password"}
+                                    {this.state.isSuperUser ? "Save" : "change password"}
                                 </MyButton>
                             </Grid>
-
                         </Container>
                     </form>
-
                     <footer/>
                 </main>
             </React.Fragment>
-
-        )
+        );
     }
 }

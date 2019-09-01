@@ -7,6 +7,7 @@ import {isEmpty} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import axios from 'axios';
 import {MyButton, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
 
 export default class EditCompany extends React.Component {
 
@@ -120,63 +121,66 @@ export default class EditCompany extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Profile user={this.user} myHistory={this.props.history}/>
                 <main className='HomePageMain2'>
-                    <Container component="main" maxWidth="xs">
-                        <div className='paper'>
-                            <form className='form' noValidate>
-                                <p className='title'>
-                                    Edit Company
-                                </p>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            name="companyName"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="companyName"
-                                            label="Company Name"
-                                            onChange={(e) => this.maxFieldChange(e, 10)}
-                                            value={this.state.companyName}
-                                            error={this.state.companyNameHelper !== ' '}
-                                            helperText={this.state.companyNameHelper}
-                                            autoFocus
-                                        />
+                    <NestedList user={this.user} myHistory={this.props.history}/>
+                    <div className='rightme'>
+                        <Profile/>
+                        <Container component="main" maxWidth="xs">
+                            <div className='paper'>
+                                <form className='form' noValidate>
+                                    <p className='title'>
+                                        Edit Company
+                                    </p>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                name="companyName"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="companyName"
+                                                label="Company Name"
+                                                onChange={(e) => this.maxFieldChange(e, 10)}
+                                                value={this.state.companyName}
+                                                error={this.state.companyNameHelper !== ' '}
+                                                helperText={this.state.companyNameHelper}
+                                                autoFocus
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="email"
+                                                label="Email Address"
+                                                name="email"
+                                                onChange={(e) => this.maxFieldChange(e, 25)}
+                                                value={this.state.email}
+                                                error={this.state.emailHelper !== ' '}
+                                                helperText={this.state.emailHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <AddressModal submitAddress={this.submitAddress}
+                                                          address={this.state.address}/>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="email"
-                                            label="Email Address"
-                                            name="email"
-                                            onChange={(e) => this.maxFieldChange(e, 25)}
-                                            value={this.state.email}
-                                            error={this.state.emailHelper !== ' '}
-                                            helperText={this.state.emailHelper}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <AddressModal submitAddress={this.submitAddress}
-                                                      address={this.state.address}/>
-                                    </Grid>
-                                </Grid>
-                                <MyButton
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className='submit'
-                                    onClick={this.handleSubmit}
-                                    onBlur={this.errorOff}
-                                >
-                                    Save
-                                </MyButton>
-                            </form>
-                        </div>
-                    </Container>
+                                    <MyButton
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className='submit'
+                                        onClick={this.handleSubmit}
+                                        onBlur={this.errorOff}
+                                    >
+                                        Save
+                                    </MyButton>
+                                </form>
+                            </div>
+                        </Container>
+                    </div>
                 </main>
             </React.Fragment>
         );

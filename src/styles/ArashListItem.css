@@ -5,3 +5,7 @@
 .SubList {
     background: #d7dbdd;
 }
+
+.Icon {
+    border-radius: 50%;
+}

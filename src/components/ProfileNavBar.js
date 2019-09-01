@@ -18,15 +18,7 @@ function Profile(props) {
 }
 
 Profile.propTypes = {
-    myHistory: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    inProfile: PropTypes.bool,
-    inHistory: PropTypes.bool
-};
-
-Profile.defaultProps = {
-    inProfile: false,
-    inHistory: false
+    imageSource: PropTypes.string
 };
 
 export default Profile;

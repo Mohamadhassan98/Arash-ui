@@ -2,16 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/styles/LeftNavBar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Alive.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Dead.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ArashListItem.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/MaterialHistory.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/ArashListItem.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddressModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CompanyCard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CompanyCardView.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/CompanyListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CompanyListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DeleteConfirmAlert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DeleteConfirmAlert.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ProfileNavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileNavBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/leftnavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftnavbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AddArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddArash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AddCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddCompany.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/CompanyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CompanyPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/EditArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditArash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/EditCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditCompany.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/History.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/History.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/HomePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/HomePage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/CompanyListItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/CompanyListItem.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,15 +37,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>border</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,16 +72,16 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\pages" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\components" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\components" />
       <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\pages" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\pages" />
+      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src" />
+      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -135,7 +145,14 @@
       <workItem from="1566965501971" duration="15016000" />
       <workItem from="1567014437359" duration="5635000" />
       <workItem from="1567020999918" duration="3508000" />
-      <workItem from="1567059266114" duration="3225000" />
+      <workItem from="1567059266114" duration="6690000" />
+      <workItem from="1567091689442" duration="6801000" />
+      <workItem from="1567148314460" duration="7611000" />
+      <workItem from="1567236681044" duration="69000" />
+      <workItem from="1567236852436" duration="1425000" />
+      <workItem from="1567245461460" duration="4897000" />
+      <workItem from="1567275863401" duration="1264000" />
+      <workItem from="1567320774696" duration="3656000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="First Commit">
       <created>1565502237719</created>
@@ -182,7 +199,13 @@
       <option name="project" value="LOCAL" />
       <updated>1566978640636</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL‎۰۰۰۰۸" summary="HomePage Full functional.">
+      <created>1567062905212</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۸" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۸" />
+      <updated>1567062905213</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,7 +246,8 @@
     <MESSAGE value="change the color and theme" />
     <MESSAGE value="change a lot" />
     <MESSAGE value="signin is ready now" />
-    <option name="LAST_COMMIT_MESSAGE" value="signin is ready now" />
+    <MESSAGE value="HomePage Full functional." />
+    <option name="LAST_COMMIT_MESSAGE" value="HomePage Full functional." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

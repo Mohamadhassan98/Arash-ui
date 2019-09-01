@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {containsDigitOnly} from "../Globals";
 import Grid from "@material-ui/core/Grid";
 import '../styles/AddressModal.css';
-import {ModalButton, ModalTextField, MyTextField} from "../Styles";
+import {MyButton, MyTextField} from "../Styles";
 
 export default class AddressModal extends React.Component {
     frontErrors = {
@@ -50,7 +50,6 @@ export default class AddressModal extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.address.city !== '') {
-            console.log(nextProps.address);
             this.setState({
                 address: {
                     ...nextProps.address,
@@ -197,7 +196,7 @@ export default class AddressModal extends React.Component {
                         <form className='form' noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         name="city"
                                         className='placeHolder'
                                         variant="outlined"
@@ -214,7 +213,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         variant="outlined"
                                         InputProps={{readOnly: this.props.disabled}}
                                         required
@@ -229,7 +228,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         variant="outlined"
                                         InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
@@ -243,7 +242,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         variant="outlined"
                                         InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
@@ -258,7 +257,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         InputProps={{readOnly: this.props.disabled}}
                                         variant="outlined"
                                         required
@@ -273,7 +272,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         variant="outlined"
                                         InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
@@ -288,7 +287,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         variant="outlined"
                                         InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
@@ -302,7 +301,7 @@ export default class AddressModal extends React.Component {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
+                                    <MyTextField
                                         variant="outlined"
                                         InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
@@ -317,12 +316,12 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <ModalButton onClick={this.handleClose} color="primary">
+                        <MyButton onClick={this.handleClose} color="primary">
                             Cancel
-                        </ModalButton>
-                        <ModalButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
+                        </MyButton>
+                        <MyButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
                             Save
-                        </ModalButton>
+                        </MyButton>
                     </DialogActions>
                 </Dialog>
             </div>

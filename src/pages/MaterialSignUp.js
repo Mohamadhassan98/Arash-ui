@@ -1,6 +1,5 @@
 import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -12,8 +11,11 @@ import '../styles/MaterialSignUp.css';
 import axios from "axios";
 import {containsDigitOnly, isEmail} from "../Globals";
 import AddressModal from "../components/AddressModal";
-import {MyButton, MyTextField} from "../Styles";
-
+import {CustomIcon, MyButton, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
+import Checkbox from "@material-ui/core/Checkbox";
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 export default class SignUp extends React.Component {
     frontErrors = {
@@ -30,7 +32,6 @@ export default class SignUp extends React.Component {
     constructor(props) {
         super(props);
         if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            console.log("###########");
             this.props.history.push('');
         } else {
             this.user = this.props.location.state.user;
@@ -46,7 +47,7 @@ export default class SignUp extends React.Component {
             personnelCode: '',
             inPlace: false,
             address: {},
-            status: 'ad',
+            isSuperuser: false,
             isVisiblePassword: false,
             isVisiblePasswordRepeat: false,
             firstNameHelper: ' ',
@@ -187,17 +188,16 @@ export default class SignUp extends React.Component {
                 phone: this.state.mobilePhone,
                 personnel_code: this.state.personnelCode,
                 in_place: this.state.inPlace,
-                status: this.state.status,
+                is_superuser: this.state.isSuperUser,
                 address: {
                     ...this.state.address,
                     postal_code: this.state.address.postalCode,
-                    tel_phone: this.state.address.telephone
                 }
             }).then(response => {
                 const csrftoken = response.headers.csrftoken;
                 // const sessionId = response.headers.sessionid;
                 this.props.history.push({
-                    pathname: '/history',
+                    pathname: '/list/profile',
                     state: {
                         user: this.user,
                         csrftoken: csrftoken,
@@ -210,9 +210,9 @@ export default class SignUp extends React.Component {
         }
     };
 
-    masterChanged = (e, checked) => {
+    isSuperUserChanged = (e, checked) => {
         this.setState({
-            status: checked ? 'ma' : 'ad'
+            isSuperUser: checked
         });
     };
 
@@ -223,201 +223,212 @@ export default class SignUp extends React.Component {
     };
 
     render() {
+        const CustomVisible = CustomIcon()(Visibility);
+        const CustomInvisible = CustomIcon()(VisibilityOff);
+        const CustomChecked = CustomIcon()(CheckBoxIcon);
+        const CustomUnChecked = CustomIcon()(CheckBoxOutlineBlankIcon);
+
         return (
             <React.Fragment>
-                <Profile user={this.user} myHistory={this.props.history}/>
-                <main className='HomePageMain'>
-                    <Container component="main" maxWidth="xs">
-                        <div className='paper'>
-                            <Typography component="h1" variant="h5">
-                                Sign up
-                            </Typography>
-                            <form className='form' noValidate>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6}>
-                                        <MyTextField
-                                            name="firstName"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="firstName"
-                                            label="First Name"
-                                            autoFocus
-                                            autoComplete='off'
-                                            onChange={this.fieldChange}
-                                            value={this.state.firstName}
-                                            error={this.state.firstNameHelper !== ' '}
-                                            helperText={this.state.firstNameHelper}
-                                        />
+                <main className='HomePageMain2'>
+                    <NestedList user={this.user} myHistory={this.props.history}/>
+                    <div className='rightme'>
+                        <Profile/>
+                        <Container component="main" maxWidth="xs">
+                            <div className='paper'>
+                                <form className='form' noValidate>
+                                    <Typography component="h1" variant="subtitle1" align='center' gutterBottom
+                                                paragraph>
+                                        Sign up
+                                    </Typography>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6}>
+                                            <MyTextField
+                                                name="firstName"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="firstName"
+                                                label="First Name"
+                                                autoFocus
+                                                autoComplete='off'
+                                                onChange={this.fieldChange}
+                                                value={this.state.firstName}
+                                                error={this.state.firstNameHelper !== ' '}
+                                                helperText={this.state.firstNameHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <MyTextField
+                                                autoComplete='off'
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="lastName"
+                                                label="Last Name"
+                                                name="lastName"
+                                                onChange={this.fieldChange}
+                                                value={this.state.lastName}
+                                                error={this.state.lastNameHelper !== ' '}
+                                                helperText={this.state.lastNameHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                variant="outlined"
+                                                autoComplete='off'
+                                                required
+                                                fullWidth
+                                                id="email"
+                                                label="Email Address"
+                                                name="email"
+                                                onChange={this.fieldChange}
+                                                value={this.state.email}
+                                                error={this.state.emailHelper !== ' '}
+                                                helperText={this.state.emailHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                variant="outlined"
+                                                required
+                                                autoComplete='off'
+                                                fullWidth
+                                                id="username"
+                                                label="Username"
+                                                name="username"
+                                                onChange={this.fieldChange}
+                                                value={this.state.username}
+                                                error={this.state.usernameHelper !== ' '}
+                                                helperText={this.state.usernameHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                variant="outlined"
+                                                required
+                                                autoComplete='off'
+                                                fullWidth
+                                                id="mobilePhone"
+                                                label="Phone number"
+                                                name="mobilePhone"
+                                                onChange={(e) => this.maxFieldChange(e, 11, true)}
+                                                value={this.state.mobilePhone}
+                                                error={this.state.mobilePhoneHelper !== ' '}
+                                                helperText={this.state.mobilePhoneHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <AddressModal submitAddress={this.submitAddress}/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                id="password"
+                                                autoComplete='off'
+                                                variant="outlined"
+                                                type={this.state.isVisiblePassword ? 'text' : 'password'}
+                                                label="Password"
+                                                name="password"
+                                                onChange={this.fieldChange}
+                                                value={this.state.password}
+                                                error={this.state.passwordHelper !== ' '}
+                                                helperText={this.state.passwordHelper}
+                                                fullWidth
+                                                required
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                edge="end"
+                                                                aria-label="toggle password visibility"
+                                                                onClick={this.handleClickShowPassword}
+                                                            >
+                                                                {this.state.isVisiblePassword ? <CustomVisible/> :
+                                                                    <CustomInvisible/>}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                autoComplete='off'
+                                                id="passwordRepeat"
+                                                variant="outlined"
+                                                type={this.state.isVisiblePasswordRepeat ? 'text' : 'password'}
+                                                label="Confirm Password"
+                                                name="passwordRepeat"
+                                                onChange={this.fieldChange}
+                                                value={this.state.passwordRepeat}
+                                                error={this.state.passwordRepeatHelper !== ' '}
+                                                helperText={this.state.passwordRepeatHelper}
+                                                fullWidth
+                                                required
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                edge="end"
+                                                                aria-label="toggle password visibility"
+                                                                onClick={this.handleClickShowPasswordRepeat}>
+                                                                {this.state.isVisiblePasswordRepeat ? <CustomVisible/> :
+                                                                    <CustomInvisible/>}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormControlLabel
+                                                control={<Checkbox value="inPlace" icon={<CustomUnChecked/>}
+                                                                   checkedIcon={<CustomChecked/>}/>}
+                                                label="in place"
+                                                value={this.state.inPlace}
+                                                onChange={this.inPlaceChanged}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <MyTextField
+                                                autoComplete='off'
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="personnelCode"
+                                                label="Personnel Code"
+                                                onChange={(e) => this.maxFieldChange(e, 15)}
+                                                name="personnelCode"
+                                                value={this.state.personnelCode}
+                                                error={this.state.personnelCodeHelper !== ' '}
+                                                helperText={this.state.personnelCodeHelper}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <FormControlLabel
+                                                control={<Checkbox value="isSuperUser" icon={<CustomUnChecked/>}
+                                                                   checkedIcon={<CustomChecked/>}/>}
+                                                label="is superuser"
+                                                value={this.state.isSuperUser}
+                                                onChange={this.isSuperUserChanged}
+                                            />
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <MyTextField
-                                            autoComplete='off'
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="lastName"
-                                            label="Last Name"
-                                            name="lastName"
-                                            onChange={this.fieldChange}
-                                            value={this.state.lastName}
-                                            error={this.state.lastNameHelper !== ' '}
-                                            helperText={this.state.lastNameHelper}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            variant="outlined"
-                                            autoComplete='off'
-                                            required
-                                            fullWidth
-                                            id="email"
-                                            label="Email Address"
-                                            name="email"
-                                            onChange={this.fieldChange}
-                                            value={this.state.email}
-                                            error={this.state.emailHelper !== ' '}
-                                            helperText={this.state.emailHelper}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            variant="outlined"
-                                            required
-                                            autoComplete='off'
-                                            fullWidth
-                                            id="username"
-                                            label="Username"
-                                            name="username"
-                                            onChange={this.fieldChange}
-                                            value={this.state.username}
-                                            error={this.state.usernameHelper !== ' '}
-                                            helperText={this.state.usernameHelper}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            variant="outlined"
-                                            required
-                                            autoComplete='off'
-                                            fullWidth
-                                            id="mobilePhone"
-                                            label="Phone number"
-                                            name="mobilePhone"
-                                            onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                            value={this.state.mobilePhone}
-                                            error={this.state.mobilePhoneHelper !== ' '}
-                                            helperText={this.state.mobilePhoneHelper}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <AddressModal submitAddress={this.submitAddress}/>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            id="password"
-                                            autoComplete='off'
-                                            variant="outlined"
-                                            type={this.state.isVisiblePassword ? 'text' : 'password'}
-                                            label="Password"
-                                            name="password"
-                                            onChange={this.fieldChange}
-                                            value={this.state.password}
-                                            error={this.state.passwordHelper !== ' '}
-                                            helperText={this.state.passwordHelper}
-                                            fullWidth
-                                            required
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            edge="end"
-                                                            aria-label="toggle password visibility"
-                                                            onClick={this.handleClickShowPassword}
-                                                        >
-                                                            {this.state.isVisiblePassword ? <Visibility/> :
-                                                                <VisibilityOff/>}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            autoComplete='off'
-                                            id="passwordRepeat"
-                                            variant="outlined"
-                                            type={this.state.isVisiblePasswordRepeat ? 'text' : 'password'}
-                                            label="Confirm Password"
-                                            name="passwordRepeat"
-                                            onChange={this.fieldChange}
-                                            value={this.state.passwordRepeat}
-                                            error={this.state.passwordRepeatHelper !== ' '}
-                                            helperText={this.state.passwordRepeatHelper}
-                                            fullWidth
-                                            required
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            edge="end"
-                                                            aria-label="toggle password visibility"
-                                                            onClick={this.handleClickShowPasswordRepeat}
-                                                        >
-                                                            {this.state.isVisiblePasswordRepeat ? <Visibility/> :
-                                                                <VisibilityOff/>}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <FormControlLabel
-                                            control={<Checkbox value="inPlace" color="primary"/>}
-                                            label="in place"
-                                            value={this.state.inPlace}
-                                            onChange={this.inPlaceChanged}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            autoComplete='off'
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="personnelCode"
-                                            label="Personnel Code"
-                                            onChange={(e) => this.maxFieldChange(e, 15)}
-                                            name="personnelCode"
-                                            value={this.state.personnelCode}
-                                            error={this.state.personnelCodeHelper !== ' '}
-                                            helperText={this.state.personnelCodeHelper}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <FormControlLabel
-                                            control={<Checkbox value="master" color="primary"/>}
-                                            label="is master"
-                                            value={this.state.status === 'ma'}
-                                            onChange={this.masterChanged}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <MyButton
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className='submit'
-                                    onClick={this.submitHandle}
-                                    onBlur={this.errorOff}
-                                >
-                                    Sign Up
-                                </MyButton>
-                            </form>
-                        </div>
-                    </Container>
+                                    <MyButton
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className='submit'
+                                        onClick={this.submitHandle}
+                                        onBlur={this.errorOff}
+                                    >
+                                        Sign Up
+                                    </MyButton>
+                                </form>
+                            </div>
+                        </Container>
+                    </div>
                 </main>
             </React.Fragment>
         );

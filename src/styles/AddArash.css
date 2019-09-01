@@ -97,3 +97,8 @@
 .MuiFormHelperText-root {
     color: red;
 }
+
+.typo {
+    margin-bottom: 20px;
+    margin-top: 10%;
+}

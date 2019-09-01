@@ -1,7 +1,7 @@
 import {ListSubheader, withStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import CheckBox from "@material-ui/core/Checkbox";
+import Checkbox from "@material-ui/core/Checkbox";
 import React from "react";
 import {green} from '@material-ui/core/colors';
 import List from '@material-ui/core/List';
@@ -93,14 +93,16 @@ export const ModalTextField = withStyles({
 })(TextField);
 
 //DOES NOT WORK
-export const MyCheckbox = withStyles({
+export const MyCheckbox = withStyles(theme => ({
     root: {
-        color: green[400],
-        '&$checked': {
-            color: green[600],
+        '& .MuiCheckbox-root': {
+            color: green[400]
         },
-    },
-})(CheckBox);
+        '& .Mui-checked': {
+            color: green[600],
+        }
+    }
+}))(Checkbox);
 
 export function CustomIcon(color = '#b71c1c') {
     return withStyles(theme => ({
@@ -118,10 +120,7 @@ export const MyListSubheader = withStyles(theme => ({
 
 export const MyList = withStyles(theme => ({
     root: {
-        width: '600px',
-        maxWidth: 650,
         backgroundColor: '#f2f3f4',
-        marginLeft: '20%',
         boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12)',
 
     },

@@ -27,13 +27,11 @@ export default class ListProfile extends React.Component {
     };
 
     componentDidMount() {
-        const url = `http://127.0.0.1:8000/list/profile/`;
+        const url = `http://127.0.0.1:8000/users/`;
         axios.get(url).then(response => {
-            console.log(response.data);
             this.setState({
                 profiles: response.data
             });
-            console.log()
         }).catch(error => {
             this.props.history.push('/503');
         });

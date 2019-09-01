@@ -410,11 +410,8 @@
     width: 80%;
     float: right;
     overflow-y: scroll;
-
 }
-
 
 .AddUserButton {
     margin-bottom: 25px;
-    margin-right: 10%;
 }

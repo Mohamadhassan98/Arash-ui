@@ -118,10 +118,11 @@ export default class AddCompany extends React.Component {
                         <Profile/>
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
-                                <Typography component="h1" variant="h5">
-                                    Add Company
-                                </Typography>
                                 <form className='form' noValidate>
+                                    <Typography component="h1" variant="subtitle1" align='center' gutterBottom
+                                                paragraph>
+                                        Add Company
+                                    </Typography>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <MyTextField
@@ -158,6 +159,7 @@ export default class AddCompany extends React.Component {
                                     </Grid>
                                     <MyButton
                                         type="submit"
+                                        fullWidth
                                         variant="contained"
                                         color="primary"
                                         className='submit'

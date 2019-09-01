@@ -39,6 +39,7 @@ const CustomAdd = CustomIcon()(AddBox),
     CustomSortArrow = CustomIcon()(ArrowUpward),
     CustomThirdStateCheck = CustomIcon()(Remove),
     CustomViewColumn = CustomIcon()(ViewColumn);
+
 const tableIcons = {
     Add: forwardRef((props, ref) => <CustomAdd {...props} ref={ref}/>),
     Check: forwardRef((props, ref) => <CustomCheck {...props} ref={ref}/>),
@@ -66,7 +67,10 @@ class History extends Component {
             this.props.history.push('');
         } else {
             this.user = this.props.location.state.user;
-            this.pk = this.user.id;
+            this.pk = props.match.params.pk;
+            if (!this.pk) {
+                this.pk = this.user.id;
+            }
         }
         this.state = {
             histories: []
@@ -86,8 +90,12 @@ class History extends Component {
         } else {
             const url = `http://127.0.0.1:8000/user/${this.pk}/logs`;
             axios.get(url).then(response => {
+                const data = response.data;
+                data.forEach((item, index, arr) => {
+                    arr[index].date = new Date(item.date);
+                });
                 this.setState({
-                    histories: response.data
+                    histories: data
                 });
             }).catch(error => {
                 this.props.history.push('/503');

@@ -15,7 +15,7 @@ import EditArash from "./pages/EditArash";
 import ProfilePage from "./pages/ProfilePage";
 import History from "./pages/History";
 import Page503 from "./pages/503NotAvailable";
-import CheckboxListSecondary from "./pages/ListProfile"
+import ListProfile from "./pages/ListProfile";
 
 const route = (
     <Router>
@@ -23,7 +23,8 @@ const route = (
             <Route exact path='/' component={MaterialSignIn}/>
             <Route path='/sign-up' component={MaterialSignUp}/>
             <Route path="/profile" component={ProfilePage}/>
-            <Route path="/user/:pk" component={ProfilePage}/>
+            <Route exact path="/user/:pk" component={ProfilePage}/>
+            <Route path="/user/:pk/history" component={History}/>
             <Route path="/history" component={History}/>
             <Route path='/home' component={HomePage}/>
             <Route path='/company/add' component={AddCompany}/>
@@ -31,7 +32,7 @@ const route = (
             <Route path='/company/:pk/edit' component={EditCompany}/>
             <Route path='/company/:pk/add-arash' component={AddArash}/>
             <Route path='/company/:pk/edit-arash/:apk' component={EditArash}/>
-            <Route path='/list/profile' component={CheckboxListSecondary}/>
+            <Route path='/list/profile' component={ListProfile}/>
             <Route path='/503' component={Page503}/>
             <Route component={Page404}/>
         </Switch>

@@ -128,12 +128,13 @@ function NestedList(props) {
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Help"/>
             </ListItem>
-            <ListItem button onClick={goToListProfile}>
+            {props.user.is_superuser &&
+            <ListItem button onClick={goToListProfile} selected={props.inListProfile}>
                 <ListItemIcon>
                     <CustomAssignmentIndIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="List Profile"/>
-            </ListItem>
+            </ListItem>}
             <ListItem button onClick={goToLogout}>
                 <ListItemIcon>
                     <CustomExitToAppOutlinedIcon/>

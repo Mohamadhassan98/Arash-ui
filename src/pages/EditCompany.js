@@ -8,6 +8,7 @@ import AddressModal from "../components/AddressModal";
 import axios from 'axios';
 import {MyButton, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
+import {Typography} from "@material-ui/core";
 
 export default class EditCompany extends React.Component {
 
@@ -128,9 +129,10 @@ export default class EditCompany extends React.Component {
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
                                 <form className='form' noValidate>
-                                    <p className='title'>
+                                    <Typography component='h1' variant="subtitle1" align='center' gutterBottom
+                                                paragraph>
                                         Edit Company
-                                    </p>
+                                    </Typography>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <MyTextField

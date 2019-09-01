@@ -21,20 +21,6 @@ export default class ListProfile extends React.Component {
         };
     }
 
-    componentDidMount() {
-
-        const url = `http://127.0.0.1:8000/list/profile/`;
-        axios.get(url).then(response => {
-            console.log(response.data);
-            this.setState({
-                profiles: response.data
-            })
-        }).catch(error => {
-            this.props.myHistory.push('/503');
-        });
-
-    }
-
     handleDelete = () => {
         const url = `http://127.0.0.1:8000/user/${this.props.profile.id}/`;
         axios.delete(url).then(response => {
@@ -55,19 +41,18 @@ export default class ListProfile extends React.Component {
     };
     onEditClick = () => {
         this.props.myHistory.push({
-            pathname: `/profile`,
+            pathname: `/user/${this.props.profile.id}`,
             state: {
-                user: this.props.profile
+                user: this.props.user
             }
         });
     };
 
     render() {
-        const CustomEditIcon = CustomIcon(Edit);
-        const CustomDeleteIcon = CustomIcon(Delete);
+        const CustomEditIcon = CustomIcon()(Edit);
+        const CustomDeleteIcon = CustomIcon()(Delete);
         return (
-
-            <MyListItem key={this.props.profile} button>
+            <MyListItem key={this.props.profile.id}>
                 <ListItemAvatar>
                     <Avatar
                         alt={`Avatar`}
@@ -88,7 +73,7 @@ export default class ListProfile extends React.Component {
                                     open={this.state.deleteModalOpen}
                                     cancelHandle={this.cancelDelete}/>
             </MyListItem>
-        )
+        );
     }
 }
 

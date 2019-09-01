@@ -3,7 +3,6 @@ export function getDateString(divider = '-', date = new Date()) {
 }
 
 export function compareDates(first, second) {
-    console.log(first);
     const [firstYear, firstMonth, firstDay] = [first.substring(0, 4), first.substring(4, 6), first.substring(6)];
     const [secondYear, secondMonth, secondDay] = [second.substring(0, 4), second.substring(4, 6), second.substring(6)];
     if (firstYear > secondYear) return 1;

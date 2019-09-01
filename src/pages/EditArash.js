@@ -7,7 +7,7 @@ import '../styles/AddArash.css';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import axios from "axios";
-import {compareDates, getDateString} from '../Globals';
+import {getDateString} from '../Globals';
 import {CustomIcon, MyButton, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
 import {Event} from "@material-ui/icons";
@@ -36,9 +36,9 @@ export default class EditArash extends React.Component {
             publicKey: '',
             serialNumber: '',
             license: '',
-            expireDate: getDateString('/'),
+            expireDate: new Date(),
             version: '',
-            purchaseDate: getDateString('/'),
+            purchaseDate: new Date(),
             publicKeyHelper: ' ',
             serialNumberHelper: ' ',
             licenseHelper: ' ',
@@ -74,13 +74,13 @@ export default class EditArash extends React.Component {
             });
             invalidData = true;
         }
-        if (compareDates(this.state.expireDate, getDateString('/')) === -1) {
+        if (this.state.expireDate < new Date()) {
             this.setState({
                 expireDateHelper: this.frontErrors.expireDate
             });
             invalidData = true;
         }
-        if (compareDates(this.state.purchaseDate, getDateString('/')) === 1) {
+        if (this.state.purchaseDate > new Date()) {
             this.setState({
                 purchaseDateHelper: this.frontErrors.purchaseDate
             });
@@ -100,9 +100,9 @@ export default class EditArash extends React.Component {
                     publicKey: publicKey,
                     serialNumber: serialNumber,
                     license: license,
-                    expireDate: expireDate,
+                    expireDate: new Date(expireDate),
                     version: version,
-                    purchaseDate: purchaseDate
+                    purchaseDate: new Date(purchaseDate)
                 });
             }).catch(error => {
                 this.props.history.push('/503');
@@ -118,9 +118,9 @@ export default class EditArash extends React.Component {
                 public_key: this.state.publicKey,
                 serial_number: this.state.serialNumber,
                 license: this.state.license,
-                expire_date: this.state.expireDate.toString().replace(/\//g, '-'),
+                expire_date: getDateString('-', this.state.expireDate),
                 version: this.state.version,
-                purchase_date: this.state.purchaseDate.toString().replace(/\//g, '-'),
+                purchase_date: getDateString('-', this.state.purchaseDate),
                 company: this.pk
             };
             const redirectPath = '/company/' + this.pk;
@@ -199,13 +199,13 @@ export default class EditArash extends React.Component {
 
     expireDateChange = (e, value) => {
         this.setState({
-            expireDate: value
+            expireDate: new Date(value)
         })
     };
 
     purchaseDateChange = (e, value) => {
         this.setState({
-            purchaseDate: value
+            purchaseDate: new Date(value)
         })
     };
 
@@ -220,10 +220,11 @@ export default class EditArash extends React.Component {
                             <Profile/>
                             <Container component="main" maxWidth="xs">
                                 <div className='paper'>
-                                    <Typography component="h1" variant="h5">
-                                        Edit Arash
-                                    </Typography>
                                     <form className='form' noValidate>
+                                        <Typography component="h1" variant="subtitle1" align='center' gutterBottom
+                                                    paragraph>
+                                            Edit Arash
+                                        </Typography>
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <MyTextField
@@ -272,21 +273,21 @@ export default class EditArash extends React.Component {
                                                 <KeyboardDatePicker
                                                     disableToolbar
                                                     showTodayButton
-                                                    keyboardIcon=<DateIcon/>
-                                                fullWidth
-                                                variant="outlined"
-                                                format="yyyy/MM/dd"
-                                                margin="normal"
-                                                id="expireDate"
-                                                label="Expire Date"
-                                                value={this.state.expireDate}
-                                                KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                                onChange={this.expireDateChange}
-                                                error={this.state.expireDateHelper !== ' '}
-                                                name='expireDate'
-                                                helperText={this.state.expireDateHelper}
+                                                    keyboardIcon={<DateIcon/>}
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    format="yyyy/MM/dd"
+                                                    margin="normal"
+                                                    id="expireDate"
+                                                    label="Expire Date"
+                                                    value={this.state.expireDate}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                    onChange={this.expireDateChange}
+                                                    error={this.state.expireDateHelper !== ' '}
+                                                    name='expireDate'
+                                                    helperText={this.state.expireDateHelper}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -307,21 +308,21 @@ export default class EditArash extends React.Component {
                                                 <KeyboardDatePicker
                                                     disableToolbar
                                                     showTodayButton
-                                                    keyboardIcon=<DateIcon/>
-                                                fullWidth
-                                                variant="outlined"
-                                                format="yyyy/MM/dd"
-                                                margin="normal"
-                                                id="purchaseDate"
-                                                label="Purchase Date"
-                                                value={this.state.purchaseDate}
-                                                KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                                onChange={this.purchaseDateChange}
-                                                name='purchaseDate'
-                                                error={this.state.purchaseDateHelper !== ' '}
-                                                helperText={this.state.purchaseDateHelper}
+                                                    keyboardIcon={<DateIcon/>}
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    format="yyyy/MM/dd"
+                                                    margin="normal"
+                                                    id="purchaseDate"
+                                                    label="Purchase Date"
+                                                    value={this.state.purchaseDate}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                    onChange={this.purchaseDateChange}
+                                                    name='purchaseDate'
+                                                    error={this.state.purchaseDateHelper !== ' '}
+                                                    helperText={this.state.purchaseDateHelper}
                                                 />
                                             </Grid>
                                         </Grid>

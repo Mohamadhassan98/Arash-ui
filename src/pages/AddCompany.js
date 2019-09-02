@@ -115,7 +115,7 @@ export default class AddCompany extends React.Component {
                 <main className='HomePageMain2'>
                     <NestedList user={this.user} myHistory={this.props.history}/>
                     <div className='rightme'>
-                        <Profile/>
+                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
                                 <form className='form' noValidate>

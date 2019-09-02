@@ -66,7 +66,7 @@ export default class HomePage extends React.Component {
                     <NestedList user={this.user}
                                 myHistory={this.props.history} inCompanies/>
                     <div className="rightme">
-                        <Profile/>
+                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                         <Container className='cardGrid' maxWidth="md">
                             <div className='AddCompanyButton'>
                                 <Grid container justify='flex-end'>

@@ -193,7 +193,7 @@ export default class AddressModal extends React.Component {
                         <DialogContentText>
                             Enter your address.
                         </DialogContentText>
-                        <form className='form' noValidate>
+                        <form className='modalForm' noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <MyTextField
@@ -316,10 +316,11 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <MyButton onClick={this.handleClose} color="primary">
+                        <MyButton onClick={this.handleClose} color="primary" className='buttons'>
                             Cancel
                         </MyButton>
-                        <MyButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
+                        <MyButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
+                                  className='buttons'>
                             Save
                         </MyButton>
                     </DialogActions>

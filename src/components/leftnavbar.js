@@ -7,7 +7,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PropTypes from "prop-types";
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
-import ContactsOutlinedIcon from '@material-ui/icons/ContactsOutlined';
 import HistoryOutlinedIcon from '@material-ui/icons/HistoryOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
@@ -86,7 +85,6 @@ function NestedList(props) {
         props.myHistory.push(url);
     };
     const CustomListAltOutlinedIcon = CustomIcon()(ListAltOutlinedIcon);
-    const CustomContactsOutlinedIcon = CustomIcon()(ContactsOutlinedIcon);
     const CustomHistoryOutlinedIcon = CustomIcon()(HistoryOutlinedIcon);
     const CustomHelpOutlineOutlinedIcon = CustomIcon()(HelpOutlineOutlinedIcon);
     const CustomExitToAppOutlinedIcon = CustomIcon()(ExitToAppOutlinedIcon);

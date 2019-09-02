@@ -217,7 +217,7 @@ export default class EditArash extends React.Component {
                     <main className='HomePageMain2'>
                         <NestedList myHistory={this.props.history} user={this.user}/>
                         <div className='rightme'>
-                            <Profile/>
+                            <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                             <Container component="main" maxWidth="xs">
                                 <div className='paper'>
                                     <form className='form' noValidate>

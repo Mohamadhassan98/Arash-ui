@@ -59,12 +59,25 @@ export default class MaterialSignIn extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             }).then(response => {
+                // let profilePic = null;
+                // if (response.data.profile_pic) {
+                //     const pic_url = `http://127.0.0.1:8000/user-img/${response.data.id}`;
+                //     axios.get(pic_url, {responseType: 'arraybuffer'}).then(picResponse => {
+                //         const base64 = btoa(
+                //             new Uint8Array(picResponse.data).reduce(
+                //                 (data, byte) => data + String.fromCharCode(byte),
+                //                 ''
+                //             ));
+                //         profilePic = `data:;base64,${base64}`;
+                //     });
+                // }
                 const csrftoken = response.headers.csrftoken;
                 const sessionId = response.headers.sessionid;
                 this.props.history.push({
                     pathname: '/home',
                     state: {
                         user: response.data,
+                        // profilePic: profilePic,
                         csrftoken: csrftoken,
                         sessionId: sessionId
                     }
@@ -82,7 +95,6 @@ export default class MaterialSignIn extends React.Component {
                     }
                 else {
                     this.props.history.push('/503')
-
                 }
             });
         }

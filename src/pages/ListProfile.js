@@ -56,7 +56,7 @@ export default class ListProfile extends React.Component {
                     <NestedList user={this.user}
                                 myHistory={this.props.history}/>
                     <div className="rightme">
-                        <Profile/>
+                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                         <Container className='cardGrid' maxWidth="md">
                             <div className='AddUserButton'>
                                 <Grid container justify='flex-end'>

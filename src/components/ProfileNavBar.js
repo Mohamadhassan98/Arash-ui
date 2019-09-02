@@ -1,15 +1,21 @@
 import React from 'react';
-import profile from '../Author__Placeholder.png';
 import {AppBar} from "@material-ui/core";
 import PropTypes from 'prop-types';
 import Toolbar from "@material-ui/core/Toolbar";
 import arash from "../B71c1c.png";
+import Crown from '../crowns.png';
+import '../App.css';
 
 function Profile(props) {
     return (
         <AppBar color={'white'} className='AppBar' position="sticky">
             <Toolbar className="toolbar">
-                <img className='profilePictureTrigger' src={profile} alt='ProfilePictureTrigger'/>
+                <div className='profilePicture'>
+                    <img className='profilePictureTrigger' src={`http://127.0.0.1:8000/user-img/${props.pk}`}
+                         alt='ProfilePictureTrigger'/>
+                    {props.isSuperUser &&
+                    <img src={Crown} className='masterCrown' alt='masterCrown'/>}
+                </div>
                 <img src={arash} alt='ArashLogo' className='ArashLogo'/>
                 <p className='Arash'>Arash</p>
             </Toolbar>
@@ -18,7 +24,8 @@ function Profile(props) {
 }
 
 Profile.propTypes = {
-    imageSource: PropTypes.string
+    pk: PropTypes.number.isRequired,
+    isSuperUser: PropTypes.bool.isRequired
 };
 
 export default Profile;

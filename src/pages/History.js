@@ -110,7 +110,7 @@ class History extends Component {
                     <NestedList user={this.user}
                                 myHistory={this.props.history} inHistory/>
                     <div className="rightme">
-                        <Profile/>
+                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                         <Container className='cardGrid' maxWidth="md">
                             <MaterialTable columns={this.tableColumns} data={this.state.histories}
                                            icons={tableIcons} title='Histories'/>

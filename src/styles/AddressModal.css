@@ -1,3 +1,14 @@
 .placeHolder {
     color: black;
 }
+
+.modalForm {
+    width: 100%;
+    padding: 20px;
+    background-color: #f2f3f4;
+    margin-top: 20px;
+}
+
+.buttons {
+    margin-right: 30px;
+}

@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../styles/ProfilePage.css';
 import Profile from "../components/ProfileNavBar";
 import AddressModal from "../components/AddressModal";
-import pic from '../jane-doe.jpg'
 import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -30,7 +29,8 @@ export default class ProfilePage extends React.Component {
             inPlace: this.user.in_place,
             address: this.user.address,
             isSuperUser: this.user.is_superuser,
-            photo: pic,
+            profilePic: null,
+            photo: `http://127.0.0.1:8000/user-img/${this.user.id}`,
             oldPassword: '',
             newPassword: '',
             passwordRepeat: '',
@@ -67,7 +67,10 @@ export default class ProfilePage extends React.Component {
     };
 
     selectImages = (event) => {
-        this.setState({photo: URL.createObjectURL(event.target.files[0])});
+        this.setState({
+            photo: URL.createObjectURL(event.target.files[0]),
+            profilePic: event.target.files[0]
+        });
     };
 
     handleClickShowOldPassword = () => {
@@ -94,19 +97,19 @@ export default class ProfilePage extends React.Component {
     };
 
     uploadImage = () => {
-        const fd = new FormData();
-        console.log(this.state.photo);
-        fd.append('photo', this.state.photo);
-        axios.post('', fd)
-            .then(res => {
-                console.log(res);
-            })
+        if (this.state.profilePic) {
+            const fd = new FormData();
+            fd.append('profile_pic', this.state.profilePic);
+            axios.put(`http://127.0.0.1:8000/user-img/${this.pk ? this.pk : this.user.id}/`, fd).catch(error => {
+                console.error(error);
+            });
+        }
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
         const {firstName: first_name, lastName: last_name, username, email, phone, personnelCode: personnel_code, inPlace: in_place, address, newPassword} = this.state;
-        const url = `http://127.0.0.1:8000/user/${this.user.id}/`;
+        const url = `http://127.0.0.1:8000/user/${this.pk ? this.pk : this.user.id}/`;
         axios.put(url, {
             first_name: first_name,
             last_name: last_name,
@@ -118,15 +121,24 @@ export default class ProfilePage extends React.Component {
             address: address,
             password: newPassword
         }).then(response => {
-            this.user.first_name = first_name;
-            this.user.last_name = last_name;
-            this.user.username = username;
-            this.user.email = email;
-            this.user.phone = phone;
-            this.user.personnel_code = personnel_code;
-            this.user.in_place = in_place;
-            this.user.address = address;
-            this.user.password = newPassword;
+            this.uploadImage();
+            if (!this.pk) {
+                this.user.first_name = first_name;
+                this.user.last_name = last_name;
+                this.user.username = username;
+                this.user.email = email;
+                this.user.phone = phone;
+                this.user.personnel_code = personnel_code;
+                this.user.in_place = in_place;
+                this.user.address = address;
+            }
+            const redirect = this.pk ? `/list/profile` : `/home`;
+            this.props.history.push({
+                pathname: redirect,
+                state: {
+                    user: this.user
+                }
+            });
         }).catch(error => {
             console.error(error);
             //TODO("Errors are welcomed!")
@@ -145,7 +157,7 @@ export default class ProfilePage extends React.Component {
                     personnelCode: response.data['personnel_code'],
                     inPlace: response.data['in_place'],
                     address: response.data['address'],
-                    photo: '', //TODO("Not in database yet")
+                    photo: `http://127.0.0.1:8000/user-img/${this.pk}`,
                     isSuperUser: response.data['is_superuser']
                 })
             }).catch(error => {
@@ -165,7 +177,7 @@ export default class ProfilePage extends React.Component {
                 <main className='HomePageMain2'>
                     <NestedList user={this.user} myHistory={this.props.history}/>
                     <div className='rightme'>
-                        <Profile/>
+                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                         <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
                             {this.state.isSuperUser ? (
                                 <div className='profile-photo-master' onClick={() => this.fileInput.click()}>
@@ -177,6 +189,7 @@ export default class ProfilePage extends React.Component {
                                         <div className="col-sm-4">
                                             <input style={{display: 'none'}} className="FormField__Button mr-20 "
                                                    type="file"
+                                                   accept='image/*'
                                                    onChange={this.selectImages}
                                                    ref={fileInput => this.fileInput = fileInput}/>
                                         </div>
@@ -289,13 +302,14 @@ export default class ProfilePage extends React.Component {
                                             control={<Checkbox value="isSuperUser" checkedIcon={<CustomChecked/>}
                                                                icon={<CustomUnChecked/>}/>}
                                             label="Is Super User"
-                                            onChange={this.state.isSuperUser ? this.isSuperUserChanged : null}
+                                            // onChange={this.state.isSuperUser ? this.isSuperUserChanged : null}
                                             checked={this.state.isSuperUser}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <AddressModal address={this.state.address}
-                                                      submitAddress={this.submitAddress}/>
+                                                      submitAddress={this.submitAddress}
+                                                      disabled={!this.state.isSuperUser}/>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
@@ -390,6 +404,7 @@ export default class ProfilePage extends React.Component {
                                     <MyButton
                                         type="submit"
                                         variant="contained"
+                                        fullWidth
                                         color="primary"
                                         onClick={this.handleSubmit}
                                         onBlur={this.errorOff}

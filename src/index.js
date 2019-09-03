@@ -32,7 +32,7 @@ const route = (
             <Route path='/company/:pk/edit' component={EditCompany}/>
             <Route path='/company/:pk/add-arash' component={AddArash}/>
             <Route path='/company/:pk/edit-arash/:apk' component={EditArash}/>
-            <Route path='/list/profile' component={ListProfile}/>
+            <Route path='/profile-list' component={ListProfile}/>
             <Route path='/503' component={Page503}/>
             <Route component={Page404}/>
         </Switch>

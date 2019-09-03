@@ -67,7 +67,7 @@ function NestedList(props) {
         }
     };
     const goToListProfile = () => {
-        const url = `/list/profile`;
+        const url = `/profile-list`;
         if (props.inListProfile) {
             window.location.reload();
         } else {

@@ -25,20 +25,24 @@ export const MyButton = withStyles(theme => ({
     }
 }))(Button);
 
-export const ModalButton = withStyles(theme => ({
-    root: {
-        color: 'white',
-        backgroundColor: '#8847dc',
-        borderRadius: '25px',
-        left: '25px',
-        right: '10px',
-
-        '&:hover': {
-            backgroundColor: '#7847dc',
+export function ConfirmButton(direction) {
+    return withStyles(theme => ({
+        root: {
+            color: 'white',
+            backgroundColor: '#b71c1c',
+            borderRadius: direction === 'left' ? '25px 0 0 25px' : '0 25px 25px 0',
+            paddingTop: '15px',
+            paddingBottom: '15px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            marginTop: '10px',
+            marginBottom: '30px',
+            '&:hover': {
+                backgroundColor: '#dc3b1a',
+            }
         }
-    }
-}))(Button);
-
+    }))(Button);
+}
 export const MyTextField = withStyles({
     root: {
         marginRight: '15px',

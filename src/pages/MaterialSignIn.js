@@ -124,7 +124,7 @@ export default class MaterialSignIn extends React.Component {
                     <div className="App__Form">
                         <Container component="main" maxWidth='xs'>
                             <div className='pepper'>
-                                <p className="p">sign in</p>
+                                <p className="p">SIGN IN</p>
                                 <form className='form2' noValidate>
                                     <Grid container spacing={2}>
                                         <Grid item

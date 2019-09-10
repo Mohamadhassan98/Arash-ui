@@ -10,7 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {Container} from "@material-ui/core";
-import {CustomIcon, MyButton, MyTextField} from '../Styles'
+import {ConfirmButton, CustomIcon, MyTextField} from '../Styles'
 import NestedList from "../components/leftnavbar";
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -375,11 +375,23 @@ export default class ProfilePage extends React.Component {
         this.longPressed = false;
     };
 
+    cancelHandle = (e) => {
+        const url = `/home`;
+        this.props.history.push({
+            pathname: url,
+            state: {
+                user: this.user
+            }
+        });
+    };
+
     render() {
         const CustomVisible = CustomIcon()(Visibility);
         const CustomInvisible = CustomIcon()(VisibilityOff);
         const CustomChecked = CustomIcon()(CheckBoxIcon);
         const CustomUnChecked = CustomIcon()(CheckBoxOutlineBlankIcon);
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <React.Fragment>
                 {this.redirect()}
@@ -612,16 +624,34 @@ export default class ProfilePage extends React.Component {
                                             }}
                                         />
                                     </Grid>
-                                    <MyButton
-                                        type="submit"
-                                        variant="contained"
-                                        fullWidth
-                                        color="primary"
-                                        onClick={this.handleSubmit}
-                                        onBlur={this.errorOff}
-                                    >
-                                        {this.state.isSuperUser ? "Save" : "Change password"}
-                                    </MyButton>
+                                    <Grid container>
+                                        <Grid item sm>
+                                            <SaveButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.submitHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                {this.state.isSuperUser ? "Save" : "change password"}
+                                            </SaveButton>
+                                        </Grid>
+                                        <Grid item sm>
+                                            <CancelButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.cancelHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                Cancel
+                                            </CancelButton>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Container>
                         </form>

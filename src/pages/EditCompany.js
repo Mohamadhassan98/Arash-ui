@@ -6,7 +6,7 @@ import '../styles/EditCompany.css';
 import {isEmpty, setAxiosDefaults} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import axios from 'axios';
-import {MyButton, MyTextField} from "../Styles";
+import {ConfirmButton, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
 import {Typography} from "@material-ui/core";
 import {serverURLs, URLs} from "../Constants";
@@ -172,7 +172,19 @@ export default class EditCompany extends React.Component {
         }
     };
 
+    cancelHandle = (e) => {
+        const url = `/home`;
+        this.props.history.push({
+            pathname: url,
+            state: {
+                user: this.user
+            }
+        });
+    };
+
     render() {
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <React.Fragment>
                 {this.redirect()}
@@ -222,16 +234,34 @@ export default class EditCompany extends React.Component {
                                                           address={this.state.address}/>
                                         </Grid>
                                     </Grid>
-                                    <MyButton
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className='submit'
-                                        onClick={this.handleSubmit}
-                                        onBlur={this.errorOff}>
-                                        Save
-                                    </MyButton>
+                                    <Grid container>
+                                        <Grid item sm>
+                                            <SaveButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.handleSubmit}
+                                                onBlur={this.errorOff}
+                                            >
+                                                Save
+                                            </SaveButton>
+                                        </Grid>
+                                        <Grid item sm>
+                                            <CancelButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.cancelHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                Cancel
+                                            </CancelButton>
+                                        </Grid>
+                                    </Grid>
                                 </form>
                             </div>
                         </Container>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import Profile from "../components/ProfileNavBar";
 import Container from "@material-ui/core/Container";
 import NestedList from "../components/leftnavbar";
-import MaterialTable from 'material-table';
+import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
@@ -21,6 +21,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {CustomIcon} from "../Styles";
+import {Add, Delete} from "@material-ui/icons";
 import {serverURLs, URLs} from "../Constants";
 import {setAxiosDefaults} from "../Globals";
 import {Redirect} from "react-router-dom";
@@ -41,7 +42,10 @@ const CustomAdd = CustomIcon()(AddBox),
     CustomSearch = CustomIcon()(Search),
     CustomSortArrow = CustomIcon()(ArrowUpward),
     CustomThirdStateCheck = CustomIcon()(Remove),
-    CustomViewColumn = CustomIcon()(ViewColumn);
+    CustomViewColumn = CustomIcon()(ViewColumn),
+    CustomEditIcon = CustomIcon()(Edit),
+    CustomDeleteIcon = CustomIcon()(Delete),
+    CustomAddIcon = CustomIcon()(Add);
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <CustomAdd {...props} ref={ref}/>),
@@ -76,7 +80,20 @@ class History extends Component {
         };
         this.tableColumns = [
             {title: 'Date', field: 'date', type: 'datetime', disableClick: true, editable: 'never'},
-            {title: 'Operation', field: 'operation', disableClick: true, editable: 'never'},
+            {
+                title: 'Operation', field: 'operation', disableClick: true, editable: 'never', render: (rowData) => {
+                    switch (rowData.operation) {
+                        case '+':
+                            return <CustomAddIcon/>;
+                        case '-':
+                            return <CustomDeleteIcon/>;
+                        case '*':
+                            return <CustomEditIcon/>;
+                        default:
+                            return <p>Default</p>;
+                    }
+                }
+            },
             {title: 'Operand', field: 'operand', disableClick: true, editable: 'never'},
             {title: 'Details', field: 'details', disableClick: true, editable: 'never'}
         ];

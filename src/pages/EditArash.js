@@ -8,7 +8,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import axios from "axios";
 import {getDateString, setAxiosDefaults} from '../Globals';
-import {CustomIcon, MyButton, MyTextField} from "../Styles";
+import {ConfirmButton, CustomIcon, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
 import {Event} from "@material-ui/icons";
 import {serverURLs, URLs} from "../Constants";
@@ -241,8 +241,20 @@ export default class EditArash extends React.Component {
         });
     };
 
+    cancelHandle = (e) => {
+        const url = `/company/${this.pk}`;
+        this.props.history.push({
+            pathname: url,
+            state: {
+                user: this.user
+            }
+        });
+    };
+
     render() {
         const DateIcon = CustomIcon('#000000')(Event);
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <React.Fragment>
@@ -359,17 +371,34 @@ export default class EditArash extends React.Component {
                                                 />
                                             </Grid>
                                         </Grid>
-                                        <MyButton
-                                            type="submit"
-                                            fullWidth
-                                            variant="contained"
-                                            color="primary"
-                                            className='submit'
-                                            onClick={this.submitHandle}
-                                            onBlur={this.errorOff}
-                                        >
-                                            Save
-                                        </MyButton>
+                                        <Grid container>
+                                            <Grid item sm>
+                                                <SaveButton
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className='submit'
+                                                    onClick={this.submitHandle}
+                                                    onBlur={this.errorOff}
+                                                >
+                                                    Save
+                                                </SaveButton>
+                                            </Grid>
+                                            <Grid item sm>
+                                                <CancelButton
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className='submit'
+                                                    onClick={this.cancelHandle}
+                                                    onBlur={this.errorOff}
+                                                >
+                                                    Cancel
+                                                </CancelButton>
+                                            </Grid>
+                                        </Grid>
                                     </form>
                                 </div>
                             </Container>

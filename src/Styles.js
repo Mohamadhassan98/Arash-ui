@@ -21,6 +21,25 @@ export const MyButton = withStyles(theme => ({
     }
 }))(Button);
 
+export function ConfirmButton(direction) {
+    return withStyles(theme => ({
+        root: {
+            color: 'white',
+            backgroundColor: '#b71c1c',
+            borderRadius: direction === 'left' ? '25px 0 0 25px' : '0 25px 25px 0',
+            paddingTop: '15px',
+            paddingBottom: '15px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            marginTop: '10px',
+            marginBottom: '30px',
+            '&:hover': {
+                backgroundColor: '#dc3b1a',
+            }
+        }
+    }))(Button);
+}
+
 export const MyTextField = withStyles({
     root: {
         marginRight: '15px',

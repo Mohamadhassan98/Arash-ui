@@ -81,7 +81,7 @@ export default class AddressModal extends React.Component {
         }
         if (this.state.address.plaque.trim() === '') {
             this.setState({
-                plaqueCodeHelper: this.frontErrors.plaque
+                plaqueHelper: this.frontErrors.plaque
             });
             invalidData = true;
         }

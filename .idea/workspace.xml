@@ -2,54 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Constants.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/B71c1c.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/Dangerous.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alive.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/Alive.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Author__Placeholder.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/Author__Placeholder.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/B71c1c.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dead.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/Dead.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Globals.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/a93226.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arash.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/c0392B.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/c62828.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Constants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddressModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ArashListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ArashListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CSRFToken.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CompanyListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CompanyListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/DeleteConfirmAlert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DeleteConfirmAlert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ProfileListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ProfileNavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileNavBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Title.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/leftnavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftnavbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/crowns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/crowns.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ff5a09.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jane-doe.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logout.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/404NotFound.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/404NotFound.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/503NotAvailable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/503NotAvailable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AddArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddArash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AddCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddCompany.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/CompanyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CompanyPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/EditArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditArash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/EditCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditCompany.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/History.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/History.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ListProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ListProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignIn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/ProfilePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/ProfilePage.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

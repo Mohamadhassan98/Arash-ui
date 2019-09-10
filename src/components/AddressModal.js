@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {containsDigitOnly} from "../Globals";
 import Grid from "@material-ui/core/Grid";
 import '../styles/AddressModal.css';
-import {MyButton, MyTextField} from "../Styles";
+import {ConfirmButton, MyTextField} from "../Styles";
 
 export default class AddressModal extends React.Component {
     frontErrors = {
@@ -148,6 +148,8 @@ export default class AddressModal extends React.Component {
     };
 
     render() {
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <div>
                 <MyTextField
@@ -293,13 +295,13 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <MyButton onClick={this.handleClose} color="primary" className='buttons'>
+                        <CancelButton onClick={this.handleClose} color="primary" className='buttons'>
                             Cancel
-                        </MyButton>
-                        <MyButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
+                        </CancelButton>
+                        <SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
                                   className='buttons'>
                             Save
-                        </MyButton>
+                        </SaveButton>
                     </DialogActions>
                 </Dialog>
             </div>

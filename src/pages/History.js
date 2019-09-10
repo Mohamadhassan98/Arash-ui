@@ -21,7 +21,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {CustomIcon} from "../Styles";
-import {Add, Delete} from "@material-ui/icons";
+import {AddCircle, Delete} from "@material-ui/icons";
 import {serverURLs, URLs} from "../Constants";
 import {setAxiosDefaults} from "../Globals";
 import {Redirect} from "react-router-dom";
@@ -45,7 +45,7 @@ const CustomAdd = CustomIcon()(AddBox),
     CustomViewColumn = CustomIcon()(ViewColumn),
     CustomEditIcon = CustomIcon()(Edit),
     CustomDeleteIcon = CustomIcon()(Delete),
-    CustomAddIcon = CustomIcon()(Add);
+    CustomAddIcon = CustomIcon()(AddCircle);
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <CustomAdd {...props} ref={ref}/>),

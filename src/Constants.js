@@ -5,7 +5,7 @@ export const URLs = {
     profile: '/profile',
     addCompany: '/company/add',
     503: '/503',
-    listProfile: '/list/profile',
+    listProfile: '/list-profile',
     history: '/history'
 };
 

@@ -2,16 +2,17 @@ import React from 'react';
 import {AppBar} from "@material-ui/core";
 import PropTypes from 'prop-types';
 import Toolbar from "@material-ui/core/Toolbar";
-import arash from "../B71c1c.png";
-import Crown from '../crowns.png';
+import arash from "../static/B71c1c.png";
+import Crown from '../static/crowns.png';
 import '../App.css';
+import {serverURLs} from "../Constants";
 
-function Profile(props) {
+export default function Profile(props) {
     return (
-        <AppBar color={'white'} className='AppBar' position="sticky">
+        <AppBar className='AppBar' position="sticky">
             <Toolbar className="toolbar">
                 <div className='profilePicture'>
-                    <img className='profilePictureTrigger' src={`http://127.0.0.1:8000/user-img/${props.pk}`}
+                    <img className='profilePictureTrigger' src={`${serverURLs.userImage}${props.pk}/`}
                          alt='ProfilePictureTrigger'/>
                     {props.isSuperUser &&
                     <img src={Crown} className='masterCrown' alt='masterCrown'/>}
@@ -27,5 +28,3 @@ Profile.propTypes = {
     pk: PropTypes.number.isRequired,
     isSuperUser: PropTypes.bool.isRequired
 };
-
-export default Profile;

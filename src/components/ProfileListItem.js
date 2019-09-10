@@ -4,11 +4,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import axios from "axios";
 import {CustomIcon, MyListItem} from '../Styles'
-// import proimg from "../jane-doe.jpg";
 import IconButton from "@material-ui/core/IconButton";
 import {Delete, Edit, HistoryOutlined} from "@material-ui/icons";
 import DeleteConfirmAlert from "./DeleteConfirmAlert";
 import PropTypes from "prop-types";
+import {serverURLs, URLs} from "../Constants";
 
 
 export default class ListProfile extends React.Component {
@@ -22,11 +22,11 @@ export default class ListProfile extends React.Component {
     }
 
     handleDelete = () => {
-        const url = `http://127.0.0.1:8000/user/${this.props.profile.id}/`;
+        const url = `${serverURLs.user}${this.props.profile.id}/`;
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
-            this.props.myHistory.push('/503');
+            this.props.myHistory.push(URLs["503"]);
         });
     };
     onDeleteClick = () => {
@@ -40,21 +40,13 @@ export default class ListProfile extends React.Component {
         });
     };
     onEditClick = () => {
-        this.props.myHistory.push({
-            pathname: `/user/${this.props.profile.id}`,
-            state: {
-                user: this.props.user
-            }
-        });
+        const url = `/user/${this.props.profile.id}`;
+        this.props.myHistory.push(url);
     };
 
     onHistoryClick = () => {
-        this.props.myHistory.push({
-            pathname: `/user/${this.props.profile.id}/history`,
-            state: {
-                user: this.props.user
-            }
-        });
+        const url = `/user/${this.props.profile.id}/history`;
+        this.props.myHistory.push(url);
     };
 
     render() {
@@ -66,11 +58,11 @@ export default class ListProfile extends React.Component {
                 <ListItemAvatar>
                     <Avatar
                         alt={`Avatar`}
-                        src={`http://127.0.0.1:8000/user-img/${this.props.profile.id}`}
+                        src={`${serverURLs.userImage}${this.props.profile.id}/`}
                     />
                 </ListItemAvatar>
                 <ListItemText
-                    primary={this.props.profile.first_name + '  ' + this.props.profile.last_name}
+                    primary={`${this.props.profile.first_name} ${this.props.profile.last_name}`}
                     secondary={this.props.profile.email}
                 />
                 <IconButton onClick={this.onHistoryClick} color='secondary'>
@@ -92,6 +84,5 @@ export default class ListProfile extends React.Component {
 
 ListProfile.propTypes = {
     profile: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
     myHistory: PropTypes.object.isRequired
 };

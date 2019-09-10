@@ -4,40 +4,61 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
 import '../styles/AddCompany.css';
-import {isEmpty} from "../Globals";
+import {isEmpty, setAxiosDefaults} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import axios from 'axios';
 import {MyButton, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
 
 export default class AddCompany extends React.Component {
 
     frontErrors = {
         companyName: 'Company name cannot be empty',
-        email: 'Email cannot be empty',
+        email: 'Email cannot be empty'
     };
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             address: {},
             companyName: '',
             email: '',
             companyNameHelper: ' ',
             emailHelper: ' '
         };
+        setAxiosDefaults();
     }
 
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        }
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
 
     errorOff = () => {
         this.setState({
@@ -87,9 +108,7 @@ export default class AddCompany extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = 'http://127.0.0.1:8000/add/company/';
-            const redirect = '/home';
-            axios.post(url, {
+            axios.post(serverURLs.addCompany, {
                 email: this.state.email,
                 name: this.state.companyName,
                 address: {
@@ -97,25 +116,52 @@ export default class AddCompany extends React.Component {
                     postal_code: this.state.address.postalCode
                 }
             }).then(response => {
-                this.props.history.push({
-                    pathname: redirect,
-                    state: {
-                        user: this.user
-                    }
-                });
+                this.doRedirect(URLs.home);
             }).catch(error => {
-                this.props.history.push('/503');
+                if (error.response.status === 422) {
+                    this.handleErrors(error.response.data);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
             });
+        }
+    };
+
+    handleErrors = (errors) => {
+        for (let [key, value] of Object.entries(errors)) {
+            switch (key) {
+                case 'name':
+                    this.setState({
+                        companyNameHelper: value
+                    });
+                    break;
+                case 'email':
+                    this.setState({
+                        emailHelper: value
+                    });
+                    break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
+            }
+        }
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
         }
     };
 
     render() {
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain2'>
-                    <NestedList user={this.user} myHistory={this.props.history}/>
+                    <NestedList myHistory={this.props.history} isSuperUser={this.state.userIsSuperUser}/>
                     <div className='rightme'>
-                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
                                 <form className='form' noValidate>
@@ -174,6 +220,6 @@ export default class AddCompany extends React.Component {
                     </div>
                 </main>
             </React.Fragment>
-        )
+        );
     }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -9,45 +8,49 @@ import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import '../styles/MaterialSignUp.css';
 import axios from "axios";
-import {containsDigitOnly, isEmail} from "../Globals";
+import {containsDigitOnly, isEmail, setAxiosDefaults} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import {CustomIcon, MyButton, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
 import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
+import Default from '../static/Author__Placeholder.png';
 
 export default class SignUp extends React.Component {
+
     frontErrors = {
         firstName: 'First name cannot be empty',
         lastName: 'Last name cannot be empty',
         username: 'Username cannot be empty',
-        email: ['Email cannot be empty', 'Email format is invalid. Example: \'example@mail.com\''],
+        email: ['Email cannot be empty', `Email format is invalid. Example: 'example@mail.com'`],
         password: 'Password cannot be empty',
         passwordRepeat: `Password doesn't match`,
-        mobilePhone: 'Mobile number must be exactly 11 characters',
+        phone: 'Mobile number must be exactly 11 characters',
         personnelCode: 'Personnel code cannot be empty'
     };
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             firstName: '',
             lastName: '',
             username: '',
             email: '',
-            password: '',
-            passwordRepeat: '',
-            mobilePhone: '',
+            phone: '',
             personnelCode: '',
             inPlace: false,
             address: {},
             isSuperuser: false,
+            profilePic: null,
+            photo: Default,
+            password: '',
+            passwordRepeat: '',
             isVisiblePassword: false,
             isVisiblePasswordRepeat: false,
             firstNameHelper: ' ',
@@ -56,9 +59,128 @@ export default class SignUp extends React.Component {
             emailHelper: ' ',
             passwordHelper: ' ',
             passwordRepeatHelper: ' ',
-            mobilePhoneHelper: ' ',
-            personnelCodeHelper: ' ',
+            phoneHelper: ' ',
+            personnelCodeHelper: ' '
         };
+        setAxiosDefaults();
+    }
+
+    submitAddress = (address) => {
+        this.setState({
+            address: address
+        });
+    };
+
+    isSuperUserChanged = (e, checked) => {
+        this.setState({
+            isSuperUser: checked
+        });
+    };
+
+    inPlaceChanged = (e, checked) => {
+        this.setState({
+            inPlace: checked
+        });
+    };
+
+    selectImages = (event) => {
+        this.setState({
+            photo: URL.createObjectURL(event.target.files[0]),
+            profilePic: event.target.files[0]
+        });
+    };
+
+    handleClickShowPassword = () => {
+        this.setState({
+            isVisiblePassword: !this.state.isVisiblePassword
+        });
+    };
+
+    handleClickShowPasswordRepeat = () => {
+        this.setState({
+            isVisiblePasswordRepeat: !this.state.isVisiblePasswordRepeat
+        });
+    };
+
+    fieldChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
+    uploadImage = (pk) => {
+        if (this.state.profilePic) {
+            const fd = new FormData();
+            fd.append('profile_pic', this.state.profilePic);
+            axios.put(`${serverURLs.userImage}${pk}/`, fd).catch(error => {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            });
+        }
+    };
+
+    submitHandle = (e) => {
+        e.preventDefault();
+        if (this.validateData()) {
+            axios.post(serverURLs.signUp, {
+                username: this.state.username,
+                first_name: this.state.firstName,
+                last_name: this.state.lastName,
+                password: this.state.password,
+                email: this.state.email,
+                phone: this.state.phone,
+                personnel_code: this.state.personnelCode,
+                in_place: this.state.inPlace,
+                is_superuser: this.state.isSuperUser,
+                address: {
+                    ...this.state.address,
+                    postal_code: this.state.address.postalCode
+                }
+            }).then(response => {
+                const pk = response.data.pk;
+                this.uploadImage(pk);
+                this.doRedirect(URLs.listProfile);
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    this.handleErrors(error.response.data);
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
+            });
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    componentDidMount() {
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
     errorOff = () => {
@@ -69,14 +191,14 @@ export default class SignUp extends React.Component {
             emailHelper: ' ',
             passwordHelper: ' ',
             passwordRepeatHelper: ' ',
-            mobilePhoneHelper: ' ',
+            phoneHelper: ' ',
             personnelCodeHelper: ' '
         });
     };
 
     validateData = () => {
         let invalidData = false;
-        const {firstName, lastName, username, email, password, passwordRepeat, mobilePhone, personnelCode} = this.state;
+        const {firstName, lastName, username, email, password, passwordRepeat, phone, personnelCode} = this.state;
         if (firstName.trim() === '') {
             this.setState({
                 firstNameHelper: this.frontErrors.firstName
@@ -118,9 +240,9 @@ export default class SignUp extends React.Component {
             });
             invalidData = true;
         }
-        if (mobilePhone.trim().length !== 11) {
+        if (phone.trim().length !== 11) {
             this.setState({
-                mobilePhoneHelper: this.frontErrors.mobilePhone
+                phoneHelper: this.frontErrors.phone
             });
             invalidData = true;
         }
@@ -132,24 +254,6 @@ export default class SignUp extends React.Component {
         }
         return !invalidData;
     };
-
-    fieldChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-
-    submitAddress = (address) => {
-        this.setState({
-            address: address
-        });
-    };
-
-    componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        }
-    }
 
     maxFieldChange = (e, max, numeric = false) => {
         if (e.target.value.length <= max) {
@@ -167,59 +271,70 @@ export default class SignUp extends React.Component {
         }
     };
 
-    handleClickShowPassword = () => {
-        this.setState({isVisiblePassword: !this.state.isVisiblePassword});
-    };
-
-    handleClickShowPasswordRepeat = () => {
-        this.setState({isVisiblePasswordRepeat: !this.state.isVisiblePasswordRepeat});
-    };
-
-    submitHandle = (e) => {
-        e.preventDefault();
-        if (this.validateData()) {
-            const url = 'http://127.0.0.1:8000/signup/';
-            axios.post(url, {
-                username: this.state.username,
-                first_name: this.state.firstName,
-                last_name: this.state.lastName,
-                password: this.state.password,
-                email: this.state.email,
-                phone: this.state.mobilePhone,
-                personnel_code: this.state.personnelCode,
-                in_place: this.state.inPlace,
-                is_superuser: this.state.isSuperUser,
-                address: {
-                    ...this.state.address,
-                    postal_code: this.state.address.postalCode,
-                }
-            }).then(response => {
-                const csrftoken = response.headers.csrftoken;
-                // const sessionId = response.headers.sessionid;
-                this.props.history.push({
-                    pathname: '/list/profile',
-                    state: {
-                        user: this.user,
-                        csrftoken: csrftoken,
-                        // sessionId: sessionId
-                    }
-                });
-            }).catch(error => {
-                console.error(error);
-            });
+    handleErrors = (errors) => {
+        for (let [key, value] of Object.entries(errors)) {
+            switch (key) {
+                case 'username':
+                    this.setState({
+                        usernameHelper: value
+                    });
+                    break;
+                case 'first_name':
+                    this.setState({
+                        firstNameHelper: value
+                    });
+                    break;
+                case 'last_name':
+                    this.setState({
+                        lastNameHelper: value
+                    });
+                    break;
+                case 'email':
+                    this.setState({
+                        emailHelper: value
+                    });
+                    break;
+                case 'personnel_code':
+                    this.setState({
+                        personnelCodeHelper: value
+                    });
+                    break;
+                case 'phone':
+                    this.setState({
+                        phoneHelper: value
+                    });
+                    break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
+            }
         }
     };
 
-    isSuperUserChanged = (e, checked) => {
+    clearProfile = () => {
         this.setState({
-            isSuperUser: checked
+            photo: Default,
+            profilePic: null
         });
+        this.fileInput.value = null;
+        this.longPressed = true;
     };
 
-    inPlaceChanged = (e, checked) => {
-        this.setState({
-            inPlace: checked
-        });
+    profilePress = () => {
+        this.longPress = setTimeout(this.clearProfile, 1000);
+    };
+
+    choosePicture = () => {
+        this.fileInput.click();
+    };
+
+    profileRelease = () => {
+        clearTimeout(this.longPress);
+        if (!this.longPressed) {
+            this.choosePicture();
+        }
+        this.longPressed = false;
     };
 
     render() {
@@ -227,208 +342,201 @@ export default class SignUp extends React.Component {
         const CustomInvisible = CustomIcon()(VisibilityOff);
         const CustomChecked = CustomIcon()(CheckBoxIcon);
         const CustomUnChecked = CustomIcon()(CheckBoxOutlineBlankIcon);
-
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain2'>
-                    <NestedList user={this.user} myHistory={this.props.history}/>
+                    <NestedList isSuperUser={this.state.userIsSuperUser} myHistory={this.props.history}/>
                     <div className='rightme'>
-                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
-                        <Container component="main" maxWidth="xs">
-                            <div className='paper'>
-                                <form className='form' noValidate>
-                                    <Typography component="h1" variant="subtitle1" align='center' gutterBottom
-                                                paragraph>
-                                        Sign up
-                                    </Typography>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={6}>
-                                            <MyTextField
-                                                name="firstName"
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="firstName"
-                                                label="First Name"
-                                                autoFocus
-                                                autoComplete='off'
-                                                onChange={this.fieldChange}
-                                                value={this.state.firstName}
-                                                error={this.state.firstNameHelper !== ' '}
-                                                helperText={this.state.firstNameHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <MyTextField
-                                                autoComplete='off'
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="lastName"
-                                                label="Last Name"
-                                                name="lastName"
-                                                onChange={this.fieldChange}
-                                                value={this.state.lastName}
-                                                error={this.state.lastNameHelper !== ' '}
-                                                helperText={this.state.lastNameHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                autoComplete='off'
-                                                required
-                                                fullWidth
-                                                id="email"
-                                                label="Email Address"
-                                                name="email"
-                                                onChange={this.fieldChange}
-                                                value={this.state.email}
-                                                error={this.state.emailHelper !== ' '}
-                                                helperText={this.state.emailHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                autoComplete='off'
-                                                fullWidth
-                                                id="username"
-                                                label="Username"
-                                                name="username"
-                                                onChange={this.fieldChange}
-                                                value={this.state.username}
-                                                error={this.state.usernameHelper !== ' '}
-                                                helperText={this.state.usernameHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                autoComplete='off'
-                                                fullWidth
-                                                id="mobilePhone"
-                                                label="Phone number"
-                                                name="mobilePhone"
-                                                onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                                value={this.state.mobilePhone}
-                                                error={this.state.mobilePhoneHelper !== ' '}
-                                                helperText={this.state.mobilePhoneHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <AddressModal submitAddress={this.submitAddress}/>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                id="password"
-                                                autoComplete='off'
-                                                variant="outlined"
-                                                type={this.state.isVisiblePassword ? 'text' : 'password'}
-                                                label="Password"
-                                                name="password"
-                                                onChange={this.fieldChange}
-                                                value={this.state.password}
-                                                error={this.state.passwordHelper !== ' '}
-                                                helperText={this.state.passwordHelper}
-                                                fullWidth
-                                                required
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            <IconButton
-                                                                edge="end"
-                                                                aria-label="toggle password visibility"
-                                                                onClick={this.handleClickShowPassword}
-                                                            >
-                                                                {this.state.isVisiblePassword ? <CustomVisible/> :
-                                                                    <CustomInvisible/>}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                autoComplete='off'
-                                                id="passwordRepeat"
-                                                variant="outlined"
-                                                type={this.state.isVisiblePasswordRepeat ? 'text' : 'password'}
-                                                label="Confirm Password"
-                                                name="passwordRepeat"
-                                                onChange={this.fieldChange}
-                                                value={this.state.passwordRepeat}
-                                                error={this.state.passwordRepeatHelper !== ' '}
-                                                helperText={this.state.passwordRepeatHelper}
-                                                fullWidth
-                                                required
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            <IconButton
-                                                                edge="end"
-                                                                aria-label="toggle password visibility"
-                                                                onClick={this.handleClickShowPasswordRepeat}>
-                                                                {this.state.isVisiblePasswordRepeat ? <CustomVisible/> :
-                                                                    <CustomInvisible/>}
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormControlLabel
-                                                control={<Checkbox value="inPlace" icon={<CustomUnChecked/>}
-                                                                   checkedIcon={<CustomChecked/>}/>}
-                                                label="in place"
-                                                value={this.state.inPlace}
-                                                onChange={this.inPlaceChanged}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                autoComplete='off'
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="personnelCode"
-                                                label="Personnel Code"
-                                                onChange={(e) => this.maxFieldChange(e, 15)}
-                                                name="personnelCode"
-                                                value={this.state.personnelCode}
-                                                error={this.state.personnelCodeHelper !== ' '}
-                                                helperText={this.state.personnelCodeHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <FormControlLabel
-                                                control={<Checkbox value="isSuperUser" icon={<CustomUnChecked/>}
-                                                                   checkedIcon={<CustomChecked/>}/>}
-                                                label="is superuser"
-                                                value={this.state.isSuperUser}
-                                                onChange={this.isSuperUserChanged}
-                                            />
-                                        </Grid>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
+                        <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
+                            <div className='profile-photo-master' onMouseDown={this.profilePress}
+                                 onMouseUp={this.profileRelease}>
+                                <img src={this.state.photo} className="image" alt={this.state.photo}/>
+                                <div className="middle">
+                                    <div className="text">change profile picture
+                                        (hold to delete)
+                                    </div>
+                                </div>
+                                <div className="MasterProfile">
+                                    <div className="col-sm-4">
+                                        <input style={{display: 'none'}} className="FormField__Button mr-20"
+                                               type="file"
+                                               accept='image/*'
+                                               onChange={this.selectImages}
+                                               ref={fileInput => this.fileInput = fileInput}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <Container maxWidth="xs">
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            name="firstName"
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="firstName"
+                                            label="First Name"
+                                            onChange={this.handleChange}
+                                            value={this.state.firstName}
+                                            error={this.state.firstNameHelper !== ' '}
+                                            helperText={this.state.firstNameHelper}
+                                            autoFocus
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="lastName"
+                                            label="Last Name"
+                                            name="lastName"
+                                            onChange={this.handleChange}
+                                            value={this.state.lastName}
+                                            error={this.state.lastNameHelper !== ' '}
+                                            helperText={this.state.lastNameHelper}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email"
+                                            name="email"
+                                            onChange={this.handleChange}
+                                            value={this.state.email}
+                                            error={this.state.emailHelper !== ' '}
+                                            helperText={this.state.emailHelper}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="phone"
+                                            label="Phone"
+                                            name="phone"
+                                            onChange={(e) => this.maxFieldChange(e, 11, true)}
+                                            value={this.state.phone}
+                                            error={this.state.phoneHelper !== ' '}
+                                            helperText={this.state.phoneHelper}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="personnelCode"
+                                            label="Personnel Code"
+                                            name="personnelCode"
+                                            onChange={(e) => this.maxFieldChange(e, 15)}
+                                            value={this.state.personnelCode}
+                                            error={this.state.personnelCodeHelper !== ' '}
+                                            helperText={this.state.personnelCodeHelper}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControlLabel
+                                            control={<Checkbox value="inPlace" checkedIcon={<CustomChecked/>}
+                                                               icon={<CustomUnChecked/>}/>}
+                                            label="In place"
+                                            onChange={this.inPlaceChanged}
+                                            checked={this.state.inPlace}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControlLabel
+                                            control={<Checkbox value="isSuperUser" checkedIcon={<CustomChecked/>}
+                                                               icon={<CustomUnChecked/>}/>}
+                                            label="Is Super User"
+                                            onChange={this.isSuperUserChanged}
+                                            checked={this.state.isSuperUser}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <AddressModal submitAddress={this.submitAddress}/>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            id="password"
+                                            autoComplete='off'
+                                            variant="outlined"
+                                            type={this.state.isVisiblePassword ? 'text' : 'password'}
+                                            label="Password"
+                                            name="password"
+                                            onChange={this.handleChange}
+                                            value={this.state.password}
+                                            error={this.state.passwordHelper !== ' '}
+                                            helperText={this.state.passwordHelper}
+                                            fullWidth
+                                            required
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                            onClick={this.handleClickShowPassword}
+                                                        >
+                                                            {this.state.isVisiblePassword ? <CustomVisible/> :
+                                                                <CustomInvisible/>}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            autoComplete='off'
+                                            id="passwordRepeat"
+                                            variant="outlined"
+                                            type={this.state.isVisiblePasswordRepeat ? 'text' : 'password'}
+                                            label="Confirm Password"
+                                            name="passwordRepeat"
+                                            onChange={this.handleChange}
+                                            value={this.state.passwordRepeat}
+                                            error={this.state.passwordRepeatHelper !== ' '}
+                                            helperText={this.state.passwordRepeatHelper}
+                                            fullWidth
+                                            required
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            edge="end"
+                                                            aria-label="toggle password visibility"
+                                                            onClick={this.handleClickShowPasswordRepeat}
+                                                        >
+                                                            {this.state.isVisiblePasswordRepeat ? <CustomVisible/> :
+                                                                <CustomInvisible/>}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
                                     </Grid>
                                     <MyButton
                                         type="submit"
-                                        fullWidth
                                         variant="contained"
+                                        fullWidth
                                         color="primary"
-                                        className='submit'
                                         onClick={this.submitHandle}
                                         onBlur={this.errorOff}
                                     >
-                                        Sign Up
+                                        Save
                                     </MyButton>
-                                </form>
-                            </div>
-                        </Container>
+                                </Grid>
+                            </Container>
+                        </form>
                     </div>
+                    <footer/>
                 </main>
             </React.Fragment>
         );

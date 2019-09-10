@@ -9,54 +9,86 @@ import {Add} from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import ArashListItem from "../components/ArashListItem";
+import {setAxiosDefaults} from "../Globals";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
 
 class CompanyPage extends React.Component {
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.pk = props.match.params.pk;
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             arashes: []
         };
+        setAxiosDefaults();
     }
 
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        } else {
-            const url = `http://127.0.0.1:8000/company/${this.pk}/arashes`;
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+            const url = `${serverURLs.company}${this.pk}/arashes/`;
             axios.get(url).then(response => {
                 this.setState({
                     arashes: response.data
-                })
+                });
             }).catch(error => {
-                this.props.history.push('/503');
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        this.doRedirect(URLs.signIn);
+                    } else {
+                        this.doRedirect(URLs["503"]);
+                    }
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
             });
-        }
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
-    addNewArash = (e) => {
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
+    addNewArash = () => {
         const url = `/company/${this.pk}/add-arash`;
-        this.props.history.push({
-            pathname: url,
-            state: {
-                user: this.user
-            }
-        })
+        this.props.history.push(url);
     };
 
     render() {
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain2'>
-                    <NestedList user={this.user}
+                    <NestedList isSuperUser={this.state.userIsSuperUser}
                                 myHistory={this.props.history}/>
                     <div className="rightme">
-                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <Container className='cardGrid' maxWidth="md">
                             <div className='AddCompanyButton'>
                                 <Grid container justify='flex-end'>
@@ -71,8 +103,7 @@ class CompanyPage extends React.Component {
                             {this.state.arashes && this.state.arashes.length !== 0 ? (
                                 <List className='List'>
                                     {this.state.arashes.map(arash => (
-                                        <ArashListItem arash={arash} myHistory={this.props.history}
-                                                       user={this.user}/>
+                                        <ArashListItem arash={arash} myHistory={this.props.history}/>
                                     ))}
                                 </List>
                             ) : (
@@ -84,7 +115,6 @@ class CompanyPage extends React.Component {
                     </div>
                 </main>
             </React.Fragment>
-
         );
     }
 }

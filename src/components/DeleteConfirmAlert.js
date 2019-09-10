@@ -17,12 +17,6 @@ export default class DeleteConfirmAlert extends React.Component {
         };
     }
 
-    handleClickOpen = () => {
-        this.setState({
-            open: true
-        });
-    };
-
     handleClose = () => {
         this.setState({
             open: false

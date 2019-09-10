@@ -19,24 +19,12 @@ export default class AddressModal extends React.Component {
         telephone: 'Telephone must be exactly 11 characters',
         fax: 'Fax must be exactly 11 characters'
     };
-    inputColor = {
-        style: {
-            color: 'black'
-        }
-    };
 
     constructor(props) {
         super(props);
         this.state = {
             open: false,
             address: props.address,
-            cityError: false,
-            streetError: false,
-            alleyError: false,
-            postalCodeError: false,
-            plaqueError: false,
-            telephoneError: false,
-            faxError: false,
             cityHelper: ' ',
             streetHelper: ' ',
             alleyHelper: ' ',
@@ -60,7 +48,9 @@ export default class AddressModal extends React.Component {
     }
 
     handleClickOpen = () => {
-        this.setState({open: true});
+        this.setState({
+            open: true
+        });
     };
 
     handleClose = () => {
@@ -73,42 +63,36 @@ export default class AddressModal extends React.Component {
         let invalidData = false;
         if (this.state.address.city.trim() === '') {
             this.setState({
-                cityError: true,
                 cityHelper: this.frontErrors.city
             });
             invalidData = true;
         }
         if (this.state.address.street.trim() === '') {
             this.setState({
-                streetError: true,
                 streetHelper: this.frontErrors.street
             });
             invalidData = true;
         }
         if (this.state.address.postalCode.trim().length !== 10) {
             this.setState({
-                postalCodeError: true,
                 postalCodeHelper: this.frontErrors.postalCode
             });
             invalidData = true;
         }
         if (this.state.address.plaque.trim() === '') {
             this.setState({
-                plaqueCodeError: true,
                 plaqueCodeHelper: this.frontErrors.plaque
             });
             invalidData = true;
         }
         if (this.state.address.telephone.trim().length !== 11) {
             this.setState({
-                telephoneError: true,
                 telephoneHelper: this.frontErrors.telephone
             });
             invalidData = true;
         }
         if (this.state.address.fax.trim().length > 0 && this.state.address.fax.trim().length !== 11) {
             this.setState({
-                faxError: true,
                 faxHelper: this.frontErrors.fax
             });
             invalidData = true;
@@ -118,20 +102,13 @@ export default class AddressModal extends React.Component {
 
     errorOff = () => {
         this.setState({
-            cityError: false,
-            streetError: false,
-            alleyError: false,
-            postalCodeError: false,
-            plaqueError: false,
-            telephoneError: false,
-            faxError: false,
             cityHelper: ' ',
             streetHelper: ' ',
             alleyHelper: ' ',
             postalCodeHelper: ' ',
             plaqueHelper: ' ',
             telephoneHelper: ' ',
-            faxHelper: ' ',
+            faxHelper: ' '
         });
     };
 
@@ -207,7 +184,7 @@ export default class AddressModal extends React.Component {
                                         label="City"
                                         autoFocus
                                         onChange={(e) => this.maxFieldChange(e, 15)}
-                                        error={this.state.cityError}
+                                        error={this.state.cityHelper !== ' '}
                                         helperText={this.state.cityHelper}
                                         value={this.state.address.city}
                                     />
@@ -222,7 +199,7 @@ export default class AddressModal extends React.Component {
                                         label="Street"
                                         name="street"
                                         onChange={(e) => this.maxFieldChange(e, 15)}
-                                        error={this.state.streetError}
+                                        error={this.state.streetHelper !== ' '}
                                         helperText={this.state.streetHelper}
                                         value={this.state.address.street}
                                     />
@@ -236,7 +213,7 @@ export default class AddressModal extends React.Component {
                                         label="Alley"
                                         name="alley"
                                         onChange={(e) => this.maxFieldChange(e, 15)}
-                                        error={this.state.alleyError}
+                                        error={this.state.alleyHelper !== ' '}
                                         helperText={this.state.alleyHelper}
                                         value={this.state.address.alley}
                                     />
@@ -251,7 +228,7 @@ export default class AddressModal extends React.Component {
                                         label="Postal Code"
                                         name="postalCode"
                                         onChange={(e) => this.maxFieldChange(e, 10, true)}
-                                        error={this.state.postalCodeError}
+                                        error={this.state.postalCodeHelper !== ' '}
                                         helperText={this.state.postalCodeHelper}
                                         value={this.state.address.postalCode}
                                     />
@@ -266,7 +243,7 @@ export default class AddressModal extends React.Component {
                                         label="Plaque"
                                         name="plaque"
                                         onChange={(e) => this.maxFieldChange(e, 10)}
-                                        error={this.state.plaqueError}
+                                        error={this.state.plaqueHelper !== ' '}
                                         helperText={this.state.plaqueHelper}
                                         value={this.state.address.plaque}
                                     />
@@ -281,7 +258,7 @@ export default class AddressModal extends React.Component {
                                         label="Telephone"
                                         name="telephone"
                                         onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                        error={this.state.telephoneError}
+                                        error={this.state.telephoneHelper !== ' '}
                                         helperText={this.state.telephoneHelper}
                                         value={this.state.address.telephone}
                                     />
@@ -295,7 +272,7 @@ export default class AddressModal extends React.Component {
                                         label="Fax"
                                         name="fax"
                                         onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                        error={this.state.faxError}
+                                        error={this.state.faxHelper !== ' '}
                                         helperText={this.state.faxHelper}
                                         value={this.state.address.fax}
                                     />

@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddressModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/leftnavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftnavbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AddArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddArash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AddCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddCompany.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/EditArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditArash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/EditCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditCompany.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/History.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/History.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignIn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/ProfilePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/ProfilePage.css" afterDir="false" />
-    </list>
+    <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +178,14 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۰۸" />
       <updated>1567359308166</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="material signup change and add picture">
+      <created>1567512485896</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1567512485896</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,7 +227,8 @@
     <MESSAGE value="change a lot" />
     <MESSAGE value="signin is ready now" />
     <MESSAGE value="DateFieldsOptimized" />
-    <option name="LAST_COMMIT_MESSAGE" value="DateFieldsOptimized" />
+    <MESSAGE value="material signup change and add picture" />
+    <option name="LAST_COMMIT_MESSAGE" value="material signup change and add picture" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

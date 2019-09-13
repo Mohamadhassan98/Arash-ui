@@ -12,8 +12,16 @@ import '../styles/ArashListItem.css';
 import Grid from "@material-ui/core/Grid";
 import {CustomIcon, MyTextField} from "../Styles";
 import Icon from "@material-ui/core/Icon";
-import Dead from '../Dead.png';
-import Alive from '../Alive.png';
+import Dead from '../static/Dead.png';
+import Alive from '../static/Alive.png';
+import Dangerous from '../static/Dangerous.png';
+import {serverURLs, URLs} from "../Constants";
+
+const arashStatus = {
+    'alv': Alive,
+    'dead': Dead,
+    'dng': Dangerous
+};
 
 export default class ArashListItem extends React.Component {
 
@@ -32,21 +40,17 @@ export default class ArashListItem extends React.Component {
     };
 
     handleDelete = () => {
-        const url = `http://127.0.0.1:8000/arash/${this.props.arash.id}/`;
+        const url = `${serverURLs.arash}${this.props.arash.id}/`;
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
-            this.props.myHistory.push('/503');
+            this.props.myHistory.push(URLs["503"]);
         });
     };
 
     onEditClick = () => {
-        this.props.myHistory.push({
-            pathname: `${this.props.arash.company}/edit-arash/${this.props.arash.id}`,
-            state: {
-                user: this.props.user
-            }
-        });
+        const url = `${this.props.arash.company}/edit-arash/${this.props.arash.id}`;
+        this.props.myHistory.push(url);
     };
 
     onDeleteClick = () => {
@@ -62,17 +66,14 @@ export default class ArashListItem extends React.Component {
     };
 
     render() {
-        // noinspection JSCheckFunctionSignatures
         const CustomEditIcon = CustomIcon()(Edit);
-        // noinspection JSCheckFunctionSignatures
         const CustomDeleteIcon = CustomIcon()(Delete);
-        // noinspection JSCheckFunctionSignatures
         const CustomExpandLessIcon = CustomIcon()(ExpandLess);
-        // noinspection JSCheckFunctionSignatures
         const CustomExpandMoreIcon = CustomIcon()(ExpandMore);
         return (
             <div key={this.props.arash.id}>
-                <ListItem divider={!this.state.detailsOpen} button onClick={this.handleClick}>
+                <ListItem disabled={!this.props.arash.is_active} divider={!this.state.detailsOpen} button
+                          onClick={this.handleClick}>
                     <Grid container>
                         <Grid item sm>
                             <ListItemText
@@ -85,7 +86,7 @@ export default class ArashListItem extends React.Component {
                         </Grid>
                         <Grid item md>
                             <Icon>
-                                <img alt='KeepAlive' src={this.props.arash.is_alive ? Alive : Dead} width={32}
+                                <img alt='KeepAlive' src={arashStatus[this.props.arash.status]} width={32}
                                      height={32} className='Icon'/>
                             </Icon>
                         </Grid>
@@ -152,6 +153,5 @@ export default class ArashListItem extends React.Component {
 
 ArashListItem.propTypes = {
     arash: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
     myHistory: PropTypes.object.isRequired
 };

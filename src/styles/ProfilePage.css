@@ -10,14 +10,12 @@
     height: 264px;
     text-align: center;
     border-radius: 50%;
-    margin: -240px auto 0;
     animation-name: fadeIn;
     animation-duration: .9s;
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.44);
     background: #B71C1C;
     position: relative;
-    margin-top: 5%;
-    margin-bottom: 10px;
+    margin: 5% auto 10px;
 }
 
 .profile-photo-master:hover .image {
@@ -45,16 +43,13 @@
     height: 264px;
     text-align: center;
     border-radius: 50%;
-    margin: -240px auto 0;
     animation-name: fadeIn;
     animation-duration: .9s;
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.44);
     background: #B71C1C;
-    margin-top: 5%;
-    margin-bottom: 10px;
+    margin: 5% auto 10px;
 
 }
-
 
 .text {
     color: white;

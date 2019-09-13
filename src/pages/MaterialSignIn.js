@@ -10,8 +10,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Dialog from "@material-ui/core/Dialog";
-import {MyButton, MyTextField} from "../Styles";
-import ArashLogo from '../B71c1c.png';
+import {CustomIcon, MyButton, MyTextField} from "../Styles";
+import ArashLogo from '../static/B71c1c.png';
+import {getCSRF, setAxiosDefaults} from "../Globals";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
 export default class MaterialSignIn extends React.Component {
     frontErrors = {
@@ -22,17 +29,30 @@ export default class MaterialSignIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            redirect: undefined,
             isVisible: false,
             username: '',
             password: '',
             usernameHelper: ' ',
             passwordHelper: ' ',
-            open: false
+            open: false,
+            keep: false
         };
+        setAxiosDefaults();
+    }
+
+    componentDidMount() {
+        if (getCSRF()) {
+            axios.get(serverURLs.user).then(response => {
+                this.doRedirect(URLs.home);
+            });
+        }
     }
 
     handleClickShowPassword = () => {
-        this.setState({isVisible: !this.state.isVisible});
+        this.setState({
+            isVisible: !this.state.isVisible
+        });
     };
 
     validateData = () => {
@@ -54,47 +74,27 @@ export default class MaterialSignIn extends React.Component {
     submitHandle = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = 'http://127.0.0.1:8000/accounts/login/';
-            axios.post(url, {
+            axios.post(serverURLs.login, {
                 username: this.state.username,
-                password: this.state.password
+                password: this.state.password,
+                keep: this.state.keep
             }).then(response => {
-                // let profilePic = null;
-                // if (response.data.profile_pic) {
-                //     const pic_url = `http://127.0.0.1:8000/user-img/${response.data.id}`;
-                //     axios.get(pic_url, {responseType: 'arraybuffer'}).then(picResponse => {
-                //         const base64 = btoa(
-                //             new Uint8Array(picResponse.data).reduce(
-                //                 (data, byte) => data + String.fromCharCode(byte),
-                //                 ''
-                //             ));
-                //         profilePic = `data:;base64,${base64}`;
-                //     });
-                // }
-                const csrftoken = response.headers.csrftoken;
-                const sessionId = response.headers.sessionid;
-                this.props.history.push({
-                    pathname: '/home',
-                    state: {
-                        user: response.data,
-                        // profilePic: profilePic,
-                        csrftoken: csrftoken,
-                        sessionId: sessionId
-                    }
-                });
+                axios.defaults.headers = {
+                    'X-CSRFToken': getCSRF()
+                };
+                this.doRedirect(URLs.home);
             }).catch(error => {
-                if (error.response)
-                    switch (error.response.status) {
-                        case 401:
-                            this.setState({
-                                open: true
-                            });
-                            break;
-                        default:
-                            this.props.history.push('/503')
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        this.setState({
+                            open: true
+                        });
+                    } else {
+                        this.doRedirect(URLs["503"]);
                     }
-                else {
-                    this.props.history.push('/503')
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
                 }
             });
         }
@@ -114,12 +114,37 @@ export default class MaterialSignIn extends React.Component {
     };
 
     closeModal = () => {
-        this.setState({open: false});
+        this.setState({
+            open: false
+        });
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
+    changeKeep = (event, checked) => {
+        this.setState({
+            keep: checked
+        });
     };
 
     render() {
+        const CustomVisible = CustomIcon()(Visibility);
+        const CustomInvisible = CustomIcon()(VisibilityOff);
+        const CustomChecked = CustomIcon()(CheckBoxIcon);
+        const CustomUnChecked = CustomIcon()(CheckBoxOutlineBlankIcon);
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain'>
                     <div className="App__Form">
                         <Container component="main" maxWidth='xs'>
@@ -163,17 +188,27 @@ export default class MaterialSignIn extends React.Component {
                                                                 aria-label="toggle password visibility"
                                                                 onClick={this.handleClickShowPassword}
                                                             >
-                                                                {this.state.isVisible ? <Visibility/> :
-                                                                    <VisibilityOff/>}
+                                                                {this.state.isVisible ? <CustomVisible/> :
+                                                                    <CustomInvisible/>}
                                                             </IconButton>
                                                         </InputAdornment>
                                                     ),
                                                 }}
                                             />
                                         </Grid>
+                                        <Grid item xs={12}>
+                                            <FormControlLabel
+                                                control={<Checkbox value="keep" checkedIcon={<CustomChecked/>}
+                                                                   icon={<CustomUnChecked/>}/>}
+                                                label="Keep me signed in"
+                                                onChange={this.changeKeep}
+                                                checked={this.state.keep}
+                                            />
+                                        </Grid>
                                     </Grid>
                                     <MyButton
                                         type="submit"
+                                        fullWidth
                                         variant="contained"
                                         color="primary"
                                         onClick={this.submitHandle}

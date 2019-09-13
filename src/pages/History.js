@@ -21,7 +21,10 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {CustomIcon} from "../Styles";
-import {Add, Delete} from "@material-ui/icons";
+import {AddCircle, Delete} from "@material-ui/icons";
+import {serverURLs, URLs} from "../Constants";
+import {setAxiosDefaults} from "../Globals";
+import {Redirect} from "react-router-dom";
 
 const CustomAdd = CustomIcon()(AddBox),
     CustomCheck = CustomIcon()(Check),
@@ -42,7 +45,7 @@ const CustomAdd = CustomIcon()(AddBox),
     CustomViewColumn = CustomIcon()(ViewColumn),
     CustomEditIcon = CustomIcon()(Edit),
     CustomDeleteIcon = CustomIcon()(Delete),
-    CustomAddIcon = CustomIcon()(Add);
+    CustomAddIcon = CustomIcon()(AddCircle);
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <CustomAdd {...props} ref={ref}/>),
@@ -64,20 +67,15 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <CustomViewColumn {...props} ref={ref}/>)
 };
 
-
 class History extends Component {
+
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-            this.pk = props.match.params.pk;
-            if (!this.pk) {
-                this.pk = this.user.id;
-            }
-        }
+        this.pk = props.match.params.pk;
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             histories: []
         };
         this.tableColumns = [
@@ -99,43 +97,71 @@ class History extends Component {
             {title: 'Operand', field: 'operand', disableClick: true, editable: 'never'},
             {title: 'Details', field: 'details', disableClick: true, editable: 'never'}
         ];
+        setAxiosDefaults();
     }
 
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
 
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        } else {
-            const url = `http://127.0.0.1:8000/user/${this.pk}/logs`;
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+            const url = `${serverURLs.user}${this.pk ? this.pk : this.state.userPK}/logs/`;
             axios.get(url).then(response => {
                 const data = response.data;
-                if (data) {
-                    console.log("before for eecah");
-                    console.log(data);
-                    data.forEach((item, index, arr) => {
-                            console.log("before after eecah");
-                            arr[index].date = new Date(item.date);
-                        }
-                    );
-                }
+                data.forEach((item, index, arr) => {
+                    arr[index].date = new Date(item.date);
+                });
                 this.setState({
                     histories: data
                 });
             }).catch(error => {
-                console.log("in cathc ma");
-                this.props.history.push('/503');
-            })
-        }
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        this.doRedirect(URLs.signIn);
+                    } else {
+                        this.doRedirect(URLs["503"]);
+                    }
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
+            });
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
     render() {
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain2'>
-                    <NestedList user={this.user}
+                    <NestedList isSuperUser={this.state.userIsSuperUser}
                                 myHistory={this.props.history} inHistory/>
                     <div className="rightme">
-                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <Container className='cardGrid' maxWidth="md">
                             <MaterialTable columns={this.tableColumns} data={this.state.histories}
                                            icons={tableIcons} title='Histories'/>

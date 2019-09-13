@@ -8,10 +8,11 @@ import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import axios from "axios";
 import DeleteConfirmAlert from "./DeleteConfirmAlert";
-import arash from '../B71c1c.png';
+import arash from '../static/B71c1c.png';
 import '../styles/CompanyListItem.css';
 import Grid from "@material-ui/core/Grid";
 import {CustomIcon, MyTextField} from "../Styles";
+import {serverURLs, URLs} from "../Constants";
 
 export default class CompanyListItem extends React.Component {
 
@@ -30,21 +31,17 @@ export default class CompanyListItem extends React.Component {
     };
 
     handleDelete = () => {
-        const url = `http://127.0.0.1:8000/company/${this.props.company.id}/`;
+        const url = `${serverURLs.company}${this.props.company.id}/`;
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
-            this.props.myHistory.push('/503');
+            this.props.myHistory.push(URLs["503"]);
         });
     };
 
     onEditClick = () => {
-        this.props.myHistory.push({
-            pathname: `company/${this.props.company.id}/edit`,
-            state: {
-                user: this.props.user
-            }
-        });
+        const url = `company/${this.props.company.id}/edit`;
+        this.props.myHistory.push(url);
     };
 
     onDeleteClick = () => {
@@ -61,23 +58,14 @@ export default class CompanyListItem extends React.Component {
 
     goToArash = () => {
         const url = `/company/${this.props.company.id}`;
-        this.props.myHistory.push({
-            pathname: url,
-            state: {
-                user: this.props.user
-            }
-        });
+        this.props.myHistory.push(url);
     };
 
     render() {
         const hasFax = this.props.company.address.fax && this.props.company.address.fax !== '';
-        // noinspection JSCheckFunctionSignatures
         const CustomEditIcon = CustomIcon()(Edit);
-        // noinspection JSCheckFunctionSignatures
         const CustomDeleteIcon = CustomIcon()(Delete);
-        // noinspection JSCheckFunctionSignatures
         const CustomExpandLessIcon = CustomIcon()(ExpandLess);
-        // noinspection JSCheckFunctionSignatures
         const CustomExpandMoreIcon = CustomIcon()(ExpandMore);
         return (
             <div key={this.props.company.id}>
@@ -167,6 +155,5 @@ export default class CompanyListItem extends React.Component {
 
 CompanyListItem.propTypes = {
     company: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
     myHistory: PropTypes.object.isRequired
 };

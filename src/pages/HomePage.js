@@ -11,62 +11,85 @@ import {Add} from "@material-ui/icons";
 import List from "@material-ui/core/List";
 import CompanyListItem from "../components/CompanyListItem";
 import '../styles/HomePage.css';
+import {serverURLs, URLs} from "../Constants";
+import {setAxiosDefaults} from "../Globals";
+import {Redirect} from "react-router-dom";
 
 
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-            this.csrftoken = this.props.location.state.csrftoken;
-            this.sessionId = this.props.location.state.sessionId;
-        }
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             companies: []
         };
+        setAxiosDefaults();
     }
 
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        } else {
-            const url = 'http://127.0.0.1:8000/companies';
-            const config = {
-                headers: {
-                    'X-CSRFToken': this.csrftoken,
-                    // Authorization: `Bearer ${this.sessionId}`,
-                    // 'Cookie': 'sessionid=' + this.sessionId
-                }
-            };
-            axios.get(url, config).then(response => {
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+            axios.get(serverURLs.companies).then(response => {
                 this.setState({
                     companies: response.data
-                })
+                });
             }).catch(error => {
-                this.props.history.push('/503');
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        this.doRedirect(URLs.signIn);
+                    } else {
+                        this.doRedirect(URLs["503"]);
+                    }
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
             });
-        }
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
-    addNewCompanyButton = (e) => {
-        this.props.history.push({
-            pathname: '/company/add',
-            state: {
-                user: this.user
-            }
-        })
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
+    addNewCompanyButton = () => {
+        this.props.history.push(URLs.addCompany);
     };
 
     render() {
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain2'>
-                    <NestedList user={this.user}
-                                myHistory={this.props.history} inCompanies/>
+                    <NestedList myHistory={this.props.history}
+                                inCompanies
+                                isSuperUser={this.state.userIsSuperUser}/>
                     <div className="rightme">
-                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <Container className='cardGrid' maxWidth="md">
                             <div className='AddCompanyButton'>
                                 <Grid container justify='flex-end'>
@@ -81,12 +104,11 @@ export default class HomePage extends React.Component {
                             {this.state.companies && this.state.companies.length !== 0 ? (
                                 <List className='List'>
                                     {this.state.companies.map(company => (
-                                        <CompanyListItem company={company} myHistory={this.props.history}
-                                                         user={this.user}/>
+                                        <CompanyListItem company={company} myHistory={this.props.history}/>
                                     ))}
                                 </List>
                             ) : (
-                                <Typography variant="h5" align="center" color="white" paragraph>
+                                <Typography variant="h5" align="center" paragraph>
                                     No company to show!
                                 </Typography>
                             )}

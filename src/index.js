@@ -16,24 +16,25 @@ import ProfilePage from "./pages/ProfilePage";
 import History from "./pages/History";
 import Page503 from "./pages/503NotAvailable";
 import ListProfile from "./pages/ListProfile";
+import {URLs} from "./Constants";
 
 const route = (
     <Router>
         <Switch>
-            <Route exact path='/' component={MaterialSignIn}/>
-            <Route path='/sign-up' component={MaterialSignUp}/>
-            <Route path="/profile" component={ProfilePage}/>
+            <Route exact path={URLs.signIn} component={MaterialSignIn}/>
+            <Route path={URLs.signUp} component={MaterialSignUp}/>
+            <Route path={URLs.profile} component={ProfilePage}/>
             <Route exact path="/user/:pk" component={ProfilePage}/>
             <Route path="/user/:pk/history" component={History}/>
-            <Route path="/history" component={History}/>
-            <Route path='/home' component={HomePage}/>
-            <Route path='/company/add' component={AddCompany}/>
+            <Route path={URLs.history} component={History}/>
+            <Route path={URLs.home} component={HomePage}/>
+            <Route path={URLs.addCompany} component={AddCompany}/>
             <Route exact path='/company/:pk' component={CompanyPage}/>
             <Route path='/company/:pk/edit' component={EditCompany}/>
             <Route path='/company/:pk/add-arash' component={AddArash}/>
             <Route path='/company/:pk/edit-arash/:apk' component={EditArash}/>
-            <Route path='/profile-list' component={ListProfile}/>
-            <Route path='/503' component={Page503}/>
+            <Route path={URLs.listProfile} component={ListProfile}/>
+            <Route path={URLs["503"]} component={Page503}/>
             <Route component={Page404}/>
         </Switch>
     </Router>

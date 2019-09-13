@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {containsDigitOnly} from "../Globals";
 import Grid from "@material-ui/core/Grid";
 import '../styles/AddressModal.css';
-import {MyButton, MyTextField} from "../Styles";
+import {ConfirmButton, MyTextField} from "../Styles";
 
 export default class AddressModal extends React.Component {
     frontErrors = {
@@ -18,11 +18,6 @@ export default class AddressModal extends React.Component {
         plaque: 'Plaque cannot be empty',
         telephone: 'Telephone must be exactly 11 characters',
         fax: 'Fax must be exactly 11 characters'
-    };
-    inputColor = {
-        style: {
-            color: 'black'
-        }
     };
 
     constructor(props) {
@@ -54,7 +49,9 @@ export default class AddressModal extends React.Component {
     }
 
     handleClickOpen = () => {
-        this.setState({open: true});
+        this.setState({
+            open: true
+        });
     };
 
     handleClose = () => {
@@ -112,7 +109,7 @@ export default class AddressModal extends React.Component {
             postalCodeHelper: ' ',
             plaqueHelper: ' ',
             telephoneHelper: ' ',
-            faxHelper: ' ',
+            faxHelper: ' '
         });
     };
 
@@ -152,6 +149,8 @@ export default class AddressModal extends React.Component {
     };
 
     render() {
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <div>
                 <MyTextField
@@ -297,13 +296,27 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <MyButton onClick={this.handleClose} color="primary" className='buttons'>
-                            Cancel
-                        </MyButton>
-                        <MyButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
-                                  className='buttons'>
+                        {/*<SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
                             Save
-                        </MyButton>
+                        </SaveButton>
+                        <CancelButton onClick={this.handleClose} color="primary">
+                            Cancel
+                        </CancelButton>*/}
+                        <Grid container>
+                            <Grid item xs></Grid>
+                            <Grid item xs></Grid>
+                            <Grid item xs>
+                                <SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
+                                            fullWidth>
+                                    Save
+                                </SaveButton>
+                            </Grid>
+                            <Grid item xs>
+                                <CancelButton onClick={this.handleClose} color="primary" fullWidth>
+                                    Cancel
+                                </CancelButton>
+                            </Grid>
+                        </Grid>
                     </DialogActions>
                 </Dialog>
             </div>

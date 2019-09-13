@@ -14,23 +14,43 @@ import {ConfirmButton, CustomIcon, MyTextField} from '../Styles'
 import NestedList from "../components/leftnavbar";
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import {serverURLs, URLs} from "../Constants";
+import {containsDigitOnly, isEmail, setAxiosDefaults} from "../Globals";
+import {Redirect} from "react-router-dom";
+import Default from '../static/Author__Placeholder.png';
 
 export default class ProfilePage extends React.Component {
+
+    frontErrors = {
+        firstName: 'First name cannot be empty',
+        lastName: 'Last name cannot be empty',
+        username: 'Username cannot be empty',
+        email: ['Email cannot be empty', `Email format is invalid. Example: 'example@mail.com'`],
+        password: 'Password cannot be empty',
+        passwordRepeat: `Password doesn't match`,
+        phone: 'Mobile number must be exactly 11 characters',
+        personnelCode: 'Personnel code cannot be empty'
+    };
+
     constructor(props) {
         super(props);
-        this.user = props.location.state.user;
         this.pk = props.match.params.pk;
         this.state = {
-            firstName: this.user.first_name,
-            lastName: this.user.last_name,
-            email: this.user.email,
-            phone: this.user.phone,
-            personnelCode: this.user.personnel_code,
-            inPlace: this.user.in_place,
-            address: this.user.address,
-            isSuperUser: this.user.is_superuser,
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
+            firstName: '',
+            lastName: '',
+            username: '',
+            email: '',
+            phone: '',
+            personnelCode: '',
+            inPlace: false,
+            address: {},
+            isSuperUser: false,
             profilePic: null,
-            photo: `http://127.0.0.1:8000/user-img/${this.user.id}`,
+            photo: '',
+            photoCleared: false,
             oldPassword: '',
             newPassword: '',
             passwordRepeat: '',
@@ -44,8 +64,10 @@ export default class ProfilePage extends React.Component {
             passwordRepeatHelper: ' ',
             isVisibleOldPassword: false,
             isVisibleNewPassword: false,
-            isVisiblePasswordRepeat: false
+            isVisiblePasswordRepeat: false,
+            pk: ''
         };
+        setAxiosDefaults();
     }
 
     submitAddress = (address) => {
@@ -57,12 +79,6 @@ export default class ProfilePage extends React.Component {
     inPlaceChanged = (e, checked) => {
         this.setState({
             inPlace: checked
-        });
-    };
-
-    isSuperUserChanged = (e, checked) => {
-        this.setState({
-            isSuperUser: checked
         });
     };
 
@@ -78,6 +94,7 @@ export default class ProfilePage extends React.Component {
             isVisibleOldPassword: !this.state.isVisibleOldPassword
         });
     };
+
     handleClickShowNewPassword = () => {
         this.setState({
             isVisibleNewPassword: !this.state.isVisibleNewPassword
@@ -97,57 +114,74 @@ export default class ProfilePage extends React.Component {
     };
 
     uploadImage = () => {
+        const url = `${serverURLs.userImage}${this.pk ? this.pk : this.state.pk}/`;
         if (this.state.profilePic) {
             const fd = new FormData();
             fd.append('profile_pic', this.state.profilePic);
-            axios.put(`http://127.0.0.1:8000/user-img/${this.pk ? this.pk : this.user.id}/`, fd).catch(error => {
+            axios.put(url, fd).catch(error => {
                 console.error(error);
+                this.doRedirect(URLs["503"]);
+            });
+        } else if (this.state.photoCleared) {
+            axios.delete(url).catch(error => {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
             });
         }
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const {firstName: first_name, lastName: last_name, username, email, phone, personnelCode: personnel_code, inPlace: in_place, address, newPassword} = this.state;
-        const url = `http://127.0.0.1:8000/user/${this.pk ? this.pk : this.user.id}/`;
-        axios.put(url, {
-            first_name: first_name,
-            last_name: last_name,
-            username: username,
-            email: email,
-            phone: phone,
-            personnel_code: personnel_code,
-            in_place: in_place,
-            address: address,
-            password: newPassword
-        }).then(response => {
-            this.uploadImage();
-            if (!this.pk) {
-                this.user.first_name = first_name;
-                this.user.last_name = last_name;
-                this.user.username = username;
-                this.user.email = email;
-                this.user.phone = phone;
-                this.user.personnel_code = personnel_code;
-                this.user.in_place = in_place;
-                this.user.address = address;
-            }
-            const redirect = this.pk ? `/profile-list` : `/home`;
-            this.props.history.push({
-                pathname: redirect,
-                state: {
-                    user: this.user
+        if (this.validateData()) {
+            const url = `${serverURLs.user}${this.pk ? this.pk : this.state.pk}/`;
+            axios.put(url, {
+                username: this.state.username,
+                first_name: this.state.firstName,
+                last_name: this.state.lastName,
+                password: this.state.newPassword,
+                email: this.state.email,
+                phone: this.state.phone,
+                personnel_code: this.state.personnelCode,
+                in_place: this.state.inPlace,
+                is_superuser: this.state.isSuperUser,
+                address: {
+                    ...this.state.address,
+                    postal_code: this.state.address.postalCode
+                }
+            }).then(response => {
+                this.uploadImage();
+                const redirect = this.pk ? URLs.listProfile : URLs.home;
+                this.doRedirect(redirect);
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    this.handleErrors(error.response.data);
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
                 }
             });
-        }).catch(error => {
-            console.error(error);
-            //TODO("Errors are welcomed!")
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
         });
     };
 
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
     componentDidMount() {
-        if (this.pk) {
-            const url = 'http://127.0.0.1:8000/user/' + this.pk + '/';
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+            const url = `${serverURLs.user}${this.pk ? this.pk : this.state.userPK}/`;
             axios.get(url).then(response => {
                 this.setState({
                     firstName: response.data['first_name'],
@@ -157,14 +191,189 @@ export default class ProfilePage extends React.Component {
                     personnelCode: response.data['personnel_code'],
                     inPlace: response.data['in_place'],
                     address: response.data['address'],
-                    photo: `http://127.0.0.1:8000/user-img/${this.pk}`,
+                    photo: `${serverURLs.userImage}${this.pk ? this.pk : this.state.userPK}/`,
                     isSuperUser: response.data['is_superuser']
-                })
+                });
             }).catch(error => {
-                //TODO("Show error pages!")
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        this.doRedirect(URLs.signIn);
+                    } else {
+                        this.doRedirect(URLs["503"]);
+                    }
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
             });
-        }
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
+
+    errorOff = () => {
+        this.setState({
+            firstNameHelper: ' ',
+            lastNameHelper: ' ',
+            usernameHelper: ' ',
+            emailHelper: ' ',
+            passwordHelper: ' ',
+            passwordRepeatHelper: ' ',
+            phoneHelper: ' ',
+            personnelCodeHelper: ' '
+        });
+    };
+
+    validateData = () => {
+        let invalidData = false;
+        const {firstName, lastName, username, email, password, passwordRepeat, phone, personnelCode} = this.state;
+        if (firstName.trim() === '') {
+            this.setState({
+                firstNameHelper: this.frontErrors.firstName
+            });
+            invalidData = true;
+        }
+        if (lastName.trim() === '') {
+            this.setState({
+                lastNameHelper: this.frontErrors.lastName
+            });
+            invalidData = true;
+        }
+        if (username.trim() === '') {
+            this.setState({
+                usernameHelper: this.frontErrors.username
+            });
+            invalidData = true;
+        }
+        if (email.trim() === '') {
+            this.setState({
+                emailHelper: this.frontErrors.email[0]
+            });
+            invalidData = true;
+        } else if (!isEmail(email)) {
+            this.setState({
+                emailHelper: this.frontErrors.email[1]
+            });
+            invalidData = true;
+        }
+        if (password.trim() === '') {
+            this.setState({
+                passwordHelper: this.frontErrors.password
+            });
+            invalidData = true;
+        }
+        if (passwordRepeat.trim() !== password) {
+            this.setState({
+                passwordRepeatHelper: this.frontErrors.passwordRepeat
+            });
+            invalidData = true;
+        }
+        if (phone.trim().length !== 11) {
+            this.setState({
+                phoneHelper: this.frontErrors.phone
+            });
+            invalidData = true;
+        }
+        if (personnelCode.trim() === '') {
+            this.setState({
+                personnelCodeHelper: this.frontErrors.personnelCode
+            });
+            invalidData = true;
+        }
+        return !invalidData;
+    };
+
+    maxFieldChange = (e, max, numeric = false) => {
+        if (e.target.value.length <= max) {
+            if (numeric) {
+                this.numericFieldChange(e);
+            } else {
+                this.fieldChange(e);
+            }
+        }
+    };
+
+    numericFieldChange = (e) => {
+        if (containsDigitOnly(e.target.value)) {
+            this.fieldChange(e);
+        }
+    };
+
+    handleErrors = (errors) => {
+        for (let [key, value] of Object.entries(errors)) {
+            switch (key) {
+                case 'username':
+                    this.setState({
+                        usernameHelper: value
+                    });
+                    break;
+                case 'first_name':
+                    this.setState({
+                        firstNameHelper: value
+                    });
+                    break;
+                case 'last_name':
+                    this.setState({
+                        lastNameHelper: value
+                    });
+                    break;
+                case 'email':
+                    this.setState({
+                        emailHelper: value
+                    });
+                    break;
+                case 'personnel_code':
+                    this.setState({
+                        personnelCodeHelper: value
+                    });
+                    break;
+                case 'phone':
+                    this.setState({
+                        phoneHelper: value
+                    });
+                    break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
+            }
+        }
+    };
+
+    clearProfile = () => {
+        this.setState({
+            photo: Default,
+            profilePic: null,
+            photoCleared: true
+        });
+        this.longPressed = true;
+        this.fileInput.value = null;
+    };
+
+    profilePress = () => {
+        this.longPress = setTimeout(this.clearProfile, 1000);
+    };
+
+    choosePicture = () => {
+        this.fileInput.click();
+    };
+
+    profileRelease = () => {
+        clearTimeout(this.longPress);
+        if (!this.longPressed) {
+            this.choosePicture();
+        }
+        this.longPressed = false;
+    };
 
     cancelHandle = (e) => {
         const url = `/home`;
@@ -185,20 +394,24 @@ export default class ProfilePage extends React.Component {
         const CancelButton = ConfirmButton('right');
         return (
             <React.Fragment>
+                {this.redirect()}
                 <main className='HomePageMain2'>
-                    <NestedList user={this.user} myHistory={this.props.history}/>
+                    <NestedList isSuperUser={this.state.userIsSuperUser} myHistory={this.props.history}/>
                     <div className='rightme'>
-                        <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
                             {this.state.isSuperUser ? (
-                                <div className='profile-photo-master' onClick={() => this.fileInput.click()}>
+                                <div className='profile-photo-master' onMouseDown={this.profilePress}
+                                     onMouseUp={this.profileRelease}>
                                     <img src={this.state.photo} className="image" alt={this.state.photo}/>
                                     <div className="middle">
-                                        <div className="text">change profile picture</div>
+                                        <div className="text">change profile picture
+                                            (hold to delete)
+                                        </div>
                                     </div>
                                     <div className="MasterProfile">
                                         <div className="col-sm-4">
-                                            <input style={{display: 'none'}} className="FormField__Button mr-20 "
+                                            <input style={{display: 'none'}} className="FormField__Button mr-20"
                                                    type="file"
                                                    accept='image/*'
                                                    onChange={this.selectImages}
@@ -276,7 +489,7 @@ export default class ProfilePage extends React.Component {
                                             id="phone"
                                             label="Phone"
                                             name="phone"
-                                            onChange={this.handleChange}
+                                            onChange={(e) => this.maxFieldChange(e, 11, true)}
                                             value={this.state.phone}
                                             error={this.state.phoneHelper !== ' '}
                                             helperText={this.state.phoneHelper}
@@ -293,7 +506,7 @@ export default class ProfilePage extends React.Component {
                                             id="personnelCode"
                                             label="Personnel Code"
                                             name="personnelCode"
-                                            onChange={this.handleChange}
+                                            onChange={(e) => this.maxFieldChange(e, 15)}
                                             value={this.state.personnelCode}
                                             error={this.state.personnelCodeHelper !== ' '}
                                             helperText={this.state.personnelCodeHelper}
@@ -313,7 +526,6 @@ export default class ProfilePage extends React.Component {
                                             control={<Checkbox value="isSuperUser" checkedIcon={<CustomChecked/>}
                                                                icon={<CustomUnChecked/>}/>}
                                             label="Is Super User"
-                                            // onChange={this.state.isSuperUser ? this.isSuperUserChanged : null}
                                             checked={this.state.isSuperUser}
                                         />
                                     </Grid>

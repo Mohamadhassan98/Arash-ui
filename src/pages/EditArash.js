@@ -7,10 +7,12 @@ import '../styles/AddArash.css';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import axios from "axios";
-import {getDateString} from '../Globals';
+import {getDateString, setAxiosDefaults} from '../Globals';
 import {ConfirmButton, CustomIcon, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
 import {Event} from "@material-ui/icons";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
 
 
 export default class EditArash extends React.Component {
@@ -25,14 +27,12 @@ export default class EditArash extends React.Component {
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.pk = props.match.params.pk;
         this.apk = props.match.params.apk;
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             publicKey: '',
             serialNumber: '',
             license: '',
@@ -46,6 +46,7 @@ export default class EditArash extends React.Component {
             versionHelper: ' ',
             purchaseDateHelper: ' '
         };
+        setAxiosDefaults();
     }
 
     validateData = () => {
@@ -89,11 +90,25 @@ export default class EditArash extends React.Component {
         return !invalidData;
     };
 
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        } else {
-            const url = `http://127.0.0.1:8000/arash/${this.apk}`;
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+            const url = `${serverURLs.arash}${this.apk}/`;
             axios.get(url).then(response => {
                 const {public_key: publicKey, serial_number: serialNumber, license, expire_date: expireDate, version, purchase_date: purchaseDate} = response.data;
                 this.setState({
@@ -105,15 +120,35 @@ export default class EditArash extends React.Component {
                     purchaseDate: new Date(purchaseDate)
                 });
             }).catch(error => {
-                this.props.history.push('/503');
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        this.doRedirect(URLs.signIn);
+                    } else {
+                        this.doRedirect(URLs["503"]);
+                    }
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
             });
-        }
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
     submitHandle = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = `http://127.0.0.1:8000/arash/${this.apk}/`;
+            const url = `${serverURLs.arash}${this.apk}/`;
             const data = {
                 public_key: this.state.publicKey,
                 serial_number: this.state.serialNumber,
@@ -123,21 +158,14 @@ export default class EditArash extends React.Component {
                 purchase_date: getDateString('-', this.state.purchaseDate),
                 company: this.pk
             };
-            const redirectPath = '/company/' + this.pk;
-            axios.put(url, data).then(response =>
-                this.props.history.push({
-                    pathname: redirectPath,
-                    state: {
-                        user: this.user
-                    }
-                })).catch(e => {
-                switch (e.response.status) {
-                    case 400:
-                        console.error(e.response.status);
-                        this.handleErrors(e.response.data);
-                        break;
-                    default:
-                        this.props.history.push('/503');
+            const redirectPath = `/company/${this.pk}`;
+            axios.put(url, data).then(response => {
+                this.doRedirect(redirectPath);
+            }).catch(e => {
+                if (e.response.status === 422) {
+                    this.handleErrors(e.response.data);
+                } else {
+                    this.doRedirect(URLs["503"]);
                 }
             });
         }
@@ -176,13 +204,17 @@ export default class EditArash extends React.Component {
                         purchaseDateHelper: value
                     });
                     break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
             }
         }
     };
 
     fieldChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
@@ -193,20 +225,20 @@ export default class EditArash extends React.Component {
             licenseHelper: ' ',
             expireDateHelper: ' ',
             versionHelper: ' ',
-            purchaseDateHelper: ' ',
+            purchaseDateHelper: ' '
         });
     };
 
     expireDateChange = (e, value) => {
         this.setState({
             expireDate: new Date(value)
-        })
+        });
     };
 
     purchaseDateChange = (e, value) => {
         this.setState({
             purchaseDate: new Date(value)
-        })
+        });
     };
 
     cancelHandle = (e) => {
@@ -226,10 +258,11 @@ export default class EditArash extends React.Component {
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <React.Fragment>
+                    {this.redirect()}
                     <main className='HomePageMain2'>
-                        <NestedList myHistory={this.props.history} user={this.user}/>
+                        <NestedList myHistory={this.props.history} isSuperUser={this.state.userIsSuperUser}/>
                         <div className='rightme'>
-                            <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                            <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                             <Container component="main" maxWidth="xs">
                                 <div className='paper'>
                                     <form className='form' noValidate>

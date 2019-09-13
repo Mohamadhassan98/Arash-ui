@@ -13,12 +13,13 @@ import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import '../styles/LeftNavBar.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import axios from 'axios';
+import {serverURLs, URLs} from "../Constants";
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '20%',
         height: '100%',
-        // maxWidth: 360,
         position: 'fixed',
         backgroundColor: '#424242',
     },
@@ -33,47 +34,35 @@ const useStyles = makeStyles(theme => ({
 
 function NestedList(props) {
     const classes = useStyles();
-    const user = props.user;
 
     const goToProfile = () => {
         if (props.inProfile) {
             window.location.reload();
         } else {
-            props.myHistory.push('/profile', {
-                user: user
-            });
+            props.myHistory.push(URLs.profile);
         }
     };
 
     const goToHistory = () => {
-        const url = `/history`;
         if (props.inHistory) {
             window.location.reload();
         } else {
-            props.myHistory.push(url, {
-                user: user
-            });
+            props.myHistory.push(URLs.history);
         }
     };
 
     const goToCompanies = () => {
-        const url = `/home`;
         if (props.inCompanies) {
             window.location.reload();
         } else {
-            props.myHistory.push(url, {
-                user: user
-            });
+            props.myHistory.push(URLs.home);
         }
     };
     const goToListProfile = () => {
-        const url = `/profile-list`;
         if (props.inListProfile) {
             window.location.reload();
         } else {
-            props.myHistory.push(url, {
-                user: user,
-            });
+            props.myHistory.push(URLs.listProfile);
         }
     };
     const goToHelp = () => {
@@ -81,27 +70,27 @@ function NestedList(props) {
     };
 
     const goToLogout = () => {
-        const url = `/`;
-        props.myHistory.push(url);
+        axios.get(serverURLs.logout).then(response => {
+            props.myHistory.push(URLs.signIn);
+        });
     };
+
     const CustomListAltOutlinedIcon = CustomIcon()(ListAltOutlinedIcon);
     const CustomHistoryOutlinedIcon = CustomIcon()(HistoryOutlinedIcon);
     const CustomHelpOutlineOutlinedIcon = CustomIcon()(HelpOutlineOutlinedIcon);
     const CustomExitToAppOutlinedIcon = CustomIcon()(ExitToAppOutlinedIcon);
     const CustomAccountCircleIcon = CustomIcon()(AccountCircleIcon);
     const CustomAssignmentIndIcon = CustomIcon()(AssignmentIndIcon);
-
     return (
         <List
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
-                <MyListSubheader color='#b71c1c' component="div" id="nested-list-subheader" className='ListSubHeader'>
+                <MyListSubheader component="div" id="nested-list-subheader" className='ListSubHeader'>
                     {'Menu'}
                 </MyListSubheader>
             }
-            className={classes.root}
-        >
+            className={classes.root}>
             <ListItem button onClick={goToCompanies} selected={props.inCompanies}>
                 <ListItemIcon>
                     <CustomListAltOutlinedIcon/>
@@ -126,14 +115,13 @@ function NestedList(props) {
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="Help"/>
             </ListItem>
-            {/*{props.user.is_superuser &&*/}
+            {props.isSuperUser &&
             <ListItem button onClick={goToListProfile} selected={props.inListProfile}>
                 <ListItemIcon>
                     <CustomAssignmentIndIcon/>
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="List Profile"/>
-            </ListItem>
-            {/*}*/}
+            </ListItem>}
             <ListItem button onClick={goToLogout}>
                 <ListItemIcon>
                     <CustomExitToAppOutlinedIcon/>
@@ -146,7 +134,7 @@ function NestedList(props) {
 
 NestedList.propTypes = {
     myHistory: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    isSuperUser: PropTypes.bool.isRequired,
     inProfile: PropTypes.bool,
     inHistory: PropTypes.bool,
     inCompanies: PropTypes.bool,

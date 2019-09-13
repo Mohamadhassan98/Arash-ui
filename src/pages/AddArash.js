@@ -7,10 +7,12 @@ import '../styles/AddArash.css';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import axios from "axios";
-import {getDateString} from '../Globals';
+import {getDateString, setAxiosDefaults} from '../Globals';
 import {ConfirmButton, CustomIcon, MyTextField} from "../Styles";
 import NestedList from "../components/leftnavbar";
 import {Event} from "@material-ui/icons";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
 
 
 export default class AddArash extends React.Component {
@@ -25,13 +27,11 @@ export default class AddArash extends React.Component {
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.pk = props.match.params.pk;
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             publicKey: '',
             serialNumber: '',
             license: '',
@@ -45,6 +45,7 @@ export default class AddArash extends React.Component {
             versionHelper: ' ',
             purchaseDateHelper: ' '
         };
+        setAxiosDefaults();
     }
 
     maxFieldChange = (e, max) => {
@@ -94,10 +95,21 @@ export default class AddArash extends React.Component {
         return !invalidData;
     };
 
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
     submitHandle = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = 'http://127.0.0.1:8000/add/arash/';
             const data = {
                 public_key: this.state.publicKey,
                 serial_number: this.state.serialNumber,
@@ -107,21 +119,14 @@ export default class AddArash extends React.Component {
                 purchase_date: getDateString('-', this.state.purchaseDate),
                 company: this.pk
             };
-            console.log(data);
-            const redirectPath = '/company/' + this.pk;
-            axios.post(url, data).then(response =>
-                this.props.history.push({
-                    pathname: redirectPath,
-                    state: {
-                        user: this.user
-                    }
-                })).catch(e => {
-                switch (e.response.status) {
-                    case 400:
-                        this.handleErrors(e.response.data);
-                        break;
-                    default:
-                        this.props.history.push('/503');
+            const url = `/company/${this.pk}`;
+            axios.post(serverURLs.addArash, data).then(response => {
+                this.doRedirect(url);
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    this.handleErrors(error.response.data);
+                } else {
+                    this.doRedirect(URLs["503"]);
                 }
             });
         }
@@ -160,13 +165,17 @@ export default class AddArash extends React.Component {
                         purchaseDateHelper: value
                     });
                     break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
             }
         }
     };
 
     fieldChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
@@ -177,7 +186,7 @@ export default class AddArash extends React.Component {
             licenseHelper: ' ',
             expireDateHelper: ' ',
             versionHelper: ' ',
-            purchaseDateHelper: ' ',
+            purchaseDateHelper: ' '
         });
     };
 
@@ -194,9 +203,23 @@ export default class AddArash extends React.Component {
     };
 
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        }
+        axios.get(serverURLs.user).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
     cancelHandle = (e) => {
@@ -216,10 +239,11 @@ export default class AddArash extends React.Component {
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <React.Fragment>
+                    {this.redirect()}
                     <main className='HomePageMain2'>
-                        <NestedList user={this.user} myHistory={this.props.history}/>
+                        <NestedList isSuperUser={this.state.userIsSuperUser} myHistory={this.props.history}/>
                         <div className='rightme'>
-                            <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
+                            <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                             <Container component="main" maxWidth="xs">
                                 <div className='paper'>
                                     <form className='form' noValidate>

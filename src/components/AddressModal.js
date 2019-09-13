@@ -295,13 +295,27 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <CancelButton onClick={this.handleClose} color="primary" className='buttons'>
-                            Cancel
-                        </CancelButton>
-                        <SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
-                                  className='buttons'>
+                        {/*<SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
                             Save
                         </SaveButton>
+                        <CancelButton onClick={this.handleClose} color="primary">
+                            Cancel
+                        </CancelButton>*/}
+                        <Grid container>
+                            <Grid item xs></Grid>
+                            <Grid item xs></Grid>
+                            <Grid item xs>
+                                <SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
+                                            fullWidth>
+                                    Save
+                                </SaveButton>
+                            </Grid>
+                            <Grid item xs>
+                                <CancelButton onClick={this.handleClose} color="primary" fullWidth>
+                                    Cancel
+                                </CancelButton>
+                            </Grid>
+                        </Grid>
                     </DialogActions>
                 </Dialog>
             </div>

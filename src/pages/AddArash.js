@@ -223,7 +223,7 @@ export default class AddArash extends React.Component {
                             <Container component="main" maxWidth="xs">
                                 <div className='paper'>
                                     <form className='form' noValidate>
-                                        <Typography component="h1" variant="subtitle1" align='center' className='typo'
+                                        <Typography component="h1" variant="subtitle1" align='center' className='title'
                                                     gutterBottom paragraph>
                                             Add Arash
                                         </Typography>

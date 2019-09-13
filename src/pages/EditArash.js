@@ -233,7 +233,8 @@ export default class EditArash extends React.Component {
                             <Container component="main" maxWidth="xs">
                                 <div className='paper'>
                                     <form className='form' noValidate>
-                                        <Typography component="h1" variant="subtitle1" align='center' gutterBottom
+                                        <Typography className="title" component="h1" variant="subtitle1" align='center'
+                                                    gutterBottom
                                                     paragraph>
                                             Edit Arash
                                         </Typography>

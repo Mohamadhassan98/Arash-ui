@@ -39,6 +39,7 @@ export default class AddressModal extends React.Component {
             faxHelper: ' ',
             addressHelper: props.addressHelper
         };
+        console.log(this.state.address.city)
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -163,7 +164,7 @@ export default class AddressModal extends React.Component {
                     name="address"
                     InputProps={{readOnly: true}}
                     onClick={this.handleClickOpen}
-                    value={this.state.address.city ? (`${this.state.address.city} ${this.state.address.street} ${this.state.address.alley.length === 0 ? '' : `${this.state.address.alley}`} ${this.state.address.plaque}`) : ''}
+                    value={this.state.address.city ? (`${this.state.address.city} ${this.state.address.street}  ${this.state.address.plaque}`) : ''}
                     error={this.state.addressHelper !== ' '}
                     helperText={this.state.addressHelper}
                 />

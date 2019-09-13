@@ -132,7 +132,7 @@ export default class ProfilePage extends React.Component {
                 this.user.in_place = in_place;
                 this.user.address = address;
             }
-            const redirect = this.pk ? `/list/profile` : `/home`;
+            const redirect = this.pk ? `/profile-list` : `/home`;
             this.props.history.push({
                 pathname: redirect,
                 state: {

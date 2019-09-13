@@ -15,6 +15,8 @@ import NestedList from "../components/leftnavbar";
 import Checkbox from "@material-ui/core/Checkbox";
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import defaultpro from '../Author__Placeholder.png'
+
 
 export default class SignUp extends React.Component {
     frontErrors = {
@@ -40,7 +42,7 @@ export default class SignUp extends React.Component {
             lastName: '',
             username: '',
             email: '',
-            password: '',
+            Password: '',
             passwordRepeat: '',
             mobilePhone: '',
             personnelCode: '',
@@ -57,6 +59,9 @@ export default class SignUp extends React.Component {
             passwordRepeatHelper: ' ',
             mobilePhoneHelper: ' ',
             personnelCodeHelper: ' ',
+            phoneHelper: ' ',
+            photo: defaultpro,
+
         };
     }
 
@@ -75,7 +80,7 @@ export default class SignUp extends React.Component {
 
     validateData = () => {
         let invalidData = false;
-        const {firstName, lastName, username, email, password, passwordRepeat, mobilePhone, personnelCode} = this.state;
+        const {firstName, lastName, username, email, Password, passwordRepeat, phone, personnelCode} = this.state;
         if (firstName.trim() === '') {
             this.setState({
                 firstNameHelper: this.frontErrors.firstName
@@ -83,6 +88,7 @@ export default class SignUp extends React.Component {
             invalidData = true;
         }
         if (lastName.trim() === '') {
+
             this.setState({
                 lastNameHelper: this.frontErrors.lastName
             });
@@ -105,21 +111,21 @@ export default class SignUp extends React.Component {
             });
             invalidData = true;
         }
-        if (password.trim() === '') {
+        if (Password.trim() === '') {
             this.setState({
                 passwordHelper: this.frontErrors.password
             });
             invalidData = true;
         }
-        if (passwordRepeat.trim() !== password) {
+        if (passwordRepeat.trim() !== Password) {
             this.setState({
                 passwordRepeatHelper: this.frontErrors.passwordRepeat
             });
             invalidData = true;
         }
-        if (mobilePhone.trim().length !== 11) {
+        if (phone.trim().length !== 11) {
             this.setState({
-                mobilePhoneHelper: this.frontErrors.mobilePhone
+                phoneHelper: this.frontErrors.mobilePhone
             });
             invalidData = true;
         }
@@ -159,7 +165,19 @@ export default class SignUp extends React.Component {
             }
         }
     };
-
+    uploadImage = (id) => {
+        console.log("in upload image");
+        console.log(this.state.profilePic);
+        if (this.state.profilePic) {
+            console.log("after if uploadimage");
+            console.log(this.user.id);
+            const fd = new FormData();
+            fd.append('profile_pic', this.state.profilePic);
+            axios.put(`http://127.0.0.1:8000/user-img/${id}/`, fd).catch(error => {
+                console.error(error);
+            });
+        }
+    };
     numericFieldChange = (e) => {
         if (containsDigitOnly(e.target.value)) {
             this.fieldChange(e);
@@ -182,9 +200,9 @@ export default class SignUp extends React.Component {
                 username: this.state.username,
                 first_name: this.state.firstName,
                 last_name: this.state.lastName,
-                password: this.state.password,
+                password: this.state.Password,
                 email: this.state.email,
-                phone: this.state.mobilePhone,
+                phone: this.state.phone,
                 personnel_code: this.state.personnelCode,
                 in_place: this.state.inPlace,
                 is_superuser: this.state.isSuperUser,
@@ -193,10 +211,11 @@ export default class SignUp extends React.Component {
                     postal_code: this.state.address.postalCode,
                 }
             }).then(response => {
+                this.uploadImage(response.data);
                 const csrftoken = response.headers.csrftoken;
                 // const sessionId = response.headers.sessionid;
                 this.props.history.push({
-                    pathname: '/list/profile',
+                    pathname: '/profile-list',
                     state: {
                         user: this.user,
                         csrftoken: csrftoken,
@@ -208,7 +227,12 @@ export default class SignUp extends React.Component {
             });
         }
     };
-
+    selectImages = (event) => {
+        this.setState({
+            photo: URL.createObjectURL(event.target.files[0]),
+            profilePic: event.target.files[0]
+        });
+    };
     isSuperUserChanged = (e, checked) => {
         this.setState({
             isSuperUser: checked
@@ -230,6 +254,11 @@ export default class SignUp extends React.Component {
             }
         });
     };
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
 
     render() {
         const CustomVisible = CustomIcon()(Visibility);
@@ -246,7 +275,7 @@ export default class SignUp extends React.Component {
                         <Profile pk={this.user.id} isSuperUser={this.user.is_superuser}/>
                         <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
                             <div className='profile-photo-master' onClick={() => this.fileInput.click()}>
-                                <img src={this.state.photo} className="image" alt={this.state.photo}/>
+                                <img src={this.state.photo} className="image" alt="profile picture"/>
                                 <div className="middle">
                                     <div className="text">change profile picture</div>
                                 </div>
@@ -297,6 +326,20 @@ export default class SignUp extends React.Component {
                                             variant="outlined"
                                             required
                                             fullWidth
+                                            id="username"
+                                            label="User Name"
+                                            name="username"
+                                            onChange={this.handleChange}
+                                            value={this.state.username}
+                                            error={this.state.usernameHelper !== ' '}
+                                            helperText={this.state.usernameHelper}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
                                             id="email"
                                             label="Email"
                                             name="email"
@@ -314,7 +357,7 @@ export default class SignUp extends React.Component {
                                             id="phone"
                                             label="Phone"
                                             name="phone"
-                                            onChange={this.handleChange}
+                                            onChange={(e) => this.maxFieldChange(e, 11, true)}
                                             value={this.state.phone}
                                             error={this.state.phoneHelper !== ' '}
                                             helperText={this.state.phoneHelper}
@@ -339,7 +382,7 @@ export default class SignUp extends React.Component {
                                             control={<Checkbox value="inPlace" checkedIcon={<CustomChecked/>}
                                                                icon={<CustomUnChecked/>}/>}
                                             label="In place"
-                                            onChange={this.state.isSuperUser ? this.inPlaceChanged : null}
+                                            onChange={this.inPlaceChanged}
                                             checked={this.state.inPlace}
                                         />
                                     </Grid>
@@ -360,15 +403,15 @@ export default class SignUp extends React.Component {
                                     <Grid item xs={12}>
                                         <MyTextField
                                             autoComplete='off'
-                                            id="newPassword"
+                                            id="Password"
                                             variant="outlined"
-                                            type={this.state.isVisibleNewPassword ? 'text' : 'password'}
-                                            label="New Password"
-                                            name="newPassword"
+                                            type={this.state.isVisiblePassword ? 'text' : 'password'}
+                                            label="Password"
+                                            name="Password"
                                             onChange={this.handleChange}
-                                            value={this.state.newPassword}
-                                            error={this.state.newPasswordHelper !== ' '}
-                                            helperText={this.state.newPasswordHelper}
+                                            value={this.state.Password}
+                                            error={this.state.passwordHelper !== ' '}
+                                            helperText={this.state.passwordHelper}
                                             fullWidth
                                             required
                                             InputProps={{
@@ -377,9 +420,9 @@ export default class SignUp extends React.Component {
                                                         <IconButton
                                                             edge="end"
                                                             aria-label="toggle password visibility"
-                                                            onClick={this.handleClickShowNewPassword}
+                                                            onClick={this.handleClickShowPassword}
                                                         >
-                                                            {this.state.isVisibleNewPassword ? <CustomVisible/> :
+                                                            {this.state.isVisiblePassword ? <CustomVisible/> :
                                                                 <CustomInvisible/>}
                                                         </IconButton>
                                                     </InputAdornment>
@@ -428,7 +471,7 @@ export default class SignUp extends React.Component {
                                                 onClick={this.submitHandle}
                                                 onBlur={this.errorOff}
                                             >
-                                                {this.state.isSuperUser ? "Save" : "change password"}
+                                                Save
                                             </SaveButton>
                                         </Grid>
                                         <Grid item sm>

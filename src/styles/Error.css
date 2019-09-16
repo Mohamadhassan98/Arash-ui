@@ -1,7 +1,7 @@
 .button {
     /*height: 40px;*/
     /*width: 80px;*/
-    background: #393939;
+    background: #b71c1c;
     color: white;
     /*border-radius: 25px;*/
     /*position: absolute;*/
@@ -10,5 +10,17 @@
 }
 
 .button:hover {
-    background: #b71c1c;
+    background: #dc3b1a;
+}
+
+.app {
+    background-color: #424242;
+}
+
+.float-left {
+    color: white;
+}
+
+.pt-3 {
+    color: white;
 }

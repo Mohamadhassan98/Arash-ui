@@ -13,7 +13,7 @@ export default function Profile(props) {
             <Toolbar className="toolbar">
                 <div className='profilePicture'>
                     <img className='profilePictureTrigger' src={`${serverURLs.userImage}${props.pk}/`}
-                         alt='ProfilePictureTrigger'/>
+                    />
                     {props.isSuperUser &&
                     <img src={Crown} className='masterCrown' alt='masterCrown'/>}
                 </div>

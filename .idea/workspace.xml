@@ -3,8 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddressModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/AddressModal.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/AddressModal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProfileNavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileNavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/leftnavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftnavbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Error.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Error.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,12 +26,18 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="listprofile" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="991" />
+    <option name="y" value="114" />
+    <option name="width" value="929" />
+    <option name="height" value="789" />
   </component>
   <component name="ProjectId" id="1P8IP1sWizfw4umgo6swM314OXx" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -142,6 +153,14 @@
       <workItem from="1568122668781" duration="6020000" />
       <workItem from="1568181287287" duration="56000" />
       <workItem from="1568363696603" duration="1390000" />
+      <workItem from="1568438028712" duration="943000" />
+      <workItem from="1568485088095" duration="4997000" />
+      <workItem from="1568534294182" duration="740000" />
+      <workItem from="1568548244944" duration="3737000" />
+      <workItem from="1568642087354" duration="599000" />
+      <workItem from="1568646073277" duration="4000" />
+      <workItem from="1568652653210" duration="73000" />
+      <workItem from="1568652743441" duration="3553000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="First Commit">
       <created>1565502237719</created>

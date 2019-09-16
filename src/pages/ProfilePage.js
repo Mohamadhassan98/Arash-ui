@@ -400,7 +400,7 @@ export default class ProfilePage extends React.Component {
                     <div className='rightme'>
                         <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
-                            {this.state.isSuperUser ? (
+                            {this.state.userIsSuperUser ? (
                                 <div className='profile-photo-master' onMouseDown={this.profilePress}
                                      onMouseUp={this.profileRelease}>
                                     <img src={this.state.photo} className="image" alt={this.state.photo}/>

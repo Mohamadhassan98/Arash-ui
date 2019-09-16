@@ -95,25 +95,7 @@ function NestedList(props) {
                 <ListItemIcon>
                     <CustomListAltOutlinedIcon/>
                 </ListItemIcon>
-                <ListItemText className={classes.listItem} primary="Companies"/>
-            </ListItem>
-            <ListItem button onClick={goToProfile} selected={props.inProfile}>
-                <ListItemIcon>
-                    <CustomAccountCircleIcon/>
-                </ListItemIcon>
-                <ListItemText className={classes.listItem} primary="Profile"/>
-            </ListItem>
-            <ListItem button onClick={goToHistory} selected={props.inHistory}>
-                <ListItemIcon>
-                    <CustomHistoryOutlinedIcon/>
-                </ListItemIcon>
-                <ListItemText className={classes.listItem} primary="History"/>
-            </ListItem>
-            <ListItem button onClick={goToHelp}>
-                <ListItemIcon>
-                    <CustomHelpOutlineOutlinedIcon/>
-                </ListItemIcon>
-                <ListItemText className={classes.listItem} primary="Help"/>
+                <ListItemText className={classes.listItem} primary="List Company"/>
             </ListItem>
             {props.isSuperUser &&
             <ListItem button onClick={goToListProfile} selected={props.inListProfile}>
@@ -122,6 +104,24 @@ function NestedList(props) {
                 </ListItemIcon>
                 <ListItemText className={classes.listItem} primary="List Profile"/>
             </ListItem>}
+            <ListItem button onClick={goToProfile} selected={props.inProfile}>
+                <ListItemIcon>
+                    <CustomAccountCircleIcon/>
+                </ListItemIcon>
+                <ListItemText className={classes.listItem} primary="Your Profile"/>
+            </ListItem>
+            <ListItem button onClick={goToHistory} selected={props.inHistory}>
+                <ListItemIcon>
+                    <CustomHistoryOutlinedIcon/>
+                </ListItemIcon>
+                <ListItemText className={classes.listItem} primary="Your History"/>
+            </ListItem>
+            <ListItem button onClick={goToHelp}>
+                <ListItemIcon>
+                    <CustomHelpOutlineOutlinedIcon/>
+                </ListItemIcon>
+                <ListItemText className={classes.listItem} primary="Help"/>
+            </ListItem>
             <ListItem button onClick={goToLogout}>
                 <ListItemIcon>
                     <CustomExitToAppOutlinedIcon/>

@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddressModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/AddressModal.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/AddressModal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +140,9 @@
       <workItem from="1568058551503" duration="12092000" />
       <workItem from="1568122668781" duration="6020000" />
       <workItem from="1568181287287" duration="56000" />
-      <workItem from="1568363696603" duration="1390000" />
+      <workItem from="1568363696603" duration="1577000" />
+      <workItem from="1568372901480" duration="949000" />
+      <workItem from="1568534614350" duration="1663000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="First Commit">
       <created>1565502237719</created>
@@ -206,7 +207,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۱۰" />
       <updated>1568150277351</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL‎۰۰۰۱۱" summary="AddressModalFixed">
+      <created>1568365247134</created>
+      <option name="number" value="LOCAL‎۰۰۰۱۱" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۱۱" />
+      <updated>1568365247134</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,7 +257,8 @@
     <MESSAGE value="DateFieldsOptimized" />
     <MESSAGE value="Crown is back!" />
     <MESSAGE value="minor bugs improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor bugs improved" />
+    <MESSAGE value="AddressModalFixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="AddressModalFixed" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

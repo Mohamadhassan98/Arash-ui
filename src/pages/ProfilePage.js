@@ -400,7 +400,7 @@ export default class ProfilePage extends React.Component {
                     <div className='rightme'>
                         <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
-                            {this.state.isSuperUser ? (
+                            {this.state.userIsSuperUser ? (
                                 <div className='profile-photo-master' onMouseDown={this.profilePress}
                                      onMouseUp={this.profileRelease}>
                                     <img src={this.state.photo} className="image" alt={this.state.photo}/>
@@ -429,9 +429,9 @@ export default class ProfilePage extends React.Component {
                                     <Grid item xs={12}>
                                         <MyTextField
                                             name="firstName"
-                                            variant={this.state.isSuperUser ? "outlined" : "standard"}
+                                            variant={this.state.userIsSuperUser ? "outlined" : "standard"}
                                             InputProps={{
-                                                readOnly: !this.state.isSuperUser
+                                                readOnly: !this.state.userIsSuperUser
                                             }}
                                             required
                                             fullWidth
@@ -446,9 +446,9 @@ export default class ProfilePage extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
-                                            variant={this.state.isSuperUser ? "outlined" : "standard"}
+                                            variant={this.state.userIsSuperUser ? "outlined" : "standard"}
                                             InputProps={{
-                                                readOnly: !this.state.isSuperUser
+                                                readOnly: !this.state.userIsSuperUser
                                             }}
                                             required
                                             fullWidth
@@ -463,9 +463,9 @@ export default class ProfilePage extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
-                                            variant={this.state.isSuperUser ? "outlined" : "standard"}
+                                            variant={this.state.userIsSuperUser ? "outlined" : "standard"}
                                             InputProps={{
-                                                readOnly: !this.state.isSuperUser
+                                                readOnly: !this.state.userIsSuperUser
                                             }}
                                             required
                                             fullWidth
@@ -480,9 +480,9 @@ export default class ProfilePage extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
-                                            variant={this.state.isSuperUser ? "outlined" : "standard"}
+                                            variant={this.state.userIsSuperUser ? "outlined" : "standard"}
                                             InputProps={{
-                                                readOnly: !this.state.isSuperUser
+                                                readOnly: !this.state.userIsSuperUser
                                             }}
                                             required
                                             fullWidth
@@ -497,9 +497,9 @@ export default class ProfilePage extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
-                                            variant={this.state.isSuperUser ? "outlined" : "standard"}
+                                            variant={this.state.userIsSuperUser ? "outlined" : "standard"}
                                             InputProps={{
-                                                readOnly: !this.state.isSuperUser
+                                                readOnly: !this.state.userIsSuperUser
                                             }}
                                             required
                                             fullWidth
@@ -517,7 +517,7 @@ export default class ProfilePage extends React.Component {
                                             control={<Checkbox value="inPlace" checkedIcon={<CustomChecked/>}
                                                                icon={<CustomUnChecked/>}/>}
                                             label="In place"
-                                            onChange={this.state.isSuperUser ? this.inPlaceChanged : null}
+                                            onChange={this.state.userIsSuperUser ? this.inPlaceChanged : null}
                                             checked={this.state.inPlace}
                                         />
                                     </Grid>
@@ -532,7 +532,7 @@ export default class ProfilePage extends React.Component {
                                     <Grid item xs={12}>
                                         <AddressModal address={this.state.address}
                                                       submitAddress={this.submitAddress}
-                                                      disabled={!this.state.isSuperUser}/>
+                                                      disabled={!this.state.userIsSuperUser}/>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
@@ -635,7 +635,7 @@ export default class ProfilePage extends React.Component {
                                                 onClick={this.submitHandle}
                                                 onBlur={this.errorOff}
                                             >
-                                                {this.state.isSuperUser ? "Save" : "change password"}
+                                                {this.state.userIsSuperUser ? "Save" : "change password"}
                                             </SaveButton>
                                         </Grid>
                                         <Grid item sm>

@@ -114,7 +114,7 @@ export default class ProfilePage extends React.Component {
     };
 
     uploadImage = () => {
-        const url = `${serverURLs.userImage}${this.pk ? this.pk : this.state.pk}/`;
+        const url = serverURLs.userImage(this.pk ? this.pk : this.state.pk);
         if (this.state.profilePic) {
             const fd = new FormData();
             fd.append('profile_pic', this.state.profilePic);
@@ -133,7 +133,7 @@ export default class ProfilePage extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         if (this.validateData()) {
-            const url = `${serverURLs.user}${this.pk ? this.pk : this.state.pk}/`;
+            const url = serverURLs.user(this.pk ? this.pk : this.state.pk);
             axios.put(url, {
                 username: this.state.username,
                 first_name: this.state.firstName,
@@ -176,12 +176,12 @@ export default class ProfilePage extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
             });
-            const url = `${serverURLs.user}${this.pk ? this.pk : this.state.userPK}/`;
+            const url = serverURLs.user(this.pk ? this.pk : this.state.userPK);
             axios.get(url).then(response => {
                 this.setState({
                     firstName: response.data['first_name'],
@@ -191,7 +191,7 @@ export default class ProfilePage extends React.Component {
                     personnelCode: response.data['personnel_code'],
                     inPlace: response.data['in_place'],
                     address: response.data['address'],
-                    photo: `${serverURLs.userImage}${this.pk ? this.pk : this.state.userPK}/`,
+                    photo: serverURLs.userImage(this.pk ? this.pk : this.state.userPK),
                     isSuperUser: response.data['is_superuser']
                 });
             }).catch(error => {
@@ -376,7 +376,7 @@ export default class ProfilePage extends React.Component {
     };
 
     cancelHandle = (e) => {
-        const url = `/home`;
+        const url = URLs.home;
         this.props.history.push({
             pathname: url,
             state: {

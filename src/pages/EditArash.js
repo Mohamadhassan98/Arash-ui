@@ -103,12 +103,12 @@ export default class EditArash extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
             });
-            const url = `${serverURLs.arash}${this.apk}/`;
+            const url = serverURLs.arash(this.apk);
             axios.get(url).then(response => {
                 const {public_key: publicKey, serial_number: serialNumber, license, expire_date: expireDate, version, purchase_date: purchaseDate} = response.data;
                 this.setState({
@@ -148,7 +148,7 @@ export default class EditArash extends React.Component {
     submitHandle = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = `${serverURLs.arash}${this.apk}/`;
+            const url = serverURLs.arash(this.apk);
             const data = {
                 public_key: this.state.publicKey,
                 serial_number: this.state.serialNumber,
@@ -158,7 +158,7 @@ export default class EditArash extends React.Component {
                 purchase_date: getDateString('-', this.state.purchaseDate),
                 company: this.pk
             };
-            const redirectPath = `/company/${this.pk}`;
+            const redirectPath = URLs.company(this.pk);
             axios.put(url, data).then(response => {
                 this.doRedirect(redirectPath);
             }).catch(e => {
@@ -242,7 +242,7 @@ export default class EditArash extends React.Component {
     };
 
     cancelHandle = (e) => {
-        const url = `/company/${this.pk}`;
+        const url = URLs.company(this.pk);
         this.props.history.push({
             pathname: url,
             state: {

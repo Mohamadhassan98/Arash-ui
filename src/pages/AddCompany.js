@@ -35,7 +35,7 @@ export default class AddCompany extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
@@ -155,7 +155,7 @@ export default class AddCompany extends React.Component {
     };
 
     cancelHandle = (e) => {
-        const url = `/home`;
+        const url = URLs.home;
         this.props.history.push({
             pathname: url,
             state: {

@@ -10,7 +10,7 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import ArashListItem from "../components/ArashListItem";
 import {setAxiosDefaults} from "../Globals";
-import {serverURLs, URLs} from "../Constants";
+import {serverURLs as ServerURLs, serverURLs, URLs} from "../Constants";
 import {Redirect} from "react-router-dom";
 
 class CompanyPage extends React.Component {
@@ -27,12 +27,12 @@ class CompanyPage extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
             });
-            const url = `${serverURLs.company}${this.pk}/arashes/`;
+            const url = ServerURLs.arashes(this.pk);
             axios.get(url).then(response => {
                 this.setState({
                     arashes: response.data
@@ -76,7 +76,7 @@ class CompanyPage extends React.Component {
     };
 
     addNewArash = () => {
-        const url = `/company/${this.pk}/add-arash`;
+        const url = URLs.addArash(this.pk);
         this.props.history.push(url);
     };
 

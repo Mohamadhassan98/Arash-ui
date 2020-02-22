@@ -22,30 +22,33 @@ export default class ListProfile extends React.Component {
     }
 
     handleDelete = () => {
-        const url = `${serverURLs.user}${this.props.profile.id}/`;
+        const url = serverURLs.user(this.props.profile.id);
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
             this.props.myHistory.push(URLs["503"]);
         });
     };
+
     onDeleteClick = () => {
         this.setState({
             deleteModalOpen: true
         });
     };
+
     cancelDelete = () => {
         this.setState({
             deleteModalOpen: false
         });
     };
+
     onEditClick = () => {
-        const url = `/user/${this.props.profile.id}`;
+        const url = URLs.user(this.props.profile.id);
         this.props.myHistory.push(url);
     };
 
     onHistoryClick = () => {
-        const url = `/user/${this.props.profile.id}/history`;
+        const url = URLs.userHistory(this.props.profile.id);
         this.props.myHistory.push(url);
     };
 
@@ -58,7 +61,7 @@ export default class ListProfile extends React.Component {
                 <ListItemAvatar>
                     <Avatar
                         alt={`Avatar`}
-                        src={`${serverURLs.userImage}${this.props.profile.id}/`}
+                        src={serverURLs.userImage(this.props.profile.id)}
                     />
                 </ListItemAvatar>
                 <ListItemText

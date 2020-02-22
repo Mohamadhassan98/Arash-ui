@@ -40,7 +40,7 @@ export default class ArashListItem extends React.Component {
     };
 
     handleDelete = () => {
-        const url = `${serverURLs.arash}${this.props.arash.id}/`;
+        const url = serverURLs.arash(this.props.arash.id);
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
@@ -49,7 +49,7 @@ export default class ArashListItem extends React.Component {
     };
 
     onEditClick = () => {
-        const url = `${this.props.arash.company}/edit-arash/${this.props.arash.id}`;
+        const url = URLs.editArash(this.props.arash.company, this.props.arash.id);
         this.props.myHistory.push(url);
     };
 

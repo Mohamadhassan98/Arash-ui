@@ -34,7 +34,6 @@ export default class AddressModal extends React.Component {
             faxHelper: ' ',
             addressHelper: props.addressHelper
         };
-        console.log(this.state.address.city)
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -42,7 +41,7 @@ export default class AddressModal extends React.Component {
             this.setState({
                 address: {
                     ...nextProps.address,
-                    postalCode: nextProps.address.postal_code,
+                    postalCode: nextProps.address.postal_code
                 }
             });
         }
@@ -296,12 +295,6 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        {/*<SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
-                            Save
-                        </SaveButton>
-                        <CancelButton onClick={this.handleClose} color="primary">
-                            Cancel
-                        </CancelButton>*/}
                         <Grid container>
                             <Grid item xs></Grid>
                             <Grid item xs></Grid>

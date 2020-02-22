@@ -1,8 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Arash UI
 
-## Available Scripts
+This project was made with [React](https://reactjs.org) by [Mohamadhassan Ebrahimi](https://github.com/Mohamadhassan98), [Faezee Aghabozorgi](https://github.com/faezee77) and [Zahra Ghaedi](https://github.com/behnaz987) and actively maintained by [Shaina co](https://shainaco.com).
+
+## requirements and dependencies
+
+For the list of all requirement libraries see [package.json](./package.json).
+
+## commands
 
 In the project directory, you can run:
+
+### `npm install`
+
+Install all dependencies, written in `package.json` file.
 
 ### `npm start`
 
@@ -11,11 +21,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -27,42 +32,19 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## urls
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To see a full list of URLs, see [Constants.js](./src/Constants.js).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Note: Change `help` constant in `ServerURLs`, as it's not a valid address currently!
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Note: Any changes in server's SOA urls should be reflected to `Constants.js -> ServerURLs`.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To change any of front-end URLs, simply change `Constants.js -> URLs`. 
+Note that these changes should be consistent with the routing table provided in [index.js](./src/index.js).
 
-## Learn More
+## important settings
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+All these settings are availabe in [package.json](./package.json).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+`proxy`: used to bypass CORS, should be changed to actual server's url

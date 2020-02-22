@@ -119,7 +119,7 @@ export default class AddArash extends React.Component {
                 purchase_date: getDateString('-', this.state.purchaseDate),
                 company: this.pk
             };
-            const url = `/company/${this.pk}`;
+            const url = URLs.company(this.pk);
             axios.post(serverURLs.addArash, data).then(response => {
                 this.doRedirect(url);
             }).catch(error => {
@@ -203,7 +203,7 @@ export default class AddArash extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
@@ -223,7 +223,7 @@ export default class AddArash extends React.Component {
     }
 
     cancelHandle = (e) => {
-        const url = `/company/${this.pk}`;
+        const url = URLs.company(this.pk);
         this.props.history.push({
             pathname: url,
             state: {

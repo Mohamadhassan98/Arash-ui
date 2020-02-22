@@ -55,12 +55,12 @@ export default class EditCompany extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
             });
-            axios.get(`${serverURLs.company}${this.pk}/`).then(response => {
+            axios.get(serverURLs.company(this.pk)).then(response => {
                 const {name: companyName, email, address} = response.data;
                 this.setState({
                     companyName: companyName,
@@ -155,7 +155,7 @@ export default class EditCompany extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = `${serverURLs.company}${this.pk}/`;
+            const url = serverURLs.company(this.pk);
             axios.put(url, {
                 email: this.state.email,
                 name: this.state.companyName,
@@ -173,7 +173,7 @@ export default class EditCompany extends React.Component {
     };
 
     cancelHandle = (e) => {
-        const url = `/home`;
+        const url = URLs.home;
         this.props.history.push({
             pathname: url,
             state: {

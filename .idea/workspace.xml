@@ -1,102 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="">
+    <list default="true" id="1a06a34a-709f-43eb-8f3f-e6f0fbbec351" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/arash-support.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/arash-support.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Mohamadhassan.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddressModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddressModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ArashListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ArashListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CompanyListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CompanyListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProfileListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProfileNavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProfileNavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/leftnavbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/leftnavbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AddArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddArash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AddCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddCompany.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/CompanyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/CompanyPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/EditArash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditArash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/EditCompany.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/EditCompany.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/History.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/History.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ListProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ListProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/MaterialSignUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/MaterialSignIn.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/MaterialSignIn.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/ProfilePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/ProfilePage.css" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="CSS File" />
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="listprofile" />
-      </map>
-    </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="991" />
-    <option name="y" value="114" />
-    <option name="width" value="929" />
-    <option name="height" value="789" />
-  </component>
-  <component name="ProjectId" id="1P8IP1sWizfw4umgo6swM314OXx" />
+  <component name="ProjectId" id="1TTg0I6YITaGDdRVUz6tIrwoCCT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/temp" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\static" />
-      <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\pages" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\components" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\public" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\components" />
-      <recent name="C:\Users\Mohamadhassan\WebstormProjects\arash-support\src\pages" />
+      <recent name="G:\Users\mohamadhassan\Arash\Frontend\arash-support\src\temp" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="npm.npm start">
-    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
-      <method v="2" />
-    </configuration>
-    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="build" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="npm start" type="js.build_tools.npm">
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -106,135 +76,46 @@
       <envs />
       <method v="2" />
     </configuration>
-    <recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
       <list>
-        <item itemvalue="npm.build" />
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
       </list>
-    </recent_temporary>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="89e4726d-c21b-4cde-a6cc-5aaab303f8ba" name="Default Changelist" comment="" />
-      <created>1565249268857</created>
+      <changelist id="1a06a34a-709f-43eb-8f3f-e6f0fbbec351" name="Default Changelist" comment="" />
+      <created>1573489278345</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1565249268857</updated>
-      <workItem from="1565249272225" duration="25600000" />
-      <workItem from="1565442604270" duration="28454000" />
-      <workItem from="1565498479168" duration="2161000" />
-      <workItem from="1565500833168" duration="16046000" />
-      <workItem from="1565539008858" duration="53887000" />
-      <workItem from="1565673569851" duration="18897000" />
-      <workItem from="1565804268523" duration="746000" />
-      <workItem from="1566040357299" duration="18880000" />
-      <workItem from="1566106002061" duration="20729000" />
-      <workItem from="1566158476973" duration="9037000" />
-      <workItem from="1566192331286" duration="18400000" />
-      <workItem from="1566569995215" duration="17839000" />
-      <workItem from="1566628287487" duration="4134000" />
-      <workItem from="1566712451773" duration="3598000" />
-      <workItem from="1566717743867" duration="2494000" />
-      <workItem from="1566729064588" duration="631000" />
-      <workItem from="1566732542670" duration="247000" />
-      <workItem from="1566754577627" duration="10919000" />
-      <workItem from="1566796194451" duration="14474000" />
-      <workItem from="1566839579817" duration="3096000" />
-      <workItem from="1566925615295" duration="884000" />
-      <workItem from="1566965501971" duration="15016000" />
-      <workItem from="1567014437359" duration="5635000" />
-      <workItem from="1567020999918" duration="3508000" />
-      <workItem from="1567059266114" duration="3225000" />
-      <workItem from="1567177856604" duration="7426000" />
-      <workItem from="1567273882920" duration="1322000" />
-      <workItem from="1567321829209" duration="2674000" />
-      <workItem from="1567352851268" duration="17750000" />
-      <workItem from="1567406076503" duration="4792000" />
-      <workItem from="1567448557585" duration="126000" />
-      <workItem from="1567496498722" duration="460000" />
-      <workItem from="1567656546885" duration="3409000" />
-      <workItem from="1567898496057" duration="6608000" />
-      <workItem from="1567949283141" duration="19624000" />
-      <workItem from="1568015046609" duration="25242000" />
-      <workItem from="1568058551503" duration="12092000" />
-      <workItem from="1568122668781" duration="6020000" />
-      <workItem from="1568181287287" duration="56000" />
-      <workItem from="1568363696603" duration="1390000" />
-      <workItem from="1568438028712" duration="943000" />
-      <workItem from="1568485088095" duration="4997000" />
-      <workItem from="1568534294182" duration="740000" />
-      <workItem from="1568548244944" duration="3737000" />
-      <workItem from="1568642087354" duration="599000" />
-      <workItem from="1568646073277" duration="4000" />
-      <workItem from="1568652653210" duration="73000" />
-      <workItem from="1568652743441" duration="3553000" />
+      <updated>1573489278345</updated>
+      <workItem from="1573489291009" duration="1366000" />
+      <workItem from="1573714565259" duration="178000" />
+      <workItem from="1575527780310" duration="1174000" />
+      <workItem from="1576142485019" duration="1623000" />
+      <workItem from="1576313473889" duration="176000" />
+      <workItem from="1577192204442" duration="1374000" />
+      <workItem from="1577388813052" duration="121000" />
+      <workItem from="1577465482241" duration="180000" />
+      <workItem from="1579281477009" duration="3076000" />
+      <workItem from="1579308068396" duration="2791000" />
+      <workItem from="1579982749351" duration="665000" />
+      <workItem from="1580030865904" duration="895000" />
+      <workItem from="1580287065842" duration="942000" />
+      <workItem from="1582366777570" duration="55000" />
+      <workItem from="1582400845974" duration="157000" />
+      <workItem from="1582401074411" duration="57000" />
     </task>
-    <task id="LOCAL‎۰۰۰۰۱" summary="First Commit">
-      <created>1565502237719</created>
-      <option name="number" value="LOCAL‎۰۰۰۰۱" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۰۱" />
-      <updated>1565502237719</updated>
-    </task>
-    <task id="LOCAL‎۰۰۰۰۲" summary="Add Arash works perfectly">
-      <created>1565557098782</created>
-      <option name="number" value="LOCAL‎۰۰۰۰۲" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۰۲" />
-      <updated>1565557098782</updated>
-    </task>
-    <task id="LOCAL‎۰۰۰۰۳" summary="Login worked">
-      <created>1565608856632</created>
-      <option name="number" value="LOCAL‎۰۰۰۰۳" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۰۳" />
-      <updated>1565608856632</updated>
-    </task>
-    <task id="LOCAL‎۰۰۰۰۴" summary="First Commit">
-      <created>1565804345246</created>
-      <option name="number" value="LOCAL‎۰۰۰۰۴" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۰۴" />
-      <updated>1565804345247</updated>
-    </task>
-    <task id="LOCAL-00005" summary="change the color and theme">
-      <created>1566592011701</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1566592011701</updated>
-    </task>
-    <task id="LOCAL-00006" summary="change a lot">
-      <created>1566925716490</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1566925716490</updated>
-    </task>
-    <task id="LOCAL-00007" summary="signin is ready now">
-      <created>1566978640636</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1566978640636</updated>
-    </task>
-    <task id="LOCAL‎۰۰۰۰۸" summary="DateFieldsOptimized">
-      <created>1567359308166</created>
-      <option name="number" value="LOCAL‎۰۰۰۰۸" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۰۸" />
-      <updated>1567359308166</updated>
-    </task>
-    <task id="LOCAL‎۰۰۰۰۹" summary="Crown is back!">
-      <created>1567448648353</created>
-      <option name="number" value="LOCAL‎۰۰۰۰۹" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۰۹" />
-      <updated>1567448648353</updated>
-    </task>
-    <task id="LOCAL‎۰۰۰۱۰" summary="minor bugs improved">
-      <created>1568150277351</created>
-      <option name="number" value="LOCAL‎۰۰۰۱۰" />
-      <option name="presentableId" value="LOCAL‎۰۰۰۱۰" />
-      <updated>1568150277351</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,35 +133,35 @@
         </entry>
       </map>
     </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list />
-          </value>
-        </entry>
-        <entry key="User">
-          <value>
-            <list />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Add Arash works perfectly" />
-    <MESSAGE value="Login worked" />
-    <MESSAGE value="First Commit" />
-    <MESSAGE value="change the color and theme" />
-    <MESSAGE value="change a lot" />
-    <MESSAGE value="signin is ready now" />
-    <MESSAGE value="DateFieldsOptimized" />
-    <MESSAGE value="Crown is back!" />
-    <MESSAGE value="minor bugs improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor bugs improved" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  <component name="WindowStateProjectService">
+    <state x="223" y="66" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1576143177533">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="66" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1576143177533" />
+    <state width="1515" height="189" key="GridCell.Tab.0.bottom" timestamp="1579314367174">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="189" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1579314367174" />
+    <state width="1515" height="189" key="GridCell.Tab.0.center" timestamp="1579314367174">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="189" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1579314367174" />
+    <state width="1515" height="189" key="GridCell.Tab.0.left" timestamp="1579314367174">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="189" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1579314367174" />
+    <state width="1515" height="189" key="GridCell.Tab.0.right" timestamp="1579314367174">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="189" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1579314367174" />
+    <state x="277" y="55" key="SettingsEditor" timestamp="1577192347880">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1577192347880" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1575527840686">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1575527840686" />
   </component>
 </project>

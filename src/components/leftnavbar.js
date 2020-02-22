@@ -31,8 +31,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
 function NestedList(props) {
+
     const classes = useStyles();
 
     const goToProfile = () => {
@@ -47,7 +47,7 @@ function NestedList(props) {
         if (props.inHistory) {
             window.location.reload();
         } else {
-            props.myHistory.push(URLs.history);
+            props.myHistory.push(URLs.userHistory());
         }
     };
 
@@ -58,6 +58,7 @@ function NestedList(props) {
             props.myHistory.push(URLs.home);
         }
     };
+
     const goToListProfile = () => {
         if (props.inListProfile) {
             window.location.reload();
@@ -65,8 +66,9 @@ function NestedList(props) {
             props.myHistory.push(URLs.listProfile);
         }
     };
+
     const goToHelp = () => {
-        window.open('http://engold.ui.ac.ir/~zamani/internship/files/introduce.pdf');
+        window.open(serverURLs.help);
     };
 
     const goToLogout = () => {

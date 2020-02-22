@@ -117,7 +117,7 @@ export default class SignUp extends React.Component {
         if (this.state.profilePic) {
             const fd = new FormData();
             fd.append('profile_pic', this.state.profilePic);
-            axios.put(`${serverURLs.userImage}${pk}/`, fd).catch(error => {
+            axios.put(serverURLs.userImage(pk), fd).catch(error => {
                 console.error(error);
                 this.doRedirect(URLs["503"]);
             });
@@ -127,7 +127,6 @@ export default class SignUp extends React.Component {
     submitHandle = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            console.log("in sub,it handle after validation");
             axios.post(serverURLs.signUp, {
                 username: this.state.username,
                 first_name: this.state.firstName,
@@ -170,7 +169,7 @@ export default class SignUp extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
@@ -344,7 +343,7 @@ export default class SignUp extends React.Component {
     };
 
     cancelHandle = (e) => {
-        const url = `/profile-list`;
+        const url = URLs.listProfile;
         this.props.history.push({
             pathname: url,
             state: {

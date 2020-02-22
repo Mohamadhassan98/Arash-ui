@@ -43,7 +43,7 @@ export default class MaterialSignIn extends React.Component {
 
     componentDidMount() {
         if (getCSRF()) {
-            axios.get(serverURLs.user).then(response => {
+            axios.get(serverURLs.user()).then(response => {
                 this.doRedirect(URLs.home);
             });
         }
@@ -152,8 +152,7 @@ export default class MaterialSignIn extends React.Component {
                                 <p className="p">SIGN IN</p>
                                 <form className='form2' noValidate>
                                     <Grid container spacing={2}>
-                                        <Grid item
-                                              xs={12}>
+                                        <Grid item xs={12}>
                                             <MyTextField
                                                 variant="outlined"
                                                 required

@@ -31,7 +31,7 @@ export default class CompanyListItem extends React.Component {
     };
 
     handleDelete = () => {
-        const url = `${serverURLs.company}${this.props.company.id}/`;
+        const url = serverURLs.company(this.props.company.id);
         axios.delete(url).then(response => {
             window.location.reload();
         }).catch(error => {
@@ -40,7 +40,7 @@ export default class CompanyListItem extends React.Component {
     };
 
     onEditClick = () => {
-        const url = `company/${this.props.company.id}/edit`;
+        const url = URLs.editCompany(this.props.company.id);
         this.props.myHistory.push(url);
     };
 
@@ -57,7 +57,7 @@ export default class CompanyListItem extends React.Component {
     };
 
     goToArash = () => {
-        const url = `/company/${this.props.company.id}`;
+        const url = URLs.company(this.props.company.id);
         this.props.myHistory.push(url);
     };
 

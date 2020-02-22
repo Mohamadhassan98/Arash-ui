@@ -59,8 +59,7 @@
 
 .MasterProfile {
     position: relative;
-    margin: 30px;
-    margin-left: 300px;
+    margin: 30px 30px 30px 300px;
 }
 
 /*.FormField__Button {*/

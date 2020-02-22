@@ -79,7 +79,9 @@ class History extends Component {
             histories: []
         };
         this.tableColumns = [
-            {title: 'Date', field: 'date', type: 'datetime', disableClick: true, editable: 'never'},
+            {
+                title: 'Date', field: 'date', type: 'datetime', disableClick: true, editable: 'never'
+            },
             {
                 title: 'Operation', field: 'operation', disableClick: true, editable: 'never', render: (rowData) => {
                     switch (rowData.operation) {
@@ -113,12 +115,12 @@ class History extends Component {
     };
 
     componentDidMount() {
-        axios.get(serverURLs.user).then(response => {
+        axios.get(serverURLs.user()).then(response => {
             this.setState({
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
             });
-            const url = `${serverURLs.user}${this.pk ? this.pk : this.state.userPK}/logs/`;
+            const url = serverURLs.userLogs(this.pk ? this.pk : this.state.userPK);
             axios.get(url).then(response => {
                 const data = response.data;
                 data.forEach((item, index, arr) => {

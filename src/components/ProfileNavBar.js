@@ -12,7 +12,10 @@ export default function Profile(props) {
         <AppBar className='AppBar' position="sticky">
             <Toolbar className="toolbar">
                 <div className='profilePicture'>
-                    <img className='profilePictureTrigger' src={`${serverURLs.userImage}${props.pk}/`}
+                    <img
+                        className='profilePictureTrigger'
+                        src={serverURLs.userImage(props.pk)}
+                        alt="Avatar"
                     />
                     {props.isSuperUser &&
                     <img src={Crown} className='masterCrown' alt='masterCrown'/>}

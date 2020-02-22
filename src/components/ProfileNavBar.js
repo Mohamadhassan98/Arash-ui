@@ -1,104 +1,33 @@
 import React from 'react';
-import '../unnamed.jpg';
-import profile from '../unnamed.jpg';
-import crown from '../crowns.png';
-import Popup from "reactjs-popup";
 import {AppBar} from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
 import PropTypes from 'prop-types';
-import {LogOutIcon, ModalButton} from "../Styles";
-import HelpIcon from '@material-ui/icons/Help';
+import Toolbar from "@material-ui/core/Toolbar";
+import arash from "../static/B71c1c.png";
+import Crown from '../static/crowns.png';
+import '../App.css';
+import {serverURLs} from "../Constants";
 
-
-function ProfileNavBar(props) {
-    const user = props.user;
-    const goToProfile = () => {
-        if (props.inProfile) {
-            window.location.reload();
-        } else {
-            props.myHistory.push('/profile', {
-                user: user
-            });
-        }
-    };
-
-    const goToHistory = () => {
-        const url = `/history`;
-        if (props.inHistory) {
-            window.location.reload();
-        } else {
-            props.myHistory.push(url, {
-                user: user
-            });
-        }
-    };
-
+export default function Profile(props) {
     return (
-        <div className='ProfileNB'>
-            <label className='fullNameLabel'>{user.first_name + ' ' + user.last_name}</label>
-            <label className='emailLabel'>{user.email}</label>
-            <img className='profilePicture' src={profile} alt='ProfilePicture'/>
-            {
-                user.status === 'ma' &&
-                <img src={crown} className='masterCrown' alt='MasterCrown'/>
-            }
-            <ModalButton className='button profileButton' onClick={goToProfile}>
-                Profile
-            </ModalButton>
-            <ModalButton className='button historyButton' onClick={goToHistory}>
-                History
-            </ModalButton>
-        </div>
+        <AppBar className='AppBar' position="sticky">
+            <Toolbar className="toolbar">
+                <div className='profilePicture'>
+                    <img
+                        className='profilePictureTrigger'
+                        src={serverURLs.userImage(props.pk)}
+                        alt="Avatar"
+                    />
+                    {props.isSuperUser &&
+                    <img src={Crown} className='masterCrown' alt='masterCrown'/>}
+                </div>
+                <img src={arash} alt='ArashLogo' className='ArashLogo'/>
+                <p className='Arash'>Arash</p>
+            </Toolbar>
+        </AppBar>
     );
 }
 
-function Profile(props) {
-
-    const downloadHelp = () => {
-        window.open('http://engold.ui.ac.ir/~zamani/internship/files/introduce.pdf');
-    };
-
-    return (
-        <AppBar color={'white'} className='AppBar' position="sticky">
-            <Toolbar>
-                <Popup
-                    trigger={<img className='profilePictureTrigger' src={profile} alt='ProfilePictureTrigger'/>}
-                    position='bottom right'
-                    on='click'
-                    contentStyle={{
-                        position: 'absolute',
-                        zIndex: '0',
-                        width: '340px',
-                        height: '260px',
-                        background: "transparent",
-                        border: "0px solid transparent",
-                        boxShadow: "rgba(0, 0, 0, 0) 0px 0px 0px",
-                        padding: '0px'
-                    }}
-                >
-                    <ProfileNavBar
-                        user={props.user}
-                        myHistory={props.myHistory}
-                        inProfile={props.inProfile}
-                        inHistory={props.inHistory}/>
-                </Popup>
-                <HelpIcon onClick={downloadHelp}/>
-                <LogOutIcon/>
-            </Toolbar>
-        </AppBar>
-    )
-}
-
 Profile.propTypes = {
-    myHistory: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    inProfile: PropTypes.bool,
-    inHistory: PropTypes.bool
+    pk: PropTypes.number.isRequired,
+    isSuperUser: PropTypes.bool.isRequired
 };
-
-Profile.defaultProps = {
-    inProfile: false,
-    inHistory: false
-};
-
-export default Profile;

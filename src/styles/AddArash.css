@@ -97,3 +97,8 @@
 .MuiFormHelperText-root {
     color: red;
 }
+
+.title {
+    padding-bottom: 30px;
+    padding-top: 15px;
+}

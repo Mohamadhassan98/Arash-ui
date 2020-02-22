@@ -7,8 +7,12 @@ import '../styles/AddArash.css';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import axios from "axios";
-import {compareDates, getDateString} from '../Globals';
-import {MyButton, MyTextField} from "../Styles";
+import {getDateString, setAxiosDefaults} from '../Globals';
+import {ConfirmButton, CustomIcon, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
+import {Event} from "@material-ui/icons";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
 
 
 export default class EditArash extends React.Component {
@@ -23,20 +27,18 @@ export default class EditArash extends React.Component {
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.pk = props.match.params.pk;
         this.apk = props.match.params.apk;
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             publicKey: '',
             serialNumber: '',
             license: '',
-            expireDate: getDateString('/'),
+            expireDate: new Date(),
             version: '',
-            purchaseDate: getDateString('/'),
+            purchaseDate: new Date(),
             publicKeyHelper: ' ',
             serialNumberHelper: ' ',
             licenseHelper: ' ',
@@ -44,6 +46,7 @@ export default class EditArash extends React.Component {
             versionHelper: ' ',
             purchaseDateHelper: ' '
         };
+        setAxiosDefaults();
     }
 
     validateData = () => {
@@ -72,13 +75,13 @@ export default class EditArash extends React.Component {
             });
             invalidData = true;
         }
-        if (compareDates(this.state.expireDate, getDateString('/')) === -1) {
+        if (this.state.expireDate < new Date()) {
             this.setState({
                 expireDateHelper: this.frontErrors.expireDate
             });
             invalidData = true;
         }
-        if (compareDates(this.state.purchaseDate, getDateString('/')) === 1) {
+        if (this.state.purchaseDate > new Date()) {
             this.setState({
                 purchaseDateHelper: this.frontErrors.purchaseDate
             });
@@ -87,55 +90,82 @@ export default class EditArash extends React.Component {
         return !invalidData;
     };
 
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        } else {
-            const url = `http://127.0.0.1:8000/arash/${this.apk}`;
+        axios.get(serverURLs.user()).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+            const url = serverURLs.arash(this.apk);
             axios.get(url).then(response => {
                 const {public_key: publicKey, serial_number: serialNumber, license, expire_date: expireDate, version, purchase_date: purchaseDate} = response.data;
                 this.setState({
                     publicKey: publicKey,
                     serialNumber: serialNumber,
                     license: license,
-                    expireDate: expireDate,
+                    expireDate: new Date(expireDate),
                     version: version,
-                    purchaseDate: purchaseDate
+                    purchaseDate: new Date(purchaseDate)
                 });
             }).catch(error => {
-                this.props.history.push('/503');
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        this.doRedirect(URLs.signIn);
+                    } else {
+                        this.doRedirect(URLs["503"]);
+                    }
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
             });
-        }
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
     submitHandle = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = `http://127.0.0.1:8000/arash/${this.apk}/`;
+            const url = serverURLs.arash(this.apk);
             const data = {
                 public_key: this.state.publicKey,
                 serial_number: this.state.serialNumber,
                 license: this.state.license,
-                expire_date: this.state.expireDate.toString().replace(/\//g, '-'),
+                expire_date: getDateString('-', this.state.expireDate),
                 version: this.state.version,
-                purchase_date: this.state.purchaseDate.toString().replace(/\//g, '-'),
+                purchase_date: getDateString('-', this.state.purchaseDate),
                 company: this.pk
             };
-            const redirectPath = '/company/' + this.pk;
-            axios.put(url, data).then(response =>
-                this.props.history.push({
-                    pathname: redirectPath,
-                    state: {
-                        user: this.user
-                    }
-                })).catch(e => {
-                switch (e.response.status) {
-                    case 400:
-                        console.error(e.response.status);
-                        this.handleErrors(e.response.data);
-                        break;
-                    default:
-                        this.props.history.push('/503');
+            const redirectPath = URLs.company(this.pk);
+            axios.put(url, data).then(response => {
+                this.doRedirect(redirectPath);
+            }).catch(e => {
+                if (e.response.status === 422) {
+                    this.handleErrors(e.response.data);
+                } else {
+                    this.doRedirect(URLs["503"]);
                 }
             });
         }
@@ -174,13 +204,17 @@ export default class EditArash extends React.Component {
                         purchaseDateHelper: value
                     });
                     break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
             }
         }
     };
 
     fieldChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
@@ -191,145 +225,185 @@ export default class EditArash extends React.Component {
             licenseHelper: ' ',
             expireDateHelper: ' ',
             versionHelper: ' ',
-            purchaseDateHelper: ' ',
+            purchaseDateHelper: ' '
         });
     };
 
     expireDateChange = (e, value) => {
         this.setState({
-            expireDate: value
-        })
+            expireDate: new Date(value)
+        });
     };
 
     purchaseDateChange = (e, value) => {
         this.setState({
-            purchaseDate: value
-        })
+            purchaseDate: new Date(value)
+        });
+    };
+
+    cancelHandle = (e) => {
+        const url = URLs.company(this.pk);
+        this.props.history.push({
+            pathname: url,
+            state: {
+                user: this.user
+            }
+        });
     };
 
     render() {
+        const DateIcon = CustomIcon('#000000')(Event);
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <React.Fragment>
-                    <Profile myHistory={this.props.history} user={this.user}/>
-                    <main className='HomePageMain'>
-                        <Container component="main" maxWidth="xs">
-                            <div className='paper'>
-                                <Typography component="h1" variant="h5">
-                                    Add Arash
-                                </Typography>
-                                <form className='form' noValidate>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                name="publicKey"
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="publicKey"
-                                                label="Public Key"
-                                                autoFocus
-                                                value={this.state.publicKey}
-                                                onChange={this.fieldChange}
-                                                error={this.state.publicKeyHelper !== ' '}
-                                                helperText={this.state.publicKeyHelper}
-                                            />
+                    {this.redirect()}
+                    <main className='HomePageMain2'>
+                        <NestedList myHistory={this.props.history} isSuperUser={this.state.userIsSuperUser}/>
+                        <div className='rightme'>
+                            <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
+                            <Container component="main" maxWidth="xs">
+                                <div className='paper'>
+                                    <form className='form' noValidate>
+                                        <Typography className="title" component="h1" variant="subtitle1" align='center'
+                                                    gutterBottom
+                                                    paragraph>
+                                            Edit Arash
+                                        </Typography>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    name="publicKey"
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="publicKey"
+                                                    label="Public Key"
+                                                    autoFocus
+                                                    value={this.state.publicKey}
+                                                    onChange={this.fieldChange}
+                                                    error={this.state.publicKeyHelper !== ' '}
+                                                    helperText={this.state.publicKeyHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="serialNumber"
+                                                    label="Serial Number"
+                                                    name="serialNumber"
+                                                    value={this.state.serialNumber}
+                                                    onChange={this.fieldChange}
+                                                    error={this.state.serialNumberHelper !== ' '}
+                                                    helperText={this.state.serialNumberHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="license"
+                                                    label="License"
+                                                    name="license"
+                                                    value={this.state.license}
+                                                    onChange={this.fieldChange}
+                                                    error={this.state.licenseHelper !== ' '}
+                                                    helperText={this.state.licenseHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <KeyboardDatePicker
+                                                    disableToolbar
+                                                    showTodayButton
+                                                    keyboardIcon={<DateIcon/>}
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    format="yyyy/MM/dd"
+                                                    margin="normal"
+                                                    id="expireDate"
+                                                    label="Expire Date"
+                                                    value={this.state.expireDate}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                    onChange={this.expireDateChange}
+                                                    error={this.state.expireDateHelper !== ' '}
+                                                    name='expireDate'
+                                                    helperText={this.state.expireDateHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <MyTextField
+                                                    variant="outlined"
+                                                    required
+                                                    fullWidth
+                                                    id="version"
+                                                    label="Version"
+                                                    name="version"
+                                                    value={this.state.version}
+                                                    onChange={this.fieldChange}
+                                                    error={this.state.versionHelper !== ' '}
+                                                    helperText={this.state.versionHelper}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <KeyboardDatePicker
+                                                    disableToolbar
+                                                    showTodayButton
+                                                    keyboardIcon={<DateIcon/>}
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    format="yyyy/MM/dd"
+                                                    margin="normal"
+                                                    id="purchaseDate"
+                                                    label="Purchase Date"
+                                                    value={this.state.purchaseDate}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                    onChange={this.purchaseDateChange}
+                                                    name='purchaseDate'
+                                                    error={this.state.purchaseDateHelper !== ' '}
+                                                    helperText={this.state.purchaseDateHelper}
+                                                />
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="serialNumber"
-                                                label="Serial Number"
-                                                name="serialNumber"
-                                                value={this.state.serialNumber}
-                                                onChange={this.fieldChange}
-                                                error={this.state.serialNumberHelper !== ' '}
-                                                helperText={this.state.serialNumberHelper}
-                                            />
+                                        <Grid container>
+                                            <Grid item sm>
+                                                <SaveButton
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className='submit'
+                                                    onClick={this.submitHandle}
+                                                    onBlur={this.errorOff}
+                                                >
+                                                    Save
+                                                </SaveButton>
+                                            </Grid>
+                                            <Grid item sm>
+                                                <CancelButton
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className='submit'
+                                                    onClick={this.cancelHandle}
+                                                    onBlur={this.errorOff}
+                                                >
+                                                    Cancel
+                                                </CancelButton>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="license"
-                                                label="License"
-                                                name="license"
-                                                value={this.state.license}
-                                                onChange={this.fieldChange}
-                                                error={this.state.licenseHelper !== ' '}
-                                                helperText={this.state.licenseHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <KeyboardDatePicker
-                                                disableToolbar
-                                                fullWidth
-                                                variant="outlined"
-                                                format="yyyy/MM/dd"
-                                                margin="normal"
-                                                id="expireDate"
-                                                label="Expire Date"
-                                                value={this.state.expireDate}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                                onChange={this.expireDateChange}
-                                                error={this.state.expireDateHelper !== ' '}
-                                                name='expireDate'
-                                                helperText={this.state.expireDateHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <MyTextField
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                id="version"
-                                                label="Version"
-                                                name="version"
-                                                value={this.state.version}
-                                                onChange={this.fieldChange}
-                                                error={this.state.versionHelper !== ' '}
-                                                helperText={this.state.versionHelper}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <KeyboardDatePicker
-                                                disableToolbar
-                                                fullWidth
-                                                variant="outlined"
-                                                format="yyyy/MM/dd"
-                                                margin="normal"
-                                                id="purchaseDate"
-                                                label="Purchase Date"
-                                                value={this.state.purchaseDate}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                                onChange={this.purchaseDateChange}
-                                                name='purchaseDate'
-                                                error={this.state.purchaseDateHelper !== ' '}
-                                                helperText={this.state.purchaseDateHelper}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                    <MyButton
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className='submit'
-                                        onClick={this.submitHandle}
-                                        onBlur={this.errorOff}
-                                    >
-                                        Save
-                                    </MyButton>
-                                </form>
-                            </div>
-                        </Container>
+                                    </form>
+                                </div>
+                            </Container>
+                        </div>
                     </main>
                 </React.Fragment>
             </MuiPickersUtilsProvider>

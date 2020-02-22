@@ -1,45 +1,64 @@
 import React from 'react';
-// import Button from '@material-ui/core/Button';
-// import CssBaseline from '@material-ui/core/CssBaseline';
-// import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
 import '../styles/AddCompany.css';
-import {isEmpty} from "../Globals";
+import {isEmpty, setAxiosDefaults} from "../Globals";
 import AddressModal from "../components/AddressModal";
 import axios from 'axios';
-import {MyButton, MyTextField} from "../Styles";
+import {ConfirmButton, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
 
 export default class AddCompany extends React.Component {
 
     frontErrors = {
         companyName: 'Company name cannot be empty',
-        email: 'Email cannot be empty',
+        email: 'Email cannot be empty'
     };
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             address: {},
             companyName: '',
             email: '',
             companyNameHelper: ' ',
             emailHelper: ' '
         };
+        setAxiosDefaults();
     }
 
     componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        }
+        axios.get(serverURLs.user()).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
 
     errorOff = () => {
         this.setState({
@@ -89,40 +108,80 @@ export default class AddCompany extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.validateData()) {
-            const url = 'http://127.0.0.1:8000/add/company/';
-            const redirect = '/home';
-            axios.post(url, {
+            axios.post(serverURLs.addCompany, {
                 email: this.state.email,
                 name: this.state.companyName,
                 address: {
                     ...this.state.address,
-                    tel_phone: this.state.address.telephone,
                     postal_code: this.state.address.postalCode
                 }
             }).then(response => {
-                this.props.history.push({
-                    pathname: redirect,
-                    state: {
-                        user: this.user
-                    }
-                });
+                this.doRedirect(URLs.home);
             }).catch(error => {
-                this.props.history.push('/503');
+                if (error.response.status === 422) {
+                    this.handleErrors(error.response.data);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
             });
         }
     };
 
+    handleErrors = (errors) => {
+        for (let [key, value] of Object.entries(errors)) {
+            switch (key) {
+                case 'name':
+                    this.setState({
+                        companyNameHelper: value
+                    });
+                    break;
+                case 'email':
+                    this.setState({
+                        emailHelper: value
+                    });
+                    break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
+            }
+        }
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    cancelHandle = (e) => {
+        const url = URLs.home;
+        this.props.history.push({
+            pathname: url,
+            state: {
+                user: this.user
+            }
+        });
+    };
+
     render() {
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
-                <React.Fragment>
-                    <Profile user={this.user} myHistory={this.props.history}/>
-                    <main className='HomePageMain'>
+            <React.Fragment>
+                {this.redirect()}
+                <main className='HomePageMain2'>
+                    <NestedList myHistory={this.props.history} isSuperUser={this.state.userIsSuperUser}/>
+                    <div className='rightme'>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <Container component="main" maxWidth="xs">
                             <div className='paper'>
-                                <Typography component="h1" variant="h5">
-                                    Add Company
-                                </Typography>
                                 <form className='form' noValidate>
+                                    <Typography className="title" component="h1" variant="subtitle1" align='center'
+                                                gutterBottom
+                                                paragraph>
+                                        Add Company
+                                    </Typography>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <MyTextField
@@ -157,22 +216,40 @@ export default class AddCompany extends React.Component {
                                             <AddressModal submitAddress={this.submitAddress}/>
                                         </Grid>
                                     </Grid>
-                                    <MyButton
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className='submit'
-                                        onClick={this.handleSubmit}
-                                        onBlur={this.errorOff}
-                                    >
-                                        Save
-                                    </MyButton>
+                                    <Grid container>
+                                        <Grid item sm>
+                                            <SaveButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.submitHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                Save
+                                            </SaveButton>
+                                        </Grid>
+                                        <Grid item sm>
+                                            <CancelButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.cancelHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                Cancel
+                                            </CancelButton>
+                                        </Grid>
+                                    </Grid>
                                 </form>
                             </div>
                         </Container>
-                    </main>
-                </React.Fragment>
-        )
+                    </div>
+                </main>
+            </React.Fragment>
+        );
     }
 }

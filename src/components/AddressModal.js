@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {containsDigitOnly} from "../Globals";
 import Grid from "@material-ui/core/Grid";
 import '../styles/AddressModal.css';
-import {ModalButton, ModalTextField, MyTextField} from "../Styles";
+import {ConfirmButton, MyTextField} from "../Styles";
 
 export default class AddressModal extends React.Component {
     frontErrors = {
@@ -19,24 +19,12 @@ export default class AddressModal extends React.Component {
         telephone: 'Telephone must be exactly 11 characters',
         fax: 'Fax must be exactly 11 characters'
     };
-    inputColor = {
-        style: {
-            color: 'black'
-        }
-    };
 
     constructor(props) {
         super(props);
         this.state = {
             open: false,
             address: props.address,
-            cityError: false,
-            streetError: false,
-            alleyError: false,
-            postalCodeError: false,
-            plaqueError: false,
-            telephoneError: false,
-            faxError: false,
             cityHelper: ' ',
             streetHelper: ' ',
             alleyHelper: ' ',
@@ -50,19 +38,19 @@ export default class AddressModal extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.address.city !== '') {
-            console.log(nextProps.address);
             this.setState({
                 address: {
                     ...nextProps.address,
-                    postalCode: nextProps.address.postal_code,
-                    telephone: nextProps.address.tel_phone
+                    postalCode: nextProps.address.postal_code
                 }
             });
         }
     }
 
     handleClickOpen = () => {
-        this.setState({open: true});
+        this.setState({
+            open: true
+        });
     };
 
     handleClose = () => {
@@ -75,42 +63,36 @@ export default class AddressModal extends React.Component {
         let invalidData = false;
         if (this.state.address.city.trim() === '') {
             this.setState({
-                cityError: true,
                 cityHelper: this.frontErrors.city
             });
             invalidData = true;
         }
         if (this.state.address.street.trim() === '') {
             this.setState({
-                streetError: true,
                 streetHelper: this.frontErrors.street
             });
             invalidData = true;
         }
         if (this.state.address.postalCode.trim().length !== 10) {
             this.setState({
-                postalCodeError: true,
                 postalCodeHelper: this.frontErrors.postalCode
             });
             invalidData = true;
         }
         if (this.state.address.plaque.trim() === '') {
             this.setState({
-                plaqueCodeError: true,
-                plaqueCodeHelper: this.frontErrors.plaque
+                plaqueHelper: this.frontErrors.plaque
             });
             invalidData = true;
         }
         if (this.state.address.telephone.trim().length !== 11) {
             this.setState({
-                telephoneError: true,
                 telephoneHelper: this.frontErrors.telephone
             });
             invalidData = true;
         }
         if (this.state.address.fax.trim().length > 0 && this.state.address.fax.trim().length !== 11) {
             this.setState({
-                faxError: true,
                 faxHelper: this.frontErrors.fax
             });
             invalidData = true;
@@ -120,20 +102,13 @@ export default class AddressModal extends React.Component {
 
     errorOff = () => {
         this.setState({
-            cityError: false,
-            streetError: false,
-            alleyError: false,
-            postalCodeError: false,
-            plaqueError: false,
-            telephoneError: false,
-            faxError: false,
             cityHelper: ' ',
             streetHelper: ' ',
             alleyHelper: ' ',
             postalCodeHelper: ' ',
             plaqueHelper: ' ',
             telephoneHelper: ' ',
-            faxHelper: ' ',
+            faxHelper: ' '
         });
     };
 
@@ -173,6 +148,8 @@ export default class AddressModal extends React.Component {
     };
 
     render() {
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <div>
                 <MyTextField
@@ -185,7 +162,7 @@ export default class AddressModal extends React.Component {
                     name="address"
                     InputProps={{readOnly: true}}
                     onClick={this.handleClickOpen}
-                    value={this.state.address.city ? (`${this.state.address.city} ${this.state.address.street} ${this.state.address.alley.length === 0 ? '' : `${this.state.address.alley}`} ${this.state.address.plaque}`) : ''}
+                    value={this.state.address.city ? (`${this.state.address.city} ${this.state.address.street}  ${this.state.address.plaque}`) : ''}
                     error={this.state.addressHelper !== ' '}
                     helperText={this.state.addressHelper}
                 />
@@ -195,77 +172,72 @@ export default class AddressModal extends React.Component {
                         <DialogContentText>
                             Enter your address.
                         </DialogContentText>
-                        <form className='form' noValidate>
+                        <form className='modalForm' noValidate>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
+                                    <MyTextField
                                         name="city"
                                         className='placeHolder'
-                                        // inputProps={this.inputColor}
                                         variant="outlined"
                                         required
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="city"
                                         label="City"
                                         autoFocus
                                         onChange={(e) => this.maxFieldChange(e, 15)}
-                                        error={this.state.cityError}
+                                        error={this.state.cityHelper !== ' '}
                                         helperText={this.state.cityHelper}
                                         value={this.state.address.city}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                    <MyTextField
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         required
                                         fullWidth
                                         id="street"
                                         label="Street"
                                         name="street"
                                         onChange={(e) => this.maxFieldChange(e, 15)}
-                                        error={this.state.streetError}
+                                        error={this.state.streetHelper !== ' '}
                                         helperText={this.state.streetHelper}
                                         value={this.state.address.street}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                    <MyTextField
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="alley"
                                         label="Alley"
                                         name="alley"
                                         onChange={(e) => this.maxFieldChange(e, 15)}
-                                        error={this.state.alleyError}
+                                        error={this.state.alleyHelper !== ' '}
                                         helperText={this.state.alleyHelper}
                                         value={this.state.address.alley}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                    <MyTextField
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         required
                                         id="postalCode"
                                         label="Postal Code"
                                         name="postalCode"
                                         onChange={(e) => this.maxFieldChange(e, 10, true)}
-                                        error={this.state.postalCodeError}
+                                        error={this.state.postalCodeHelper !== ' '}
                                         helperText={this.state.postalCodeHelper}
                                         value={this.state.address.postalCode}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                    <MyTextField
+                                        InputProps={{readOnly: this.props.disabled}}
                                         variant="outlined"
                                         required
                                         fullWidth
@@ -273,47 +245,44 @@ export default class AddressModal extends React.Component {
                                         label="Plaque"
                                         name="plaque"
                                         onChange={(e) => this.maxFieldChange(e, 10)}
-                                        error={this.state.plaqueError}
+                                        error={this.state.plaqueHelper !== ' '}
                                         helperText={this.state.plaqueHelper}
                                         value={this.state.address.plaque}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                    <MyTextField
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         required
                                         id="telephone"
                                         label="Telephone"
                                         name="telephone"
                                         onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                        error={this.state.telephoneError}
+                                        error={this.state.telephoneHelper !== ' '}
                                         helperText={this.state.telephoneHelper}
                                         value={this.state.address.telephone}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // inputProps={this.inputColor}
-                                        // InputLabelProps={this.inputColor}
+                                    <MyTextField
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="fax"
                                         label="Fax"
                                         name="fax"
                                         onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                        error={this.state.faxError}
+                                        error={this.state.faxHelper !== ' '}
                                         helperText={this.state.faxHelper}
                                         value={this.state.address.fax}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <ModalTextField
-                                        // InputLabelProps={this.inputColor}
-                                        // inputProps={this.inputColor}
+                                    <MyTextField
                                         variant="outlined"
+                                        InputProps={{readOnly: this.props.disabled}}
                                         fullWidth
                                         id="details"
                                         label="Details"
@@ -326,12 +295,21 @@ export default class AddressModal extends React.Component {
                         </form>
                     </DialogContent>
                     <DialogActions>
-                        <ModalButton onClick={this.handleClose} color="primary">
-                            Cancel
-                        </ModalButton>
-                        <ModalButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}>
-                            Save
-                        </ModalButton>
+                        <Grid container>
+                            <Grid item xs></Grid>
+                            <Grid item xs></Grid>
+                            <Grid item xs>
+                                <SaveButton onClick={this.handleSubmit} color="primary" onBlur={this.errorOff}
+                                            fullWidth>
+                                    Save
+                                </SaveButton>
+                            </Grid>
+                            <Grid item xs>
+                                <CancelButton onClick={this.handleClose} color="primary" fullWidth>
+                                    Cancel
+                                </CancelButton>
+                            </Grid>
+                        </Grid>
                     </DialogActions>
                 </Dialog>
             </div>
@@ -343,6 +321,7 @@ AddressModal.propTypes = {
     submitAddress: PropTypes.func.isRequired,
     address: PropTypes.object,
     addressHelper: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 AddressModal.defaultProps = {

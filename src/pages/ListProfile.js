@@ -1,30 +1,42 @@
-import React from "react";
+import React from 'react';
+import axios from "axios";
+import {MyButton, MyList} from '../Styles'
+import NestedList from "../components/leftnavbar";
 import Profile from "../components/ProfileNavBar";
 import Container from "@material-ui/core/Container";
+import ProfileListItem from "../components/ProfileListItem"
 import Grid from "@material-ui/core/Grid";
-import axios from 'axios';
-import {MyButton} from "../Styles";
-import NestedList from "../components/leftnavbar";
 import {Add} from "@material-ui/icons";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import ArashListItem from "../components/ArashListItem";
+import '../App.css'
 import {setAxiosDefaults} from "../Globals";
-import {serverURLs as ServerURLs, serverURLs, URLs} from "../Constants";
+import {serverURLs, URLs} from "../Constants";
 import {Redirect} from "react-router-dom";
 
-class CompanyPage extends React.Component {
+export default class ListProfile extends React.Component {
+
     constructor(props) {
         super(props);
-        this.pk = props.match.params.pk;
         this.state = {
             redirect: undefined,
             userPK: 0,
             userIsSuperUser: false,
-            arashes: []
+            deleteModalOpen: false,
+            profiles: []
         };
         setAxiosDefaults();
-    }
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
 
     componentDidMount() {
         axios.get(serverURLs.user()).then(response => {
@@ -32,10 +44,9 @@ class CompanyPage extends React.Component {
                 userPK: response.data.id,
                 userIsSuperUser: response.data.is_superuser
             });
-            const url = ServerURLs.arashes(this.pk);
-            axios.get(url).then(response => {
+            axios.get(serverURLs.users).then(response => {
                 this.setState({
-                    arashes: response.data
+                    profiles: response.data
                 });
             }).catch(error => {
                 if (error.response) {
@@ -63,21 +74,8 @@ class CompanyPage extends React.Component {
         });
     }
 
-    redirect = () => {
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect}/>;
-        }
-    };
-
-    doRedirect = (page) => {
-        this.setState({
-            redirect: page
-        });
-    };
-
-    addNewArash = () => {
-        const url = URLs.addArash(this.pk);
-        this.props.history.push(url);
+    addNewUser = () => {
+        this.props.history.push(URLs.signUp);
     };
 
     render() {
@@ -90,27 +88,21 @@ class CompanyPage extends React.Component {
                     <div className="rightme">
                         <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
                         <Container className='cardGrid' maxWidth="md">
-                            <div className='AddCompanyButton'>
+                            <div className='AddUserButton'>
                                 <Grid container justify='flex-end'>
                                     <Grid item>
-                                        <MyButton color="primary" onClick={this.addNewArash}>
+                                        <MyButton color="primary" onClick={this.addNewUser}>
                                             <Add/>
-                                            Add Arash
+                                            Add User
                                         </MyButton>
                                     </Grid>
                                 </Grid>
                             </div>
-                            {this.state.arashes && this.state.arashes.length !== 0 ? (
-                                <List className='List'>
-                                    {this.state.arashes.map(arash => (
-                                        <ArashListItem arash={arash} myHistory={this.props.history}/>
-                                    ))}
-                                </List>
-                            ) : (
-                                <Typography variant="h5" align="center" color="white" paragraph>
-                                    No arash to show!
-                                </Typography>
-                            )}
+                            <MyList>
+                                {this.state.profiles.map(profile => (
+                                    <ProfileListItem profile={profile} myHistory={this.props.history}/>
+                                ))}
+                            </MyList>
                         </Container>
                     </div>
                 </main>
@@ -118,5 +110,3 @@ class CompanyPage extends React.Component {
         );
     }
 }
-
-export default CompanyPage;

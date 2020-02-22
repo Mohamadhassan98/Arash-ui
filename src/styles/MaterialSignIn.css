@@ -4,24 +4,57 @@
 }
 
 .arashLogo {
-    width: 240px;
-    height: 240px;
+    /*position: relative;*/
+    /*left: 50%;*/
+    /*top: 50%;*/
+    width: 50%;
+    height: 50%;
+    /*==*/
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 25%;
+    margin-left: 27%;
 }
 
+/*.pepper {*/
+/*    margin: 0 0 0 15%;*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 0;*/
+/*    -ms-transform: translateY(-50%);*/
+/*    transform: translateY(-50%);*/
+/*}*/
+
+/*.form2 {*/
+/*    width: 70%;*/
+/*    padding-top: 4%;*/
+/*}*/
 .pepper {
-    margin: 0 0 0 15%;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    margin-top: 50%;
 }
 
 .form2 {
-    width: 70%;
-    padding-top: 4%;
+    margin-top: 10%;
 }
 
+.App__Form {
+    width: 50%;
+    background-color: #F2F3F4;
+    padding: 25px 40px;
+    overflow: auto;
+}
+
+.App__Aside {
+    width: 50%;
+    background-color: #424242;
+    overflow: visible;
+}
+
+.p {
+    color: #393939;
+    font-size: 50px;
+}
 /*.submit, .MuiButton-containedPrimary {*/
 /*    margin-bottom: 10%;*/
 /*    margin-top: 5%;*/
@@ -39,7 +72,7 @@
 /*    background: #31a897;*/
 /*}*/
 
-/*.TextField {*/
+/*.MyTextField {*/
 /*    outline-color: #5ED0C0;*/
 /*    color: white;*/
 /*}*/
@@ -57,13 +90,6 @@
 /*}*/
 
 /*.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {*/
-/*    border-color: #5ED0C0;*/
-/*}*/
+/*    border-color: #5ED0C;
+}*/
 
-/*.MuiIconButton-root {*/
-/*    color: white;*/
-/*}*/
-
-/*.MuiCheckbox-colorPrimary.Mui-checked {*/
-/*    color: #5ED0C0;*/
-/*}*/

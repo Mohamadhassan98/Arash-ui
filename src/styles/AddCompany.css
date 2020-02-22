@@ -4,11 +4,12 @@
 }
 
 .paper {
-    /*height: 100%;*/
-    /*padding-top: 10%;*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
+    margin-top: 10%;
+}
+
+.title {
+    padding-bottom: 30px;
+    padding-top: 15px;
 }
 
 .form {

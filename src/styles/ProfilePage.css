@@ -1,17 +1,6 @@
 .FormCenterProfile {
-    height: 100%;
-    margin: 20px auto;
-    display: block;
-    overflow: hidden;
-    max-width: 1000px;
-    padding: 0 52px 32px;
-}
-
-.accent {
-    width: 100%;
-    height: 295px;
-    border-radius: 10px;
-    background: #52C4B9;
+    margin-top: 10%;
+    background-color: #f2f3f4;
 }
 
 
@@ -21,12 +10,12 @@
     height: 264px;
     text-align: center;
     border-radius: 50%;
-    margin: -240px auto 0;
     animation-name: fadeIn;
     animation-duration: .9s;
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
-    background: #2E4158;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.44);
+    background: #B71C1C;
     position: relative;
+    margin: 5% auto 10px;
 }
 
 .profile-photo-master:hover .image {
@@ -35,15 +24,6 @@
 
 .profile-photo-master:hover .middle {
     opacity: 1;
-}
-
-.image {
-    opacity: 1;
-    display: block;
-    height: 100%;
-    width: 100%;
-    transition: .5s ease;
-    backface-visibility: hidden;
 }
 
 .middle {
@@ -57,6 +37,20 @@
     text-align: center;
 }
 
+.profile-photo {
+    padding: 6px;
+    width: 264px;
+    height: 264px;
+    text-align: center;
+    border-radius: 50%;
+    animation-name: fadeIn;
+    animation-duration: .9s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.44);
+    background: #B71C1C;
+    margin: 5% auto 10px;
+
+}
+
 .text {
     color: white;
     font-size: 23px;
@@ -65,96 +59,83 @@
 
 .MasterProfile {
     position: relative;
-    margin: 30px;
-    margin-left: 300px;
+    margin: 30px 30px 30px 300px;
 }
 
-.FormField__Button {
-    background-color: #52C4B9;
-    color: white;
-    border: none;
-    outline: none;
-    border-radius: 25px;
-    padding: 15px 70px;
-    font-size: .8em;
-    font-weight: 500;
-}
+/*.FormField__Button {*/
+/*    background-color: #52C4B9;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    outline: none;*/
+/*    border-radius: 25px;*/
+/*    padding: 15px 70px;*/
+/*    font-size: .8em;*/
+/*    font-weight: 500;*/
+/*}*/
 
-.MasterField_1 {
-    font-family: "Roboto", sans-serif;
-    font-size: 25px;
-    margin-top: 24px;
-    color: #707C8B;
-    font-weight: 300;
-}
+/*.MasterField_1 {*/
+/*    font-family: "Roboto", sans-serif;*/
+/*    font-size: 25px;*/
+/*    margin-top: 24px;*/
+/*    color: #707C8B;*/
+/*    font-weight: 300;*/
+/*}*/
 
-.MasterField_2 {
-    width: 45%;
-    background-color: transparent;
-    border: none;
-    color: white;
-    border-bottom: 1px solid #445366;
-    font-size: 1em;
-    font-weight: 300;
-    padding: 0;
-    position: absolute;
-    left: 250px;
-    margin-top: 15px;
-}
+/*.MasterField_2 {*/
+/*    width: 45%;*/
+/*    background-color: transparent;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    border-bottom: 1px solid #445366;*/
+/*    font-size: 1em;*/
+/*    font-weight: 300;*/
+/*    padding: 0;*/
+/*    position: absolute;*/
+/*    left: 250px;*/
+/*    margin-top: 15px;*/
+/*}*/
 
-.MasterField_2:focus {
-    outline: none;
-}
-
-.profile-photo {
-    padding: 6px;
-    width: 264px;
-    height: 264px;
-    text-align: center;
-    border-radius: 50%;
-    margin: -240px auto 0;
-    animation-name: fadeIn;
-    animation-duration: .9s;
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.44);
-    background: #2E4158;
-
-}
+/*.MasterField_2:focus {*/
+/*    outline: none;*/
+/*}*/
 
 
-.FormProfile {
-    position: relative;
-    margin: 30px;
-    margin-left: 300px;
-}
+/*.FormProfile {*/
+/*    position: relative;*/
+/*    margin: 30px;*/
+/*    margin-left: 300px;*/
+/*}*/
 
-.FieldProfile_1 {
-    font-family: "Roboto", sans-serif;
-    font-size: 25px;
-    margin-top: 24px;
-    color: #707C8B;
-    font-weight: 300;
-}
+/*.FieldProfile_1 {*/
+/*    font-family: "Roboto", sans-serif;*/
+/*    font-size: 25px;*/
+/*    margin-top: 24px;*/
+/*    color: #707C8B;*/
+/*    font-weight: 300;*/
+/*}*/
 
-.FieldProfile_2 {
-    width: 45%;
-    background-color: transparent;
-    border: none;
-    color: white;
-    border-bottom: 1px solid #445366;
-    font-size: 1em;
-    font-weight: 300;
-    padding-bottom: 10px;
-    position: absolute;
-    left: 250px;
-    margin-top: 7px;
-}
+/*.FieldProfile_2 {*/
+/*    width: 45%;*/
+/*    background-color: transparent;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    border-bottom: 1px solid #445366;*/
+/*    font-size: 1em;*/
+/*    font-weight: 300;*/
+/*    padding-bottom: 10px;*/
+/*    position: absolute;*/
+/*    left: 250px;*/
+/*    margin-top: 7px;*/
+/*}*/
 
-.FieldProfile_2:focus {
-    outline: none;
-}
+/*.FieldProfile_2:focus {*/
+/*    outline: none;*/
+/*}*/
 
 .image {
     height: 100%;
     width: 100%;
     border-radius: 50%;
+    transition: .5s ease;
+    backface-visibility: hidden;
 }

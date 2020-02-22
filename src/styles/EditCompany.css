@@ -13,7 +13,14 @@
 
 .form {
     width: 100%;
-    padding-top: 4%;
+    padding: 20px;
+    border: 2px solid #abafac;
+    /*box-shadow: 5px 5px 5px 5px #c7cbc8;*/
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    background-color: #f5f9f6;
+    margin-top: 20px;
+
+
 }
 
 .submit {
@@ -61,3 +68,12 @@
 .MuiCheckbox-colorPrimary.Mui-checked {
     color: #5ED0C0;
 }
+
+.title {
+    color: black;
+    text-align: center;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+

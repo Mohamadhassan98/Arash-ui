@@ -1,8 +1,6 @@
 import React from 'react';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Profile from "../components/ProfileNavBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -10,42 +8,49 @@ import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import '../styles/MaterialSignUp.css';
 import axios from "axios";
-import {containsDigitOnly, isEmail} from "../Globals";
+import {containsDigitOnly, isEmail, setAxiosDefaults} from "../Globals";
 import AddressModal from "../components/AddressModal";
-import {MyButton, MyTextField} from "../Styles";
-
+import {ConfirmButton, CustomIcon, MyTextField} from "../Styles";
+import NestedList from "../components/leftnavbar";
+import Checkbox from "@material-ui/core/Checkbox";
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import {serverURLs, URLs} from "../Constants";
+import {Redirect} from "react-router-dom";
+import Default from '../static/Author__Placeholder.png';
 
 export default class SignUp extends React.Component {
+
     frontErrors = {
         firstName: 'First name cannot be empty',
         lastName: 'Last name cannot be empty',
         username: 'Username cannot be empty',
-        email: ['Email cannot be empty', 'Email format is invalid. Example: \'example@mail.com\''],
+        email: ['Email cannot be empty', `Email format is invalid. Example: 'example@mail.com'`],
         password: 'Password cannot be empty',
         passwordRepeat: `Password doesn't match`,
-        mobilePhone: 'Mobile number must be exactly 11 characters',
+        phone: 'Mobile number must be exactly 11 characters',
         personnelCode: 'Personnel code cannot be empty'
     };
 
     constructor(props) {
         super(props);
-        if (!this.props.location || !this.props.location.state || !this.props.location.state.user) {
-            this.props.history.push('');
-        } else {
-            this.user = this.props.location.state.user;
-        }
         this.state = {
+            redirect: undefined,
+            userPK: 0,
+            userIsSuperUser: false,
             firstName: '',
             lastName: '',
             username: '',
             email: '',
-            password: '',
-            passwordRepeat: '',
-            mobilePhone: '',
+            phone: '',
             personnelCode: '',
             inPlace: false,
             address: {},
-            status: 'ad',
+            isSuperuser: false,
+            profilePic: null,
+            photo: Default,
+            password: '',
+            passwordRepeat: '',
             isVisiblePassword: false,
             isVisiblePasswordRepeat: false,
             firstNameHelper: ' ',
@@ -54,9 +59,133 @@ export default class SignUp extends React.Component {
             emailHelper: ' ',
             passwordHelper: ' ',
             passwordRepeatHelper: ' ',
-            mobilePhoneHelper: ' ',
-            personnelCodeHelper: ' ',
+            phoneHelper: ' ',
+            personnelCodeHelper: ' '
         };
+        setAxiosDefaults();
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+    submitAddress = (address) => {
+        this.setState({
+            address: address
+        });
+    };
+
+    isSuperUserChanged = (e, checked) => {
+        this.setState({
+            isSuperUser: checked
+        });
+    };
+
+    inPlaceChanged = (e, checked) => {
+        this.setState({
+            inPlace: checked
+        });
+    };
+
+    selectImages = (event) => {
+        this.setState({
+            photo: URL.createObjectURL(event.target.files[0]),
+            profilePic: event.target.files[0]
+        });
+    };
+
+    handleClickShowPassword = () => {
+        this.setState({
+            isVisiblePassword: !this.state.isVisiblePassword
+        });
+    };
+
+    handleClickShowPasswordRepeat = () => {
+        this.setState({
+            isVisiblePasswordRepeat: !this.state.isVisiblePasswordRepeat
+        });
+    };
+
+    fieldChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
+    uploadImage = (pk) => {
+        if (this.state.profilePic) {
+            const fd = new FormData();
+            fd.append('profile_pic', this.state.profilePic);
+            axios.put(serverURLs.userImage(pk), fd).catch(error => {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            });
+        }
+    };
+
+    submitHandle = (e) => {
+        e.preventDefault();
+        if (this.validateData()) {
+            axios.post(serverURLs.signUp, {
+                username: this.state.username,
+                first_name: this.state.firstName,
+                last_name: this.state.lastName,
+                password: this.state.password,
+                email: this.state.email,
+                phone: this.state.phone,
+                personnel_code: this.state.personnelCode,
+                in_place: this.state.inPlace,
+                is_superuser: this.state.isSuperUser,
+                address: {
+                    ...this.state.address,
+                    postal_code: this.state.address.postalCode
+                }
+            }).then(response => {
+                const pk = response.data.pk;
+                this.uploadImage(pk);
+                this.doRedirect(URLs.listProfile);
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    this.handleErrors(error.response.data);
+                } else {
+                    console.error(error);
+                    this.doRedirect(URLs["503"]);
+                }
+            });
+        }
+    };
+
+    doRedirect = (page) => {
+        this.setState({
+            redirect: page
+        });
+    };
+
+    redirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>;
+        }
+    };
+
+    componentDidMount() {
+        axios.get(serverURLs.user()).then(response => {
+            this.setState({
+                userPK: response.data.id,
+                userIsSuperUser: response.data.is_superuser
+            });
+        }).catch(error => {
+            if (error.response) {
+                if (error.response.status === 403) {
+                    this.doRedirect(URLs.signIn);
+                } else {
+                    this.doRedirect(URLs["503"]);
+                }
+            } else {
+                console.error(error);
+                this.doRedirect(URLs["503"]);
+            }
+        });
     }
 
     errorOff = () => {
@@ -67,14 +196,14 @@ export default class SignUp extends React.Component {
             emailHelper: ' ',
             passwordHelper: ' ',
             passwordRepeatHelper: ' ',
-            mobilePhoneHelper: ' ',
+            phoneHelper: ' ',
             personnelCodeHelper: ' '
         });
     };
 
     validateData = () => {
         let invalidData = false;
-        const {firstName, lastName, username, email, password, passwordRepeat, mobilePhone, personnelCode} = this.state;
+        const {firstName, lastName, username, email, password, passwordRepeat, phone, personnelCode} = this.state;
         if (firstName.trim() === '') {
             this.setState({
                 firstNameHelper: this.frontErrors.firstName
@@ -116,9 +245,9 @@ export default class SignUp extends React.Component {
             });
             invalidData = true;
         }
-        if (mobilePhone.trim().length !== 11) {
+        if (phone.trim().length !== 11) {
             this.setState({
-                mobilePhoneHelper: this.frontErrors.mobilePhone
+                phoneHelper: this.frontErrors.phone
             });
             invalidData = true;
         }
@@ -130,24 +259,6 @@ export default class SignUp extends React.Component {
         }
         return !invalidData;
     };
-
-    fieldChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-
-    submitAddress = (address) => {
-        this.setState({
-            address: address
-        });
-    };
-
-    componentDidMount() {
-        if (!this.user) {
-            this.props.history.push('');
-        }
-    }
 
     maxFieldChange = (e, max, numeric = false) => {
         if (e.target.value.length <= max) {
@@ -165,75 +276,118 @@ export default class SignUp extends React.Component {
         }
     };
 
-    handleClickShowPassword = () => {
-        this.setState({isVisiblePassword: !this.state.isVisiblePassword});
-    };
-
-    handleClickShowPasswordRepeat = () => {
-        this.setState({isVisiblePasswordRepeat: !this.state.isVisiblePasswordRepeat});
-    };
-
-    submitHandle = (e) => {
-        e.preventDefault();
-        if (this.validateData()) {
-            const url = 'http://127.0.0.1:8000/signup/';
-            axios.post(url, {
-                username: this.state.username,
-                first_name: this.state.firstName,
-                last_name: this.state.lastName,
-                password: this.state.password,
-                email: this.state.email,
-                phone: this.state.mobilePhone,
-                personnel_code: this.state.personnelCode,
-                in_place: this.state.inPlace,
-                status: this.state.status,
-                address: {
-                    ...this.state.address,
-                    postal_code: this.state.address.postalCode,
-                    tel_phone: this.state.address.telephone
-                }
-            }).then(response => {
-                const csrftoken = response.headers.csrftoken;
-                // const sessionId = response.headers.sessionid;
-                this.props.history.push({
-                    pathname: '/history',
-                    state: {
-                        user: this.user,
-                        csrftoken: csrftoken,
-                        // sessionId: sessionId
-                    }
-                });
-            }).catch(error => {
-                console.error(error);
-            });
+    handleErrors = (errors) => {
+        for (let [key, value] of Object.entries(errors)) {
+            switch (key) {
+                case 'username':
+                    this.setState({
+                        usernameHelper: value
+                    });
+                    break;
+                case 'first_name':
+                    this.setState({
+                        firstNameHelper: value
+                    });
+                    break;
+                case 'last_name':
+                    this.setState({
+                        lastNameHelper: value
+                    });
+                    break;
+                case 'email':
+                    this.setState({
+                        emailHelper: value
+                    });
+                    break;
+                case 'personnel_code':
+                    this.setState({
+                        personnelCodeHelper: value
+                    });
+                    break;
+                case 'phone':
+                    this.setState({
+                        phoneHelper: value
+                    });
+                    break;
+                default:
+                    console.error(key, value);
+                    this.doRedirect(URLs["503"]);
+                    break;
+            }
         }
     };
 
-    masterChanged = (e, checked) => {
+    clearProfile = () => {
         this.setState({
-            status: checked ? 'ma' : 'ad'
+            photo: Default,
+            profilePic: null
         });
+        this.fileInput.value = null;
+        this.longPressed = true;
     };
 
-    inPlaceChanged = (e, checked) => {
-        this.setState({
-            inPlace: checked
+    profilePress = () => {
+        this.longPress = setTimeout(this.clearProfile, 1000);
+    };
+
+    choosePicture = () => {
+        this.fileInput.click();
+    };
+
+    profileRelease = () => {
+        clearTimeout(this.longPress);
+        if (!this.longPressed) {
+            this.choosePicture();
+        }
+        this.longPressed = false;
+    };
+
+    cancelHandle = (e) => {
+        const url = URLs.listProfile;
+        this.props.history.push({
+            pathname: url,
+            state: {
+                user: this.user
+            }
         });
     };
 
     render() {
+        const CustomVisible = CustomIcon()(Visibility);
+        const CustomInvisible = CustomIcon()(VisibilityOff);
+        const CustomChecked = CustomIcon()(CheckBoxIcon);
+        const CustomUnChecked = CustomIcon()(CheckBoxOutlineBlankIcon);
+        const SaveButton = ConfirmButton('left');
+        const CancelButton = ConfirmButton('right');
         return (
             <React.Fragment>
-                <Profile user={this.user} myHistory={this.props.history}/>
-                <main className='HomePageMain'>
-                    <Container component="main" maxWidth="xs">
-                        <div className='paper'>
-                            <Typography component="h1" variant="h5">
-                                Sign up
-                            </Typography>
-                            <form className='form' noValidate>
+                {this.redirect()}
+                <main className='HomePageMain2'>
+                    <NestedList isSuperUser={this.state.userIsSuperUser} myHistory={this.props.history}/>
+                    <div className='rightme'>
+                        <Profile pk={this.state.userPK} isSuperUser={this.state.userIsSuperUser}/>
+                        <form className='FormCenterProfile' noValidate onSubmit={this.handleSubmit}>
+                            <div className='profile-photo-master' onMouseDown={this.profilePress}
+                                 onMouseUp={this.profileRelease}>
+                                <img src={this.state.photo} className="image" alt={this.state.photo}/>
+                                <div className="middle">
+                                    <div className="text">change profile picture
+                                        (hold to delete)
+                                    </div>
+                                </div>
+                                <div className="MasterProfile">
+                                    <div className="col-sm-4">
+                                        <input style={{display: 'none'}} className="FormField__Button mr-20"
+                                               type="file"
+                                               accept='image/*'
+                                               onChange={this.selectImages}
+                                               ref={fileInput => this.fileInput = fileInput}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <Container maxWidth="xs">
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <MyTextField
                                             name="firstName"
                                             variant="outlined"
@@ -241,24 +395,22 @@ export default class SignUp extends React.Component {
                                             fullWidth
                                             id="firstName"
                                             label="First Name"
-                                            autoFocus
-                                            autoComplete='off'
-                                            onChange={this.fieldChange}
+                                            onChange={this.handleChange}
                                             value={this.state.firstName}
                                             error={this.state.firstNameHelper !== ' '}
                                             helperText={this.state.firstNameHelper}
+                                            autoFocus
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <MyTextField
-                                            autoComplete='off'
                                             variant="outlined"
                                             required
                                             fullWidth
                                             id="lastName"
                                             label="Last Name"
                                             name="lastName"
-                                            onChange={this.fieldChange}
+                                            onChange={this.handleChange}
                                             value={this.state.lastName}
                                             error={this.state.lastNameHelper !== ' '}
                                             helperText={this.state.lastNameHelper}
@@ -266,14 +418,28 @@ export default class SignUp extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
+                                            name="username"
                                             variant="outlined"
-                                            autoComplete='off'
+                                            required
+                                            fullWidth
+                                            id="username"
+                                            label="User Name"
+                                            onChange={this.handleChange}
+                                            value={this.state.username}
+                                            error={this.state.usernameHelper !== ' '}
+                                            helperText={this.state.usernameHelper}
+                                            autoFocus
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <MyTextField
+                                            variant="outlined"
                                             required
                                             fullWidth
                                             id="email"
-                                            label="Email Address"
+                                            label="Email"
                                             name="email"
-                                            onChange={this.fieldChange}
+                                            onChange={this.handleChange}
                                             value={this.state.email}
                                             error={this.state.emailHelper !== ' '}
                                             helperText={this.state.emailHelper}
@@ -283,30 +449,28 @@ export default class SignUp extends React.Component {
                                         <MyTextField
                                             variant="outlined"
                                             required
-                                            autoComplete='off'
                                             fullWidth
-                                            id="username"
-                                            label="Username"
-                                            name="username"
-                                            onChange={this.fieldChange}
-                                            value={this.state.username}
-                                            error={this.state.usernameHelper !== ' '}
-                                            helperText={this.state.usernameHelper}
+                                            id="phone"
+                                            label="Phone"
+                                            name="phone"
+                                            onChange={(e) => this.maxFieldChange(e, 11, true)}
+                                            value={this.state.phone}
+                                            error={this.state.phoneHelper !== ' '}
+                                            helperText={this.state.phoneHelper}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <MyTextField
                                             variant="outlined"
                                             required
-                                            autoComplete='off'
                                             fullWidth
-                                            id="mobilePhone"
-                                            label="Phone number"
-                                            name="mobilePhone"
-                                            onChange={(e) => this.maxFieldChange(e, 11, true)}
-                                            value={this.state.mobilePhone}
-                                            error={this.state.mobilePhoneHelper !== ' '}
-                                            helperText={this.state.mobilePhoneHelper}
+                                            id="personnelCode"
+                                            label="Personnel Code"
+                                            name="personnelCode"
+                                            onChange={(e) => this.maxFieldChange(e, 15)}
+                                            value={this.state.personnelCode}
+                                            error={this.state.personnelCodeHelper !== ' '}
+                                            helperText={this.state.personnelCodeHelper}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -320,7 +484,7 @@ export default class SignUp extends React.Component {
                                             type={this.state.isVisiblePassword ? 'text' : 'password'}
                                             label="Password"
                                             name="password"
-                                            onChange={this.fieldChange}
+                                            onChange={this.handleChange}
                                             value={this.state.password}
                                             error={this.state.passwordHelper !== ' '}
                                             helperText={this.state.passwordHelper}
@@ -334,8 +498,8 @@ export default class SignUp extends React.Component {
                                                             aria-label="toggle password visibility"
                                                             onClick={this.handleClickShowPassword}
                                                         >
-                                                            {this.state.isVisiblePassword ? <Visibility/> :
-                                                                <VisibilityOff/>}
+                                                            {this.state.isVisiblePassword ? <CustomVisible/> :
+                                                                <CustomInvisible/>}
                                                         </IconButton>
                                                     </InputAdornment>
                                                 ),
@@ -350,7 +514,7 @@ export default class SignUp extends React.Component {
                                             type={this.state.isVisiblePasswordRepeat ? 'text' : 'password'}
                                             label="Confirm Password"
                                             name="passwordRepeat"
-                                            onChange={this.fieldChange}
+                                            onChange={this.handleChange}
                                             value={this.state.passwordRepeat}
                                             error={this.state.passwordRepeatHelper !== ' '}
                                             helperText={this.state.passwordRepeatHelper}
@@ -364,8 +528,8 @@ export default class SignUp extends React.Component {
                                                             aria-label="toggle password visibility"
                                                             onClick={this.handleClickShowPasswordRepeat}
                                                         >
-                                                            {this.state.isVisiblePasswordRepeat ? <Visibility/> :
-                                                                <VisibilityOff/>}
+                                                            {this.state.isVisiblePasswordRepeat ? <CustomVisible/> :
+                                                                <CustomInvisible/>}
                                                         </IconButton>
                                                     </InputAdornment>
                                                 ),
@@ -374,50 +538,55 @@ export default class SignUp extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormControlLabel
-                                            control={<Checkbox value="inPlace" color="primary"/>}
-                                            label="in place"
-                                            value={this.state.inPlace}
+                                            control={<Checkbox value="inPlace" checkedIcon={<CustomChecked/>}
+                                                               icon={<CustomUnChecked/>}/>}
+                                            label="In place"
                                             onChange={this.inPlaceChanged}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <MyTextField
-                                            autoComplete='off'
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="personnelCode"
-                                            label="Personnel Code"
-                                            onChange={(e) => this.maxFieldChange(e, 15)}
-                                            name="personnelCode"
-                                            value={this.state.personnelCode}
-                                            error={this.state.personnelCodeHelper !== ' '}
-                                            helperText={this.state.personnelCodeHelper}
+                                            checked={this.state.inPlace}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FormControlLabel
-                                            control={<Checkbox value="master" color="primary"/>}
-                                            label="is master"
-                                            value={this.state.status === 'ma'}
-                                            onChange={this.masterChanged}
+                                            control={<Checkbox value="isSuperUser" checkedIcon={<CustomChecked/>}
+                                                               icon={<CustomUnChecked/>}/>}
+                                            label="Is Super User"
+                                            onChange={this.isSuperUserChanged}
+                                            checked={this.state.isSuperUser}
                                         />
                                     </Grid>
+                                    <Grid container>
+                                        <Grid item sm>
+                                            <SaveButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.submitHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                {this.state.userIsSuperUser ? "Save" : "change password"}
+                                            </SaveButton>
+                                        </Grid>
+                                        <Grid item sm>
+                                            <CancelButton
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                color="primary"
+                                                className='submit'
+                                                onClick={this.cancelHandle}
+                                                onBlur={this.errorOff}
+                                            >
+                                                Cancel
+                                            </CancelButton>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
-                                <MyButton
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className='submit'
-                                    onClick={this.submitHandle}
-                                    onBlur={this.errorOff}
-                                >
-                                    Sign Up
-                                </MyButton>
-                            </form>
-                        </div>
-                    </Container>
+                            </Container>
+                        </form>
+                    </div>
+                    <footer/>
                 </main>
             </React.Fragment>
         );
